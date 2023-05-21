@@ -1,0 +1,21 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: Company => Delete Page -->
+{% block content %}
+    <h3 style="color: darkred;">Ви впевнені, що потрібно видалити із бази відомості про компанію:</h3>
+    <h4 style="color: darkred;">Номер запису в БД: {{ company_id }}</h4>
+    <h4 style="color: darkred;">Назва компанії: {{ company_info.company_title }}</h4>
+    <h4 style="color: darkred;">Код ЄДРПОУ:  {{ company_info.company_code }}</h4>
+    <h4 style="color: darkred;">Матеріально Відповідальна особа:  {{ company_info.product_owner }}</h4>
+
+    <form action="/company/delete/{{ company_info.id }}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Так видалити" class="btn btn-success my-btn"
+               style="margin: 10px; padding-right: 20px;">
+    </form>
+    <a href="/itwh/main_page" class="btn btn-warning my-btn" style="margin: 10px; padding-right: 20px;">
+        Повернутися на головну
+    </a>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

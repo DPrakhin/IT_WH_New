@@ -1,0 +1,6 @@
+## .gitignore file for DJango based Python projects ##
+.idea
+.log
+.pot
+.pyc
+__pycache__/

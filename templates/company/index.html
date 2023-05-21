@@ -1,0 +1,34 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: Company => Index page -->
+{% block content %}
+<dev>
+    {% if company_count == 0 %}
+        <h2 style="color: darkred">Інформацію про компанію не знайдено в базі.</h2>
+        <h3 style="color: darkgreen">Будь ласка, додайте відомості про компанію.</h3>
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Admins' %}
+                <a href="/company/create" class="btn btn-success my-btn">Додати компанію</a>
+            {% endif %}
+        {% endfor %}
+        <a href="/itwh/main_page" class="btn btn-primary btn-warning">На головну</a>
+
+    {% else %}
+        <img src="{{ company_info.company_logo }}">
+        <h4>{{ company_info.company_logo }}</h4>
+        <h4>{{ company_info.company_title }}</h4>
+        <h4>{{ company_info.company_code }}</h4>
+
+        <!-- <a href="/company/details">Details</a> -->
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Admins' %}
+                <a href="">Update</a>
+                <a href="/company/delete">Delete</a>
+            {% endif %}
+        {% endfor %}
+
+        <a href="/itwh/main_page">Main page</a>
+    {% endif %}
+{% endblock content %}
+<!-- IT WH: Company => Index page -->

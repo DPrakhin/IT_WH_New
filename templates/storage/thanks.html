@@ -1,0 +1,32 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: DashBoard -->
+{% block content %}
+
+{% if user_data.u_group == 'Admins'%}
+<div class="container" style="max-width: 1300px; padding-bottom: 200px; margin-bottom: 200px">
+    <div class="page-title">
+        <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+            <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+            <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </div>
+    <div class="cart_inner">
+        <div class="returning_customer">
+            <div class="check_title">
+                <h2>Запит був успішно надісланий</h2>
+            </div>
+            <p></p>
+            <div class="col-md-12 form-group">
+                <a class="gray_btn" href="/storage">&Longrightarrow;&nbsp;&nbsp;&nbsp;до складу</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}

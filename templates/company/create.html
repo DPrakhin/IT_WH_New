@@ -1,0 +1,43 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: Company => Create company -->
+{% block content %}
+<div class="content-panel">
+    <div class="jumbotron container">
+        <h2 class="display-4">{{ page_title }}</h2>
+        <hr>
+        <div style="text-align: left;">
+            <!-- JUST A SMALL TEST: LOOK MUCH COOLER -->
+             <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                 <p style="margin-top: 20px;">
+                    <input type="submit" value="Створити" class="btn btn-success my-btn" style="margin: 10px; padding-right: 20px;">
+                    <a href="/itwh/main_page" class="btn btn-danger my-btn">Очистити</a>
+                </p>
+            </form>
+            <!-- *** -->
+
+        </div>
+    </div>
+</div>
+<style>
+    .form-group input {
+        width: 50%;
+        height: 30px;
+    }
+    .form-group textarea {
+        width: 50%;
+    }
+    .my-btn {
+        width: 150px;
+    }
+    footer {
+        margin-top: 20px;
+    }
+</style>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

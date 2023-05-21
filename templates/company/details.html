@@ -1,0 +1,40 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: Company => Details Page -->
+{% block content %}
+    <h3 style="color: blue;">Детальна інформація про компанію</h3>
+    {% if company_count == 0 %}
+        <div style="align: center; margins: auto;">
+            <h2 style="color: darkred;">Жодної компанії в Базі не знайдено!</h2>
+            <h4>Будь ласка, додайте відомості про компанію у базу даних</h4>
+        </div>
+        <div>
+            <a href="/company/create">Додати Компанію</a>
+            <a href="/itwh/main_page">На головну</a>
+        </div>
+    {% else %}
+        <div>
+            <img src="/media/{{ company_info.company_logo }}">
+            <h4>Назва компанії: {{ company_info.company_title }}</h4>
+            <h4>Код ЄДРПОУ: {{ company_info.company_code }}</h4>
+            <h4>Місто: {{ company_info.city }}</h4>
+            <h4>Адреса: {{ company_info.address }}</h4>
+            <h4>Електрона пошта: {{ company_info.email }}</h4>
+            <h4>Телефон для зв'язку: {{ company_info.phone }}</h4>
+            <h4>Директор компанії: {{ company_info.company_boss }}</h4>
+            <h4>Матеріально відповідальна особа: {{ company_info.product_owner }}</h4>
+            <h4>Коментарі: {{ company_info.comments }}</h4>
+        </div>
+        <div>
+            {% for group in request.user.groups.all %}
+				{% if group.name == 'Admins' %}
+                    <a href="/company/update/{{ company_info.id }}">Оновити відомості</a>
+                    <a href="/company/delete/{{ company_info.id }}">Видалити компанію із БД</a>
+                {% endif %}
+            {% endfor %}
+            <a href="/itwh/main_page">На головну</a>
+        </div>
+    {% endif %}
+{% endblock content %}
+<!-- *** *** *** *** *** -->

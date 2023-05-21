@@ -1,0 +1,59 @@
+<!-- Start Banner Area -->
+<!-- ХЛІБНІ КРИХТИ, А ТАКОЖ РОЗДІЛИ ДЛЯ ПЕРЕХОДУ -->
+<section class="banner-area organic-breadcrumb">
+	<div class="container" style="height: 70px;">
+		<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+			<div class="col-first">
+				<h4>{{ page_title }}</h4>
+				<nav class="d-flex align-items-center">
+					<a href="/">Головна</a>
+					{% if app_name != '' %}
+						<a href=""><span class="lnr lnr-arrow-right"></span>{{ app_name }}</a>
+					{% endif %}
+					{% if page_name != '' %}
+						<a href=""><span class="lnr lnr-arrow-right"></span>{{ page_name }}</a>
+					{% endif %}
+				</nav>
+			</div>
+		</div>
+	</div>
+	{% if user_data.u_group == 'Admins' %}
+		<div class="col-xl-12 col-lg-4 col-md-5" style="margin: 0px auto; max-width: 1200px; padding-bottom: 20px">
+			<div class="sidebar-categories">
+				<div style="background: orange" class="head">
+					<a style="color: white; font-weight: 700" href="/storage/cart/view" class="cart">
+						Список запитів - &boxbox; - кількість  &Longrightarrow;
+						<span class="number" style="color: black;"></span> &Longleftarrow;
+						<span class="ti-bag"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</section>
+<!-- ПЕРЕВИЗНАЧАЄМО ДЕЯКІ СТИЛІ -->
+<style>
+.breadcrumb-banner {
+  padding: 0 0 0 0;
+  }
+
+  .breadcrumb-banner h4 {
+  	margin-top: 10px;
+    font-weight: 250;
+    text-align: right;
+    text-decoration: underline;
+    color: #fff; }
+
+  .breadcrumb-banner nav a {
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #fff;
+    font-weight: 200; }
+
+	.breadcrumb-banner nav a span {
+      display: inline-block;
+      margin: 0 15px;
+      }
+</style>
+<!-- End Banner Area -->

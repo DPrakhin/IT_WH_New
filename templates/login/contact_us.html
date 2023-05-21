@@ -1,0 +1,53 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: ФОРМА ЗВОРОТНЬОГО ЗВ'ЯЗКУ -->
+{% block content %}
+    <div class="container">
+        <h3 class="text-heading" style="color: darkblue;">Зв'язок з нами:</h3>
+        <div class="container">
+     	<!--================ ФОРМА ДЛЯ ЗВ'ЯЗКУ =================-->
+	    <section class="contact_area section_gap_bottom">
+			<div class="row">
+				<div class="col-lg-9">
+					<form class="row contact_form" action="/contact_us" method="post" id="contactForm">
+                        {% csrf_token %}
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="text" class="form-control" id="name" name="name"
+                                       value="{{ request.user.user_name }}" disabled>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" id="email" name="email"
+                                       value="{{ request.user.email }}" disabled>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="subject" name="subject"
+                                       placeholder="Вкажіть тему повідомлення" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Вкажіть тему повідомлення'" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<textarea class="form-control" name="message" id="message" rows="1"
+                                          placeholder="Введіть Ваше повідомлення" onfocus="this.placeholder = ''"
+                                          onblur="this.placeholder = 'Текст повідомлення'" required></textarea>
+							</div>
+						</div>
+						<!--================ КНОПКИ НАДІСЛАТИ, НА ГОЛОВНУ =================-->
+						<div class="container">
+							<section class="button-area">
+								<div class="container button-group-area col-md-12 text-right">
+									<input type="submit" value="Надіслати" class="genric-btn primary">
+									<a href="/main/main_page/employees" class="genric-btn success">На головну</a>
+								</div>
+							</section>
+						</div>
+					</form>
+				</div>
+			</div>
+	    </section>
+        </div>
+    </div>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

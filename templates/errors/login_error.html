@@ -1,0 +1,43 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- LOGIN ERROR: Content -->
+{% block content %}
+<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<!-- Картинка -->
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="{% static 'static_f_1/img/login-error.jpg' %}" alt="Login Image">
+					</div>
+				</div>
+				<!-- Інформація  -->
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3 style="color: darkred; text-decoration: underline;">Помилка входу в систему!</h3>
+						<form class="row login_form" action="/" method="get" id="contactForm">
+							<div class="col-md-12 form-group">
+								<p>
+									Під час входу в систему виникла помилка:<br />
+									Напевно, Логін або/і Пароль введено не вірно.
+								</p>
+							</div>
+							<div class="col-md-12 form-group">
+								<p>
+									Для повторного входу в систему перейдіть, будь ласка, на Головну сторінку сайту.
+									Або скористайтеся посиланням нижче для відновлення Вашого паролю.
+								</p>
+							</div>
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" class="primary-btn">На Головну сторінку</button>
+								<a href="/forgot_password">Забули Пароль?</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock content %}
+<!-- LOGIN ERROR: Content -->

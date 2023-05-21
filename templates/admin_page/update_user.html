@@ -1,0 +1,39 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: DashBoard -->
+{% block content %}
+
+    {% if user_data.u_group == 'Admins'%}
+<div class="container" style="max-width: 1200px;">
+            <div class="card-header">
+                <h4 class="card-title">Форма оновлення</h4>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <form class="form form-horizontal" action="{{ target_post.id }}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <div class="row">
+                                {% for fields in form %}
+                                <div class="col-md-4">
+                                    <label>{{ fields.label_tag }}</label>
+                                </div>
+                                <div class="col-md-8 form-group">{{ fields }}</div>
+                                {% endfor %}
+                                <div class="col-sm-12 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary me-1 mb-1" data-dashlane-label="true"
+                                            data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Підтвердити
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}
+<!-- IT WH: DashBoard -->

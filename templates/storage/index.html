@@ -1,0 +1,180 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: DashBoard -->
+{% block content %}
+
+{% if user_data.u_group == 'Admins' %}
+    <div class="container" style="max-width: 1400px;">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <div class="sidebar-categories">
+                    <div style="background: orange" class="head"><a style="color: white; font-weight: 700" href="#" class="cart">Категорії</a></div>
+                    <ul class="main-categories">
+                        <li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
+                                class="lnr lnr-arrow-right"></span>Все</a>
+                            <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
+                                <li class="main-nav-list child"><a href="{% url 'storage' %}">Все</a></li>
+                            </ul>
+                        </li>
+                        <li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
+                                class="lnr lnr-arrow-right"></span>Вільне</a>
+                            <ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
+                                <li class="main-nav-list child"><a href="{% url 'offline' %}">Вільне</a></li>
+                            </ul>
+                        </li>
+                        <li class="main-nav-list"><a class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
+                                                     aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>Графік</a>
+                            <ul class="collapse" id="babyCare" data-toggle="collapse" aria-expanded="false" aria-controls="babyCare">
+                                <li class="main-nav-list child"><a href="{% url 'graph' %}">Графік</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-xl-9 col-lg-8 col-md-7">
+
+                <div style="background: orange" class="filter-bar d-flex flex-wrap align-items-center">
+                    <!-- <div class="sorting">
+                        <select>
+                            <option value="1">Default sorting</option>
+                            <option value="1">Default sorting</option>
+                            <option value="1">Default sorting</option>
+                        </select>
+                    </div>
+                    <div class="sorting mr-auto">
+                        <select>
+                            <option value="1">Show 12</option>
+                            <option value="1">Show 12</option>
+                            <option value="1">Show 12</option>
+                        </select>
+                    </div> -->
+                    <div class="dataTable-dropdown btn-group" style="padding: 10px; max-width: 1200px;">
+                        <!-- <select class="dataTable-selector btn-light form-select sel selectVal">
+                                <option value="3" selected="">3</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                             </select> -->
+                        <div style="display: inline-block; margin-right: 10px;">
+                            <div><label class="">Введіль характеристику обладнання співробітника</label></div>
+                            <form class="dataTable-search" action="{% url 'storage' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
+                                {% csrf_token %}
+                                <input style="width: 300px" class="dataTable-input" name="query" placeholder="Пошук..." type="text" data-dashlane-rid="b7f577d40e4c8869" data-form-type="">
+                                <button class="btn btn-dark" type="submit">Пошук</button>
+                            </form>
+                        </div>
+                        <div style="display: inline-block; margin-left: 10px;">
+                            <div><label class="">Введіль кількість співробітників на одній сторінці</label></div>
+                            <form class="dataTable-search btn-group btn-group-md" action="{% url 'storage' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
+                                {% csrf_token %}
+                                <input class="btn btn-light" style="border-radius: 5px 0px 0px 5px; color: black; padding-right: 21px; padding-left: 21px;" name="button5" type="submit" value="5">
+                                <input class="btn btn-light" style="color: black; padding-right: 21px; padding-left: 21px;" name="button10" type="submit" value="10">
+                                <input class="btn btn-light" style="color: black; padding-right: 21px; padding-left: 21px;" name="button15" type="submit" value="15">
+                            </form>
+                            <a class="btn btn-dark " href="{% url 'user_create' %}">Додати співтобітника</a>
+                            <a class="btn btn-dark " href="{% url 'device_create' %}">Додати обладнання</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dataTable-bottom d-flex flex-wrap align-items-center" style="gap: 5%">
+                    {% if devices_data.has_other_pages %}
+                    <ul class="pagination pagination-warning float-end dataTable-pagination pagination-sm">
+                        {% if devices_data.has_previous %}
+                        <li class="page-item pager"><a href="?page=1" class="page-link" data-page="1">‹‹</a></li>
+                        <li class="page-item "><a href="?page={{ devices_data.previous_page_number }}" class="page-link" data-page="">‹</a></li>
+                        {% endif %}
+
+                        {% if devices_data.number|add:'-2' > 1 %}
+                        <li class="page-item"><a href="?page={{ devices_data.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                        {% endif %}
+
+                        {% for i in devices_data.paginator.page_range %}
+                        {% if devices_data.number == i %}
+                        <li class="page-item active"><span class="page-link" data-page="">{{ i }}</span><span></span></li>
+                        {% elif i > devices_data.number|add:'-2' and i < devices_data.number|add:'2' %}
+                        <li class="page-item"><a href="?page={{ i }}" class="page-link" data-page="">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if devices_data.paginator.num_pages > devices_data.number|add:'2' %}
+                        <li><a href="?page={{ devices_data.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                        <li><a href="?page={{ devices_data.paginator.num_pages }}" class="page-link" data-page="">{{ devices_data.paginator.num_pages }}</a></li>
+                        {% endif %}
+
+                        {% if devices_data.has_next %}
+                        <li class="page-item"><a href="?page={{ devices_data.next_page_number }}" class="page-link" data-page="">›</a></li>
+                        <li class="page-item pager"><a href="?page={{ devices_data.paginator.num_pages }}" class="page-link" data-page="">››</a></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                    <div class="dataTable-info" style="font-weight: 700; padding-top: 10px;">Showing {{ devices_data.number }} of {{ devices_data.paginator.num_pages }} entries</div>
+                </div>
+
+
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row" id="choose_item">
+                        {% for data in devices_data %}
+                        <div class="col-lg-4 col-md-6" >
+                            <div class="card bg-light single-product">
+                                <img class="img-fluid" style="border-radius: 5px 5px 30px 30px; height: 200px; object-fit: cover" src="/media/{{ data.employee.photo }}" alt="">
+                                <div style="padding: 10px; " class="product-details">
+                                    {% for deviceinner in data.device %}
+                                    <p style="font-size: 20px; color: black; font-weight: 500">{{ deviceinner.device_type }}</p>
+                                    <div class="details">
+                                        <p style="font-size: 17px; color: black; font-weight: 500"><strong>Виробник:</strong> {{ deviceinner.device_vendor }}</p>
+                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Назва:</strong> {{ deviceinner.device_title }}</p>
+                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Модель:</strong> {{ deviceinner.device_model }}</p>
+                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Серійний номер:</strong> {{ deviceinner.serial_number }}</p>
+                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Власник:</strong> {{ deviceinner.username }}</p>
+                                    </div>
+                                    <hr>
+                                    {% endfor %}
+                                    <div class="prd-bottom btn icon icon-left hover-text " style="display: flex; flex-direction: column; gap: 10px;">
+                                        <input type="hidden" value="{{ data.employee.id }}">
+                                        <input type="text" id="item_name" class="form-control" placeholder="Тип обладняння">
+                                        <button class="add-to-cart-btn btn icon icon-left btn-outline-dark hover-text ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                            Додати запит
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <style>
+                    tr{
+                        color: black;
+                    }
+                    .headli-1{
+                        display: inline-block
+                    }
+                    .ph-img{
+                        object-fit: cover;
+                    }
+                    .main-img-n{
+                        filter: blur(2px)
+                    }
+                </style>
+	<script src="{% static 'static_f_2/js/cart.js' %}"></script>
+{% endif %}
+
+{% endblock content %}
+<!-- IT WH: DashBoard -->

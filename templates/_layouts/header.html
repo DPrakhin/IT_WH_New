@@ -1,0 +1,153 @@
+{% load static %}
+<!-- Start Header Area -->
+<header class="header_area sticky-header">
+	<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="/">
+						<img src="{% static 'static_f_1/img/logo.png' %}" alt="IT WareHouse Project Logo">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<!-- ОСНОВНЕ МЕНЮ ПРОГРАМИ -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<!-- ЯКЩО КОРИСТУВАЧ НЕ АВТОРИЗОВАНИЙ - БАЧИТЬ ЛИШЕ ПЕРЕХІД НА СТОРІНКУ ЛОГІНА -->
+							{% if not user.is_authenticated %}
+								<li class="nav-item"><a class="nav-link" href="/">Вхід до Системи</a></li>
+
+							<!-- ЯКЩО КОРИСТУВАЧ АВТОРИЗОВАВНИЙ - БАЧИТЬ УСЕ ПОТРІБНЕ МЕНЮ -->
+							{% else %}
+								<!-- ГОЛОВНА СТОРІНКА СИСТЕМИ == DASHBOARD -->
+								<!-- СТОРІНКА ВІДОМОСТЕЙ ПРО СПІВРОБІТНИКІВ -->
+								{% if user_data.u_group == 'Admins' %}
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									   aria-haspopup="true" aria-expanded="false">Співробітники</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item">
+											<a class="nav-link" href="/employees/list">Список</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/employees/departments">Відділи</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/employees/ustatus">Форма роботи</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/employees/cities">Локація</a>
+										</li>
+									</ul>
+								</li>
+								{% endif %}
+								<!-- *** *** *** *** *** *** -->
+								<!-- СТОРІНКА ВІДОМОСТЕЙ ПРО ОБЛАДНАННЯ -->
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+									   role="button" aria-haspopup="true" aria-expanded="false">Обладнання</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item">
+											<a class="nav-link" href="/assets/list">Список</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/assets/category">Категорії</a>
+										</li>
+										{% if user_data.u_group == 'Admins' %}
+											<li class="nav-item">
+												<a class="nav-link" href="/assets/vendors">Виробники</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="/assets/suppliers">Постачальники</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="/assets/warranty">Гарантія</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="{% url 'storage' %}">Склад</a>
+											</li>
+										{% endif %}
+									</ul>
+								</li>
+								<!-- *** *** *** *** *** *** -->
+								<!-- СТОРІНКА ВІДОМОСТЕЙ ПРО КОМПАНІЮ -->
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									   aria-haspopup="true" aria-expanded="false">Компанія</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item">
+											<a class="nav-link" href="/company/news">Новини</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/company/details">Про компанію</a>
+										</li>
+									</ul>
+								</li>
+								<!-- *** *** *** *** *** *** -->
+								<!-- User Profile Settings -->
+								<li class="nav-item submenu dropdown active">
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									   aria-haspopup="true" aria-expanded="false">
+										<span>Привіт, {{ user.user_name }}</span>
+										<span><span><img width="30px" height="30px" class="profile-img"
+														 src="/media/{{ employee_data.photo }}" alt=""></span>
+										</span>
+										</a>
+									<ul class="dropdown-menu">
+										<li class="nav-item active">
+											<a class="nav-link" href="/employees/about">Мої Дані</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="{% url 'accounts' %}">Налаштування</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="/user_logout">Вихід</a>
+										</li>
+									</ul>
+								</li>
+							<!-- *** *** *** *** *** *** -->
+							<input type="hidden" id="user-id" value="{{ user.id }}">
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</nav>
+		<style>
+			.header_area .navbar .nav .nav-item.submenu ul .nav-item .nav-link {
+    			line-height: 45px;
+    			padding: 0px 30px;
+    			display: block;
+    			margin-right: 0px;
+			}
+			/*
+			.header_area .navbar .nav .nav-item.submenu ul {
+    			position: absolute;
+    			top: 140%;
+    			left: 0px;
+    			min-width: 200px;
+    			text-align: left;
+    			opacity: 0;
+    			visibility: hidden;
+    			display: block;
+			}
+			*/
+			@media (min-width: 992px)
+			.container {
+    			max-width: 1200px;
+			}
+			.header_area .navbar .nav .nav-item .nav-link {
+    			padding: 1px 0;
+			}
+			.profile-img{
+				object-fit: cover;
+				border-radius: 15px;
+			}
+		</style>
+	</div>
+</header>
+<!-- End Header Area -->

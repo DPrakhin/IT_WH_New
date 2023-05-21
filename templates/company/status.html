@@ -1,0 +1,15 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: Company => Operations Status Page -->
+{% block content %}
+    <h3 style="color: darkorange;">Company Operations Status Page</h3>
+    <h4 style="color: darkblue;">Операція: "{{ operation_name }}"</h4>
+    {% if operation_result == 1%}
+        <h5 style="color: green">Виконана успішно</h5>
+    {% else %}
+        <h5 style="color: red;">Виконана з помилкою</h5>
+    {% endif %}
+    <a href="/itwh/main_page">На Головну</a>
+{% endblock content %}
+<!-- *** *** *** *** *** -->
