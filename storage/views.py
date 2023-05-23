@@ -384,7 +384,7 @@ def request_check(request, sel_list: str):
                 'product_id': request_move.id,
                 'product_code': request_move.code,
                 'product_employee': request_move.employee,
-                'product_user': Employees.objects.get(user=request_move.user),
+                'product_user': Employees.objects.get(user_id=request_move.user),
                 'product_item': request_move.item,
                 'product_status': request_move.status,
                 'product_notes': request_move.notes

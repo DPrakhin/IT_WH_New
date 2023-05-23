@@ -36,7 +36,7 @@ class CitiesForm(ModelForm):
         return data
 
     class Meta:
-        models = Cities
+        model = Cities
         fields = ['city']
 
         initial = {

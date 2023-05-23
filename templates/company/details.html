@@ -1,40 +1,70 @@
 {% extends '_layouts/base.html' %}
 {% load static %}
 
-<!-- IT WH: Company => Details Page -->
+<!-- IT WH: КОМПАНІЯ - ПРО КОМПАНІЮ -->
 {% block content %}
-    <h3 style="color: blue;">Детальна інформація про компанію</h3>
-    {% if company_count == 0 %}
-        <div style="align: center; margins: auto;">
-            <h2 style="color: darkred;">Жодної компанії в Базі не знайдено!</h2>
-            <h4>Будь ласка, додайте відомості про компанію у базу даних</h4>
+    <div class="container">
+        <h3 style="color: darkblue;">Інформація про компанію:</h3>
+        {% if company_info %}
+            <div class="container">
+                <div class="progress-table-wrap">
+                    <div class="table-head">
+                        <img src="/media/{{ company_info.company_logo }}">
+                    </div>
+                    <div class="table-row">
+                        Назва компанії: {{ company_info.company_title }}
+                    </div>
+                    <div class="table-row">
+                        Код ЄДРПОУ: {{ company_info.company_code }}
+                    </div>
+                    <div class="table-row">
+                        Електрона пошта: {{ company_info.email }}
+                    </div>
+                    <div class="table-row">
+                        Телефон: {{ company_info.phone }}
+                    </div>
+                    <div class="table-row">
+                        Назва міста: {{ company_info.city }}
+                    </div>
+                    <div class="table-row">
+                        Адреса компанії: {{ company_info.address }}
+                    </div>
+                    <div class="table-row">
+                        Директор компанії: {{ company_info.company_boss }}
+                    </div>
+                    <div class="table-row">
+                        Матеріально-Відповідальна особа: {{ company_info.product_owner }}
+                    </div>
+                    <div class="table-row">
+                        Коментарі: {{ company_info.comments }}
+                    </div>
+                </div>
+            </div>
+            {% if user_admin == 1%}
+            <div class="container">
+                <a href="/company/update/{{ company_info.id }}" class="btn btn-success my-btn">Оновити відомості</a>
+            </div>
+            <div class="container">
+                <a href="/company/delete/{{ company_info.id }}" class="btn btn-danger my-btn">Видалити компанію</a>
+            </div>
+            {% endif %}
+        {% else %}
+            <h3 style="color: darkred; text-align: center;">
+                Нажаль, в базі відстутні відомості про компанію!
+            </h3>
+            <h4 style="color: darkblue; text-align: center;">
+                Будь ласка, додайте інформацію про компанію в базу даних.
+            </h4>
+            {% if user_admin == 1%}
+            <div class="container">
+                <a href="/company/create" class="btn btn-success my-btn">Додати Компанію</a>
+            </div>
+            {% endif %}
+        {% endif %}
+        <div class="container">
+            <br />
+            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
         </div>
-        <div>
-            <a href="/company/create">Додати Компанію</a>
-            <a href="/itwh/main_page">На головну</a>
-        </div>
-    {% else %}
-        <div>
-            <img src="/media/{{ company_info.company_logo }}">
-            <h4>Назва компанії: {{ company_info.company_title }}</h4>
-            <h4>Код ЄДРПОУ: {{ company_info.company_code }}</h4>
-            <h4>Місто: {{ company_info.city }}</h4>
-            <h4>Адреса: {{ company_info.address }}</h4>
-            <h4>Електрона пошта: {{ company_info.email }}</h4>
-            <h4>Телефон для зв'язку: {{ company_info.phone }}</h4>
-            <h4>Директор компанії: {{ company_info.company_boss }}</h4>
-            <h4>Матеріально відповідальна особа: {{ company_info.product_owner }}</h4>
-            <h4>Коментарі: {{ company_info.comments }}</h4>
-        </div>
-        <div>
-            {% for group in request.user.groups.all %}
-				{% if group.name == 'Admins' %}
-                    <a href="/company/update/{{ company_info.id }}">Оновити відомості</a>
-                    <a href="/company/delete/{{ company_info.id }}">Видалити компанію із БД</a>
-                {% endif %}
-            {% endfor %}
-            <a href="/itwh/main_page">На головну</a>
-        </div>
-    {% endif %}
+    </div>
 {% endblock content %}
 <!-- *** *** *** *** *** -->

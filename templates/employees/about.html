@@ -1,0 +1,73 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: СПІРОБІТНИК - ПРО СПІВРОБІТНИКА -->
+{% block content %}
+    <div class="container">
+        <h3 style="color: darkblue;">Інформація про спіробітника:</h3>
+        {% if employee_info %}
+            <div class="container">
+                <div class="progress-table-wrap">
+                    <div class="table-head">
+                        <img src="/media/{{ employee_info.photo }}">
+                    </div>
+                    <div class="table-row">
+                        Ім'я співробітника: {{ employee_info.first_name }}
+                    </div>
+                    <div class="table-row">
+                        Прізвище співробітника: {{ employee_info.last_name }}
+                    </div>
+                    <div class="table-row">
+                        Електрона пошта: {{ employee_info.email }}
+                    </div>
+                    <div class="table-row">
+                        Внутрішній номер: {{ employee_info.eid }}
+                    </div>
+                    <div class="table-row">
+                        Відділ: {{ employee_info.department }}
+                    </div>
+                    <div class="table-row">
+                        Посада: {{ employee_info.title }}
+                    </div>
+                    <div class="table-row">
+                        Локація: {{ employee_info.location }}
+                    </div>
+                    <div class="table-row">
+                        Мобільний телефон: {{ employee_info.mobilephone }}
+                    </div>
+                    <div class="table-row">
+                        Форма роботи: {{ employee_info.status }}
+                    </div>
+                    <div class="table-row">
+                        Коментарі: {{ employee_info.comments }}
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <a href="/employees/update/{{ employee_info.id }}" class="btn btn-success my-btn">Оновити відомості</a>
+            </div>
+            {% if user_admin == 1%}
+            <div class="container">
+                <a href="/employees/delete/{{ employee_info.id }}" class="btn btn-danger my-btn">Видалити співробітника</a>
+            </div>
+            {% endif %}
+        {% else %}
+            <h3 style="color: darkred; text-align: center;">
+                Нажаль, в базі відстутні відомості про співробітника з електроною поштою {{ user.email }}!
+            </h3>
+            <h4 style="color: darkblue; text-align: center;">
+                Будь ласка, додайте відповідну інформацію в базу даних.
+            </h4>
+            {% if user_admin == 1%}
+            <div class="container">
+                <a href="/employees/create" class="btn btn-success my-btn">Додати Співробітника</a>
+            </div>
+            {% endif %}
+        {% endif %}
+        <div class="container">
+            <br />
+            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+        </div>
+    </div>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

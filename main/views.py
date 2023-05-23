@@ -49,14 +49,20 @@ def main_page_employee(request):
     user_data['u_id'] = request.user.id
     user_data['u_email'] = request.user.email
 
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+        user_data['u_group'] = 'Admins'
+    else:
+        user_data['u_group'] = 'Employees'
+
+
     #if request.user.is_employee and request.user.groups.filter(name='Admins').exists():
     #    user_data['u_group'] = 'Admins'
     #else:
     #    user_data['u_group'] = 'Employees'
-    if request.user.groups.filter(name='Admins').exists():
-        user_data['u_group'] = 'Admins'
-    else:
-        user_data['u_group'] = 'Users'
+
 
     # ЯКЩО КОРИСТУВАЧ НЕ АКТИВНИЙ ВІН НЕ МОЖЕ ВОЙТИ ДО СИСТЕМИ:
     # ЦЕ НЕ ПОТРІБНО:

@@ -1,39 +1,27 @@
 {% extends '_layouts/base.html' %}
 {% load static %}
 
-<!-- IT WH: КОМПАНІЯ - ВИДАЛИТИ КОМПАНІЮ -->
+<!-- IT WH: СПІВРОБІТНИКИ - ВИДАЛИТИ ЛОКАЦІЮ -->
 {% block content %}
     <div class="container">
-        <h3 style="color: darkblue;">Ви збираєтесь видалити відомості про компанію:</h3>
+        <h3 style="color: darkblue;">Ви збираєтесь видалити відомості про наступну локацію:</h3>
         {% if user_admin == 1 %}
             <div class="container">
                 <div class="progress-table-wrap">
-                    <div class="table-head">
-                        <img src="/media/{{ company_info.company_logo }}">
+                    <div class="table-row">
+                        Назва міста: {{ city_info.city }}
                     </div>
                     <div class="table-row">
-                        Назва компанії: {{ company_info.company_title }}
+                        Кількість пов'язаних співробітників: {{ emp_count }}
                     </div>
                     <div class="table-row">
-                        Код ЄДРПОУ: {{ company_info.company_code }}
-                    </div>
-                    <div class="table-row">
-                        Електрона пошта: {{ company_info.email }}
-                    </div>
-                    <div class="table-row">
-                        Телефон: {{ company_info.phone }}
-                    </div>
-                    <div class="table-row">
-                        Директор компанії: {{ company_info.company_boss }}
-                    </div>
-                    <div class="table-row">
-                        Матеріально-Відповідальна особа: {{ company_info.product_owner }}
+                        Кількість пов'язаних компаній: {{ company_count  }}
                     </div>
                 </div>
             </div>
-        <form action="/company/delete/{{ company_info.id }}" method="POST">
+        <form action="/employees/city_delete/{{ city_info.id }}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Видалити компанію" class="btn btn-danger my-btn">
+            <input type="submit" value="Видалити місто" class="btn btn-danger my-btn">
         </form>
         {% else %}
             <div class="container">

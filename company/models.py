@@ -5,7 +5,7 @@ from employees.models import Cities, Employees
 # ОПИС КОМПАНІЇ:
 class Company(models.Model):
     # ОБОВ'ЯЗКОВІ ПОЛЯ:
-    company_title = models.CharField(max_length=200, unique=True, default='', verbose_name='Назва компанії *')
+    company_title = models.CharField(max_length=200, default='', verbose_name='Назва компанії *')
     company_code = models.CharField(max_length=8, unique=True, default='', verbose_name='Код ЄДРПОУ *')
 
     # НЕ ОБОВ'ЯЗКОВІ ПОЛЯ:

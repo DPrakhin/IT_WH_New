@@ -4,7 +4,7 @@
 	<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
+					<!-- ХЛІБНІ КРИХТИ -->
 					<a class="navbar-brand logo_h" href="/">
 						<img src="{% static 'static_f_1/img/logo.png' %}" alt="IT WareHouse Project Logo">
 					</a>
@@ -26,7 +26,7 @@
 							{% else %}
 								<!-- ГОЛОВНА СТОРІНКА СИСТЕМИ == DASHBOARD -->
 								<!-- СТОРІНКА ВІДОМОСТЕЙ ПРО СПІВРОБІТНИКІВ -->
-								{% if user_data.u_group == 'Admins' %}
+								{% if user_data.u_group == 'Admins' or user_admin == 1%}
 								<li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
 									   aria-haspopup="true" aria-expanded="false">Співробітники</a>
@@ -58,7 +58,7 @@
 										<li class="nav-item">
 											<a class="nav-link" href="/assets/category">Категорії</a>
 										</li>
-										{% if user_data.u_group == 'Admins' %}
+										{% if user_data.u_group == 'Admins'  or user_admin == 1 %}
 											<li class="nav-item">
 												<a class="nav-link" href="/assets/vendors">Виробники</a>
 											</li>
@@ -89,14 +89,20 @@
 									</ul>
 								</li>
 								<!-- *** *** *** *** *** *** -->
-								<!-- User Profile Settings -->
+								<!-- НАЛАШТУВАННЯ КОРИСТУВАЧА -->
 								<li class="nav-item submenu dropdown active">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
 									   aria-haspopup="true" aria-expanded="false">
 										<span>Привіт, {{ user.user_name }}</span>
+										{% if employee_data.photo %}
 										<span><span><img width="30px" height="30px" class="profile-img"
 														 src="/media/{{ employee_data.photo }}" alt=""></span>
 										</span>
+										{% else %}
+										<span><span><img width="30px" height="30px" class="profile-img"
+													 src="/media/photos/default_user.jpg" alt=""></span>
+										</span>
+										{% endif %}
 										</a>
 									<ul class="dropdown-menu">
 										<li class="nav-item active">
@@ -109,6 +115,12 @@
 											<a class="nav-link" href="/user_logout">Вихід</a>
 										</li>
 									</ul>
+								</li>
+								<!-- КОШИК, ЯКИЙ ЗБЕРІГАЄ ІНФОРМАЦІЮ ПРО ОБЛАДНАННЯ КОРИСТУВАЧА -->
+								<li class="nav-item submenu dropdown">
+									<a href="#" class="nav-link dropdown-toggle">
+										<span class="ti-bag"></span>
+									</a>
 								</li>
 							<!-- *** *** *** *** *** *** -->
 							<input type="hidden" id="user-id" value="{{ user.id }}">

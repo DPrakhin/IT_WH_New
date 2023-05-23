@@ -1,0 +1,56 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: СПІРОБІТНИК - ПЕРЕЛІК ЛОКАЦІЙ -->
+{% block content %}
+    <div class="container">
+        <h3 style="color: darkblue;">Перелік нашіх локацій:</h3>
+        <div class="container">
+            {% if cities_list %}
+                <table class="table table-striped table-dark dataTable-table" id="table1">
+                    <thead>
+                        <tr>
+                            <th data-sortable="" style="width: 30%;">
+                                <li href="#" class="dataTable-sorter colorizer">Назва міста</li>
+                            </th>
+                            <th data-sortable="" style="width: 30%;">
+                                <li href="#" class="dataTable-sorter colorizer">Кількість працівників</li>
+                            </th>
+                            <th data-sortable="" style="width: 30%;">
+                                <li href="#" class="dataTable-sorter colorizer">Дії</li>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for city, emp_count in cities_list %}
+                        <tr>
+                            <td>{{ city.city }}</td>
+                            <td>{{ emp_count}}</td>
+                            <td>>
+                                <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                    <a class="btn btn-outline-danger" href="/employees/city_delete/{{ city.id }}">
+                                        Видалити
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h3 style="color: darkred; text-align: center;">
+                    Нажаль, в базі відстутні відомості про наші локації та їх назву!
+                </h3>
+                <h4 style="color: darkblue; text-align: center;">
+                    Будь ласка, додайте відповідну інформацію в базу даних.
+                </h4>
+            {% endif %}
+        </div>
+        <div class="container">
+            <a href="/employees/city_create" class="btn btn-success my-btn">Додати локацію</a>
+            <br />
+            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+        </div>
+    </div>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

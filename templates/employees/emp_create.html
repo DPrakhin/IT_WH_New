@@ -1,14 +1,13 @@
 {% extends '_layouts/base.html' %}
 {% load static %}
 
-<!-- IT WH: КОМПАНІЯ - СТВОРИТИ КОМПАНІЮ -->
+<!-- IT WH: СПІВРОБІТНИК - СТВОРИТИ СПІВРОБІТНИКА -->
 {% block content %}
 <div class="content-panel">
     <div class="container">
-        <h3 style="color: darkblue;">Додати інформацію про компанію:</h3>
+        <h3 style="color: darkblue;">Додати інформацію про співробітника:</h3>
     </div>
     <div class="jumbotron container">
-        {% if user_admin == 1 %}
         <div style="text-align: left;">
             <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
              <form action="" method="post" enctype="multipart/form-data">
@@ -23,16 +22,6 @@
             </form>
             <!-- *** -->
         </div>
-        {% else %}
-        <div class="container">
-            <h3 style="color: darkred; text-align: center;">
-                Нажаль, лише користувач с правами Адміністратора може додавати ці відомості!
-            </h3>
-            <h4 style="color: darkblue; text-align: center;">
-                Будь ласка, зробить вхід в систему з відповідними правами.
-            </h4>
-        </div>
-        {% endif %}
         <div class="container">
             <br />
             <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>

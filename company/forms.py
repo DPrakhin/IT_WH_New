@@ -85,6 +85,9 @@ class CompanyUpdateForm(ModelForm):
         return data
 
     comments = forms.CharField(label='Коментарі', max_length=300, widget=forms.Textarea, required=False)
+    company_logo = forms.FileField(label='Логотип компанії', help_text='Оберіть файл з логотипом компанії (*.jpg)',
+                                   allow_empty_file=False, required=False,
+                                   widget=forms.FileInput(attrs={'accept': '.jpg'}))
 
     class Meta:
         model = Company

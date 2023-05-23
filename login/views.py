@@ -57,6 +57,18 @@ def user_logout(request):
 # ФОРМА ЗВОРОТНЬОГО ЗВ'ЯЗКУ:
 @login_required
 def contact_us(request):
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Відділи',
+        'app_name': 'Співробітники',
+        'page_name': 'Перелік відділів'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+
     if request.method == 'POST':
         # Отримуємо дані із форми:
         email_user = request.user.user_name
@@ -88,8 +100,5 @@ def contact_us(request):
             return redirect('/main/main_page/employees')
 
     else:
-        return render(request, 'login/contact_us.html', context={
-            'page_title': "Зворотній зв'язок",
-            'app_name': '',
-            'page_name': "Форма зворотнього зв'язку"
-        })
+        context['user_admin'] = user_admin
+        return render(request, 'login/contact_us.html', context=context)

@@ -1,0 +1,34 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: СПІРОБІТНИКИ - ДОДАВАННЯ ЛОКАЦІЇ -->
+{% block content %}
+    <div class="container">
+        <h3 style="color: darkblue;">Додати новую локацію:</h3>
+        <div class="container">
+             <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
+             <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table class="progress-table-wrap">
+                    {{ form.as_table }}
+                </table>
+                 <p style="margin-top: 20px;">
+                    <input type="submit" value="Додати локацію" class="btn btn-success my-btn"
+                           style="margin: 10px; padding-right: 20px;">
+                </p>
+            </form>
+            <!-- *** -->
+        </div>
+        <div class="container">
+            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+        </div>
+    </div>
+<!-- ДОДАТКОВІ СТИЛІ -->
+<style>
+    .errorlist {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock content %}
+<!-- *** *** *** *** *** -->
