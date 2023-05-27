@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 def index(request):
     # Авторизований користувач завжди потрапляє на головну сторінку:
     if request.user.is_authenticated:
-        return redirect('/main/main_page/employees')
+        return redirect('/main/main_page')
 
     else:
         if request.method == 'POST':

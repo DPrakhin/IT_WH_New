@@ -4,181 +4,245 @@
 <!-- IT WH: DashBoard -->
 {% block content %}
 
-    {% if user_data.u_group == 'Admins' %}
-        <div id="main">
-            <div class="main-content container-fluid">
-                <div class="page-title">
-                    <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
-                        <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
-                        <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </nav>
-                    <h3 class="headli-1">Акаунти</h3>
-                    {% if user.is_employee %}
-                    <p class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }} {{ employee_data.last_name }}</p>
-                    {% else %}
-                    <p class="text-subtitle text-muted">Все про профіль Admin</p>
-                    {% endif %}
-                </div>
-                <section class="section">
+{% if user_data.u_group == 'Admins' %}
+<div id="main">
+    <div class="main-content container-fluid">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <h3 class="headli-1">Акаунти</h3>
+            {% if user.is_employee %}
+            <p class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }} {{ employee_data.last_name }}</p>
+            {% else %}
+            <p class="text-subtitle text-muted">Все про профіль Admin</p>
+            {% endif %}
+        </div>
+        <section class="section">
 
-                    <div class="row mb-2"></div>
+            <div class="row mb-2"></div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-9">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Дані наявного обладнання у співробітників
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns" >
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Кількість учасників</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p class="card-text"><strong>Представлення</strong> кожного члена команди </p>
+                            </div>
 
-                                               <div class="dataTable-top">
-                                                    <div class="dataTable-dropdown btn-group">
-                                                        <!-- <select class="dataTable-selector btn-light form-select sel selectVal">
-                                                            <option value="3" selected="">3</option>
-                                                            <option value="5">5</option>
-                                                            <option value="10">10</option>
-                                                            <option value="15">15</option>
-                                                            <option value="20">20</option>
-                                                        </select> -->
-                                                        <form class="dataTable-search btn-group btn-group-md" action="{% url 'accounts' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
-                                                            {% csrf_token %}
-                                                            <input class="btn btn-dark" style="border-radius: 5px 0px 0px 5px; color: white; padding-right: 21px; padding-left: 21px;" name="button5" type="submit" value="5">
-                                                            <input class="btn btn-dark" style="color: white; padding-right: 21px; padding-left: 21px;" name="button10" type="submit" value="10">
-                                                            <input class="btn btn-dark" style="color: white; padding-right: 21px; padding-left: 21px;" name="button15" type="submit" value="15">
-                                                        </form>
-
-                                                    </div>
-                                                   <label class="sel">Введіль кількість співробітників на одній сторінці</label>
-                                                   <div style="display: block; gap: 10px; margin: 5px 0;">
-                                                       <form class="dataTable-search" action="{% url 'accounts' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
-                                                           {% csrf_token %}
-                                                           <input style="width: 300px" class="dataTable-input" name="query" placeholder="Пошук..." type="text" data-dashlane-rid="b7f577d40e4c8869" data-form-type="">
-                                                           <button class="btn btn-dark" type="submit">Пошук</button>
-                                                       </form>
-                                                       <label class="sel">Введіль характеристику обладнання співробітника</label>
-                                                       <a class="btn btn-primary sel" href="{% url 'user_create' %}">Додати співтобітника</a>
-                                                       <a class="btn btn-primary sel" href="{% url 'device_create' %}">Додати обладнання</a>
-                                                   </div>
-                                               </div>
-
-                                                <div class="dataTable-container capitalizer" >
-                                                    {% for data in device_data %}
-                                                    <table class="table table-striped table-dark dataTable-table" id="table1"       >
-                                                        <thead>
-                                                            <tr>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Ім'я</li>
-                                                            </th>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Пошта</li>
-                                                            </th>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Телефон</li>
-                                                            </th>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Країна</li>
-                                                            </th>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Статус</li>
-                                                            </th>
-                                                            <th data-sortable="" style="width: 20%;">
-                                                                <li href="#" class="dataTable-sorter colorizer">Дії</li>
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>{{ data.employee.first_name }}  {{ data.employee.last_name }}</td>
-                                                                <td>{{ data.employee.user.email }}</td>
-                                                                <td>{{ data.employee.mobilephone }}</td>
-                                                                <td>{{ data.employee.location }}</td>
-                                                                    <td>
-                                                                        {% if data.employee.user.is_active %}
-                                                                            <span class="badge bg-success badge-pill badge-round ml-1">Active</span>
-                                                                        {% else %}
-                                                                            <span class="badge bg-danger badge-pill badge-round ml-1">Inactive</span>
-                                                                        {% endif %}
-                                                                    </td>
-                                                                <td>
-                                                                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                                        <a class="btn btn-outline-warning" href="/admin_page/accounts/details/{{ data.employee.id }}">Деталі</a>
-                                                                        <a class="btn btn-outline-primary" href="/admin_page/accounts/update/{{ data.employee.id }}">Редагувати</a>
-                                                                        <a class="btn btn-outline-danger" href="/admin_page/accounts/delete/{{ data.employee.id }}">Видалити</a>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <table class="table table-light table-bordered table-hover dataTable-table" id="table2">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Тип</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Бренд</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Модель</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Назва пристрою</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Серійний номер</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Статус</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Власник</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Постачальник</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Дата купівлі</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 13%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Гарантія товару</li>
-                                                                            </th>
-                                                                            <th data-sortable="" style="width: 20%;">
-                                                                                <li href="#" class="dataTable-sorter colorizer2">Дії</li>
-                                                                            </th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        {% for deviceinner in data.device %}
-                                                                        <tr>
-                                                                            <td>{{ deviceinner.device_type }}</td>
-                                                                            <td>{{ deviceinner.device_vendor }}</td>
-                                                                            <td>{{ deviceinner.device_title }}</td>
-                                                                            <td>{{ deviceinner.device_model }}</td>
-                                                                            <td>{{ deviceinner.serial_number }}</td>
-                                                                            <td>{{ deviceinner.device_status }}</td>
-                                                                            <td>{{ deviceinner.username }}</td>
-                                                                            <td>{{ deviceinner.supplier }}</td>
-                                                                            <td>{{ deviceinner.purchase_date }}</td>
-                                                                            <td>{{ deviceinner.device_warranty }}</td>
-                                                                            <td>
-                                                                                <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                                                                                    <a class="btn btn-outline-warning" href="/admin_page/devices/details/{{ deviceinner.device_id }}">Деталі</a>
-                                                                                    <a class="btn btn-outline-primary" href="/admin_page/devices/update/{{ deviceinner.device_id }}">Редагувати</a>
-                                                                                    <a class="btn btn-outline-danger" href="/admin_page/devices/delete/{{ deviceinner.device_id }}">Видалити</a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        {% endfor %}
-                                                                    </tbody>
-                                                                </table>
-                                                    </table>
-                                                    {% endfor %}
+                            <!-- Table with no outer spacing -->
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Фото</th>
+                                        <th>Ім'я Прізвище</th>
+                                        <th>Відділ</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for employees in all_employees_data %}
+                                    <tr>
+                                        <td><span class="avatar avatar-lg"><img class="ph-img" src="/media/{{ employees.photo }}" alt=""></span></td>
+                                        <td>{{ employees.first_name }} {{ employees.last_name }}</td>
+                                        <td class="text-bold-500">{{ employees.department }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" >
+                        <div class="card-header" >
+                            <h4>Перегляд новин</h4>
+                        </div>
+                        <div class="card-body" >
+                            <div class="row" >
+                                <div class="col-md-12" >
+                                    <p>Коротко про різні технологічні новини</p>
+                                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" >
+                                        <ol class="carousel-indicators">
+                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner" >
+                                            <div class="carousel-item active" >
+                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto1.jpg' %}" class="d-block w-100 main-img-n" alt="...">
+                                                <div class="carousel-caption d-none d-md-block" >
+                                                    <h5>NVIDIA представила відеокарту RTX 4070</h5>
+                                                    <p>Відеокарта буде доступною з 13 квітня за ціною від $599.</p>
                                                 </div>
+                                            </div>
+                                            <div class="carousel-item" >
+                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto3.png' %}" class="d-block w-100 main-img-n" alt="...">
+                                                <div class="carousel-caption d-none d-md-block" >
+                                                    <h5>Apple WWDC 2023 пройде 5-9 червня</h5>
+                                                    <p>очікуються нові версії ОС для всіх пристроїв, є шанс побачити гарнітуру AR, новий Mac Pro та 15” MacBook Air</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h4 class="card-title">Короткий опис сайту:</h4>
+                                <p class="card-text">
+                                    Зроблений в 2023 році. Фінальний проект на django.
+                                </p>
+                                <p class="card-text">
+                                    Коротко про виконавців: Тимофій, Денис, Даніїл, Артем.
+                                </p>
+                                <small class="text-muted">Оновлений</small>
+                            </div>
+                            <img class="card-img-bottom img-fluid" src="{% static 'static_f_2/images/samples/programmers-coding-computer-app-7CFXNL5.jpg' %}" alt="Card image cap">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Дані наявного обладнання у співробітників
+                        </div>
+                        <div class="card-body">
+                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns" >
 
-                                                <div class="dataTable-bottom" >
+                                <div class="dataTable-top">
+                                    <div style="display: block; gap: 10px; margin: 5px 0;">
+                                        <form class="dataTable-search" action="{% url 'accounts' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
+                                            {% csrf_token %}
+                                            <input style="width: 300px" class="dataTable-input" name="query" placeholder="Пошук..." type="text" data-dashlane-rid="b7f577d40e4c8869" data-form-type="">
+                                            <button class="btn btn-dark" type="submit">Пошук</button>
+                                        </form>
+                                        <label class="sel">Введіль характеристику обладнання співробітника</label>
+                                        <a class="btn btn-primary sel" href="{% url 'user_create' %}">Додати співтобітника</a>
+                                        <a class="btn btn-primary sel" href="{% url 'device_create' %}">Додати обладнання</a>
+                                    </div>
+                                </div>
+
+                                <div class="dataTable-container capitalizer" >
+                                    {% for data in device_data %}
+                                    <table class="table table-striped table-dark dataTable-table" id="table1"       >
+                                        <thead>
+                                        <tr>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer">Ім'я</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer">Пошта</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer">Телефон</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer">Країна</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer">Статус</li>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ data.employee.first_name }}  {{ data.employee.last_name }}</td>
+                                            <td>{{ data.employee.user_id.email }}</td>
+                                            <td>{{ data.employee.mobilephone }}</td>
+                                            <td>{{ data.employee.location }}</td>
+                                            <td>
+                                                {% if data.employee.user_id.is_active %}
+                                                <span class="badge bg-success badge-pill badge-round ml-1">Active</span>
+                                                {% else %}
+                                                <span class="badge bg-danger badge-pill badge-round ml-1">Inactive</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-responsive table-light table-bordered table-hover dataTable-table" id="table2">
+                                        <thead>
+                                        <tr>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Тип</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Бренд</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Модель</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Назва пристрою</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Серійний номер</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Статус</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Власник</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Постачальник</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Дата купівлі</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 13%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Гарантія товару</li>
+                                            </th>
+                                            <th data-sortable="" style="width: 20%;">
+                                                <li href="#" class="dataTable-sorter colorizer2">Дії</li>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for deviceinner in data.device %}
+                                        <tr>
+                                            <td>{{ deviceinner.device_type }}</td>
+                                            <td>{{ deviceinner.device_vendor }}</td>
+                                            <td>{{ deviceinner.device_title }}</td>
+                                            <td>{{ deviceinner.device_model }}</td>
+                                            <td>{{ deviceinner.serial_number }}</td>
+                                            <td>{{ deviceinner.device_status }}</td>
+                                            <td>{{ deviceinner.username }}</td>
+                                            <td>{{ deviceinner.supplier }}</td>
+                                            <td>{{ deviceinner.purchase_date }}</td>
+                                            <td>{{ deviceinner.device_warranty }}</td>
+                                            <td>
+                                                <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                    <a class="btn btn-outline-warning" href="/admin_page/devices/details/{{ deviceinner.device_id }}">Деталі</a>
+                                                    <a class="btn btn-outline-primary" href="/admin_page/devices/update/{{ deviceinner.device_id }}">Редагувати</a>
+                                                    <a class="btn btn-outline-danger" href="/admin_page/devices/delete/{{ deviceinner.device_id }}">Видалити</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="dataTable-bottom" >
                                                     <div class="dataTable-info" style="font-weight: 700">Showing {{ device_data.number }} of {{ device_data.paginator.num_pages }} entries</div>
                                                     {% if device_data.has_other_pages %}
                                                         <ul class="pagination pagination-primary float-end dataTable-pagination pagination-sm">
@@ -212,158 +276,69 @@
                                                     {% endif %}
                                                 </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        <div class="col-md-3">
-                                    <div class="card">
-                                    <div class="card card-statistic">
-                                        <div class="card-body bg-warning p-0">
-                                            <div class="d-flex flex-column">
-                                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                                    <h3 class='card-title'>Кількість обладнання:</h3>
-                                                    <div class="card-right d-flex align-items-center">
-                                                        <p>{{ count }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="chart-wrapper">
-                                                    <canvas id="canvas1" style="height:100px !important"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="card">
-                                    <div class="card card-statistic">
-                                        <div class="card-body bg-warning p-0">
-                                            <div class="d-flex flex-column">
-                                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                                    <h3 class='card-title'>Категорія:</h3>
-                                                    <div class="card-right d-flex align-items-center">
-                                                        <p>{{ user_data.u_group }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="chart-wrapper">
-                                                    <canvas id="canvas3" style="height:100px !important"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <div class="card">
-                                    <div class="card card-statistic">
-                                        <div class="card-body bg-warning p-0">
-                                            <div class="d-flex flex-column">
-                                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                                    <h3 class='card-title'>Статус:</h3>
-                                                    <div class="card-right d-flex align-items-center">
-                                                        <p>{{ indicate }}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="chart-wrapper">
-                                                    <canvas id="canvas4" style="height:100px !important"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <div class="card">
-                                      <div class="card-header">
-                                        <h4 class="card-title">Кількість учасників</h4>
-                                      </div>
-                                      <div class="card-content">
-                                        <div class="card-body">
-                                          <p class="card-text"><strong>Представлення</strong> кожного члена команди </p>
-                                        </div>
-
-                                        <!-- Table with no outer spacing -->
-                                        <div class="table-responsive">
-                                          <table class="table mb-0">
-                                            <thead>
-                                              <tr>
-                                                <th>Фото</th>
-                                                <th>Ім'я Прізвище</th>
-                                                <th>Відділ</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for employees in all_employees_data %}
-                                              <tr>
-                                                <td><span class="avatar avatar-lg"><img class="ph-img" src="/media/{{ employees.photo }}" alt=""></span></td>
-                                                <td>{{ employees.first_name }} {{ employees.last_name }}</td>
-                                                <td class="text-bold-500">{{ employees.department }}</td>
-                                              </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="card" >
-                                        <div class="card-header" >
-                                            <h4>Перегляд новин</h4>
-                                        </div>
-                                        <div class="card-body" >
-                                            <div class="row" >
-                                                <div class="col-md-12" >
-                                                    <p>Коротко про різні технологічні новини</p>
-                                                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" >
-                                                        <ol class="carousel-indicators">
-                                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                                                        </ol>
-                                                        <div class="carousel-inner" >
-                                                            <div class="carousel-item active" >
-                                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto1.jpg' %}" class="d-block w-100 main-img-n" alt="...">
-                                                                <div class="carousel-caption d-none d-md-block" >
-                                                                    <h5>NVIDIA представила відеокарту RTX 4070</h5>
-                                                                    <p>Відеокарта буде доступною з 13 квітня за ціною від $599.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="carousel-item" >
-                                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto3.png' %}" class="d-block w-100 main-img-n" alt="...">
-                                                                <div class="carousel-caption d-none d-md-block" >
-                                                                    <h5>Apple WWDC 2023 пройде 5-9 червня</h5>
-                                                                    <p>очікуються нові версії ОС для всіх пристроїв, є шанс побачити гарнітуру AR, новий Mac Pro та 15” MacBook Air</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Короткий опис сайту:</h4>
-                                                <p class="card-text">
-                                                    Зроблений в 2023 році. Фінальний проект на django.
-                                                </p>
-                                                <p class="card-text">
-                                                    Коротко про виконавців: Тимофій, Денис, Даніїл, Артем.
-                                                </p>
-                                                <small class="text-muted">Оновлений</small>
-                                            </div>
-                                            <img class="card-img-bottom img-fluid" src="{% static 'static_f_2/images/samples/programmers-coding-computer-app-7CFXNL5.jpg' %}" alt="Card image cap">
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                        </div>
                     </div>
-                </section>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Кількість обладнання:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ count }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas1" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Категорія:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ user_data.u_group }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas3" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Статус:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ indicate }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas4" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <style>
+
+        </section>
+    </div>
+</div>
+<style>
                 .capitalizer{
                     font-size: 15px
                 }
@@ -398,7 +373,7 @@
                     font-weight: 500;
                 }
             </style>
-    {% endif %}
+{% endif %}
 
 {% endblock content %}
 <!-- IT WH: DashBoard -->

@@ -8,7 +8,7 @@ from assets.models import Devices
 
 @login_required
 def main_page(request):
-    if request.user.groups.filter(name='Admin').exists():
+    if request.user.groups.filter(name='Admins').exists() and not request.user.is_employee:
         print('User', request.user.user_name, 'is Admin')
         return redirect("/main/main_page/admins")
 
@@ -23,26 +23,18 @@ def main_page(request):
 # Є ЗМІНИ:
 @login_required
 def main_page_employee(request):
-    # if request.user.groups.filter(name='Users').exists():
-    #    return redirect("/")
-    # elif request.user.groups.filter(name='Admins').exists() and not request.user.is_employee:
-    #    return redirect("/")
-
-    # Якщо користувач авторизований - визначаємо його базові параметри:
     class getdata(object):
         def get_all_employees(self):
             all_employees_data = Employees.objects.all()
             return all_employees_data
 
         def get_employee_data(self):
-            if request.user.is_employee:
-                employee_data = Employees.objects.get(user_id=request.user.id)
-                return employee_data
+            employee_data = Employees.objects.get(user_id=request.user.id)
+            return employee_data
 
         def get_devices_data(self):
-            if request.user.is_employee:
-                device_data = Devices.objects.filter(user_id=getdata().get_employee_data())
-                return device_data
+            device_data = Devices.objects.filter(user_id=getdata().get_employee_data())
+            return device_data
 
     # ДАНІ КОРИСТУВАЧА:
     user_data = {}
@@ -58,24 +50,9 @@ def main_page_employee(request):
         user_data['u_group'] = 'Employees'
 
 
-    #if request.user.is_employee and request.user.groups.filter(name='Admins').exists():
-    #    user_data['u_group'] = 'Admins'
-    #else:
-    #    user_data['u_group'] = 'Employees'
-
-
-    # ЯКЩО КОРИСТУВАЧ НЕ АКТИВНИЙ ВІН НЕ МОЖЕ ВОЙТИ ДО СИСТЕМИ:
-    # ЦЕ НЕ ПОТРІБНО:
-    # if request.user.is_active:
-    #        indicate = 'Активний'
-    #    else:
-    #        indicate = 'Не активний'
     indicate = 'Активний'
 
-    if request.user.is_employee:
-        count = len(getdata().get_devices_data())
-    else:
-        count = ''
+    count = len(getdata().get_devices_data())
 
     return render(request, 'main/_main_page_emp.html', context={
         'page_title': 'Головна сторінка',
@@ -93,11 +70,7 @@ def main_page_employee(request):
 # НЕ ЗМІНЮВАТИ
 @login_required
 def main_page_users(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif not request.user.groups.filter(name='Users').exists():
+    if not request.user.groups.filter(name='Users').exists():
 
         return redirect("/")
 
@@ -127,20 +100,14 @@ def main_page_users(request):
 # НЕ ЗМІНЮВАТИ
 @login_required
 def main_page_admins(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
+    if request.user.groups.filter(name='Users').exists():
+
         return redirect("/")
 
     elif request.user.is_employee:
 
         return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
     else:
-        # Якщо користувач авторизований - визначаємо його базові параметри:
         class getdata(object):
             def get_all_employees(self):
                 all_employees_data = Employees.objects.all()
@@ -171,26 +138,13 @@ def main_page_admins(request):
 
 @login_required
 def device_update(request, device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
+    if not request.user.groups.filter(name='Admins').exists():
         return redirect("/")
-    elif not request.user.is_employee and request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
     else:
         # Обов'язкові відомості про акаунт
         class getdata(object):
             def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
+                if request.user.groups.filter(name='Admins').exists():
                     employee_data = Employees.objects.get(user=request.user.id)
                     return employee_data
 
@@ -214,25 +168,14 @@ def device_update(request, device_id):
 
 @login_required
 def device_details(request, device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-    elif not request.user.is_employee and request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
+    if not request.user.groups.filter(name='Admins').exists():
         return redirect("/")
 
     else:
         # Обов'язкові відомості про акаунт
         class getdata(object):
             def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-                elif request.user.is_employee:
+                if request.user.groups.filter(name='Admins').exists():
                     employee_data = Employees.objects.get(user=request.user.id)
                     return employee_data
 
@@ -257,26 +200,14 @@ def device_details(request, device_id):
 
 @login_required
 def device_delete(request, device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-    elif not request.user.is_employee and request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
+    if not request.user.groups.filter(name='Admins').exists():
         return redirect("/")
 
     else:
         # Обов'язкові відомості про акаунт
         class getdata(object):
             def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
+                if request.user.groups.filter(name='Admins').exists():
                     employee_data = Employees.objects.get(user=request.user.id)
                     return employee_data
 
