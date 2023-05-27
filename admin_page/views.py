@@ -3,18 +3,12 @@ from django.core.paginator import Paginator
 from employees.models import Employees
 from assets.models import Devices
 from .forms import EmployeeForm, DeviceForm
+from django.contrib.auth.decorators import login_required
 
 # НЕ ЗМІНЮВАТИ
+@login_required
 def admin_page(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -53,8 +47,8 @@ def admin_page(request):
                 return final_storage
 
             def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:  # поки не використовується
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         if request.user.groups.filter(name='Admins').exists():
@@ -79,16 +73,7 @@ def admin_page(request):
 
         if request.method=='GET':
             device_data = []
-            button5 = request.GET.get('button5')
-            button10 = request.GET.get('button10')
-            button15 = request.GET.get('button15')
-            choose_list = [button5, button10, button15]
             pages = 3
-            for choose in choose_list:
-                if choose == None:
-                    pass
-                else:
-                    pages = choose
 
             squery = request.GET.get('query')
             if squery == None or squery == '':
@@ -111,8 +96,7 @@ def admin_page(request):
                         if data.user_id == devices:
                             list_checker = [str(data.device_type), str(data.device_vendor), str(data.device_title),
                                             str(data.device_model), str(data.serial_number), str(data.device_status),
-                                            str(data.user_id), str(data.supplier), str(data.purchase_date), str(data.device_warranty),
-                                            str(data.comments)]
+                                            str(data.user_id), str(data.supplier), str(data.purchase_date), str(data.device_warranty)]
                             for output in list_checker:
                                 if str(squery) == output:
                                     sort_check = True
@@ -160,16 +144,9 @@ def admin_page(request):
 
 
 # ID відноситься до Employees Table
+@login_required
 def user_create(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -178,7 +155,7 @@ def user_create(request):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}
@@ -197,146 +174,10 @@ def user_create(request):
             'user_data': user_data,
         })
 
-# НЕ ПОТРІБНО ОНОВЛЮВАТИ ДАНІ У ТАБЛИЦІ "СПІВРОБІТНИКИ" ЯКЩО ТИ ПРАЦЮЄЩЬ З АКАУНТАМИ:
-def user_update(request, data_employee_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-
-        target_user = Employees.objects.get(id=data_employee_id)
-
-        if request.method == 'GET':
-            return render(request, 'admin_page/update_user.html', context={
-                'page_title': 'Акаунти',
-                'app_name': 'Головна',
-                'page_name': 'Оновлення',
-                'employee_data': getdata().get_employee_data(),
-                'target_post': target_user,
-                'form': EmployeeForm(instance=target_user),
-                'user_data': user_data,
-            })
-        elif request.method == 'POST':
-            form2 = EmployeeForm(request.POST)
-            if form2.is_valid():
-                target_user.first_name = form2.cleaned_data.get('first_name')
-                target_user.last_name = form2.cleaned_data.get('last_name')
-                target_user.eid = form2.cleaned_data.get('eid')
-                target_user.department = form2.cleaned_data.get('department')
-                target_user.title = form2.cleaned_data.get('title')
-                target_user.mobilephone = form2.cleaned_data.get('mobilephone')
-                target_user.location = form2.cleaned_data.get('location')
-                target_user.save()
-            return redirect('/admin_page/accounts')
-
-def user_details(request, data_employee_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-        # -----------------
-
-
-        return render(request, 'admin_page/details_user.html', {
-            'page_title': 'Акаунти',
-            'app_name': 'Головна',
-            'page_name': 'Деталі',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-def user_delete(request, data_employee_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        if request.user.groups.filter(name='Admins').exists():
-            user_data = {}
-            user_data['u_id'] = request.user.id
-            user_data['u_email'] = request.user.email
-            if request.user.groups.filter(name='Admins').exists():
-                user_data['u_group'] = 'Admins'
-        # -----------------
-
-
-        return render(request, 'admin_page/delete_user.html', {
-            'page_title': 'Акаунти',
-            'app_name': 'Головна',
-            'page_name': 'Видалення',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-
-
 # ID відноситься до Devices Table
-
+@login_required
 def device_create(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -345,7 +186,7 @@ def device_create(request):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}
@@ -363,17 +204,9 @@ def device_create(request):
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
         })
-
+@login_required
 def device_update(request, deviceinner_device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -382,7 +215,7 @@ def device_update(request, deviceinner_device_id):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}
@@ -419,17 +252,9 @@ def device_update(request, deviceinner_device_id):
                 target_device.comments = form2.cleaned_data.get('comments')
                 target_device.save()
             return redirect('/admin_page/accounts')
-
+@login_required
 def device_details(request, deviceinner_device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -438,7 +263,7 @@ def device_details(request, deviceinner_device_id):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}
@@ -456,17 +281,9 @@ def device_details(request, deviceinner_device_id):
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
         })
-
+@login_required
 def device_delete(request, deviceinner_device_id):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -475,7 +292,7 @@ def device_delete(request, deviceinner_device_id):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}

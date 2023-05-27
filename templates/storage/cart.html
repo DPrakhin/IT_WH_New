@@ -4,110 +4,112 @@
 <!-- IT WH: DashBoard -->
 {% block content %}
 
-    {% if user_data.u_group == 'Admins' %}
-        <div class="container" style="max-width: 1300px;">
-            <div class="page-title">
-                <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
-                    <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
-                    <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </nav>
-            </div>
-            <div class="cart_inner">
-                <div class="table-responsive table-light">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Notes</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Employee</th>
-                                <th scope="col">Item</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Will</th>
-                                <th scope="col">Datetime</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for requests in item_requests %}
-                            <tr>
-                                <td class="id_empl_cell">
-                                    <input type="hidden" value="{{ requests.id }}">
-                                    <div class="media" style="width: 400px;">
-                                        <div class="d-flex">
-                                            <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <p>{{ requests.notes }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>{{ requests.user }}</h5>
-                                </td>
-                                <td>
-                                    <h5>{{ requests.employee }}</h5>
-                                </td>
-                                <td class="item_cell">
-                                    {{ requests.item }}
-                                </td>
-                                <td>
-                                    <p>{{ requests.code }}</p>
-                                </td>
-                                <td>
-                                    {{ requests.status }}
-                                </td>
-                                <td>
-                                    <input type="checkbox" class="check" value="yes" checked>
-                                </td>
-                                <td>
-                                    {{ requests.datetime }}
-                                </td>
-                                <td>
-                                    <div class="btn-group-vertical">
-                                        <button class="btn btn-outline-danger del-btn">Видалити</button>
-                                        <input type="hidden" value="{{ requests.id }}">
-                                        <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Оновити</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            <tr class="out_button_area">
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    <div class="checkout_btn_inner d-flex align-items-center ">
-                                        <a class="gray_btn" href="{% url 'storage' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;склад</a>
-                                        &nbsp;
-                                        &nbsp;
-                                        &nbsp;
-                                        <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_check/1,2,3">&Longrightarrow;&nbsp;&nbsp;&nbsp;Запит до відділу</a>
-                                    </div>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+{% if user_data.u_group == 'Admins' %}
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="container" style="max-width: 1400px;">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                </button>
+            </nav>
+            <h3 class="title_confirmation">Запити</h3>
+        </div>
+        <div class="cart_inner card">
+            <div class="table-responsive table-light">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Notes</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Employee</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Will</th>
+                        <th scope="col">Datetime</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Code</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for requests in item_requests %}
+                    <tr>
+                        <td class="id_empl_cell">
+                            <input type="hidden" value="{{ requests.id }}">
+                            <div class="media" style="width: 400px;">
+                                <div class="d-flex">
+                                    <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <p>{{ requests.notes }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <h5>{{ requests.user }}</h5>
+                        </td>
+                        <td>
+                            <h5>{{ requests.employee }}</h5>
+                        </td>
+                        <td class="item_cell">
+                            {{ requests.item }}
+                        </td>
+                        <td>
+                            {{ requests.status }}
+                        </td>
+                        <td>
+                            <input type="checkbox" class="check" value="yes" checked>
+                        </td>
+                        <td>
+                            {{ requests.datetime }}
+                        </td>
+                        <td>
+                            <div class="btn-group-vertical">
+                                <button class="btn btn-outline-danger del-btn">Видалити</button>
+                                <input type="hidden" value="{{ requests.id }}">
+                                <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Оновити</a>
+                            </div>
+                        </td>
+                        <td>
+                            <p>{{ requests.code }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="out_button_area">
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <div class="checkout_btn_inner d-flex align-items-center ">
+                                <a class="gray_btn" href="{% url 'storage' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;склад</a>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_check/1,2,3">&Longrightarrow;&nbsp;&nbsp;&nbsp;Запит до відділу</a>
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-	    <script src="{% static 'static_f_2/js/del_order.js' %}"></script>
-        <script src="{% static 'static_f_2/js/request.js' %}"></script>
-    {% endif %}
+    </div>
+</div>
+<script src="{% static 'static_f_2/js/del_order.js' %}"></script>
+<script src="{% static 'static_f_2/js/request.js' %}"></script>
+{% endif %}
 
 {% endblock content %}
 <!-- IT WH: DashBoard -->

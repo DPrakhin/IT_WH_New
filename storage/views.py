@@ -10,17 +10,10 @@ from .models import RequestDevice
 from .forms import ItemForm
 import re
 from django.core.mail import send_mail
-
+from django.contrib.auth.decorators import login_required
+@login_required
 def storage(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -33,7 +26,7 @@ def storage(request):
 
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
             def get_devices_data(self):
@@ -66,16 +59,7 @@ def storage(request):
 
         if request.method == 'GET':
             devices_data = []
-            button5 = request.GET.get('button5')
-            button10 = request.GET.get('button10')
-            button15 = request.GET.get('button15')
-            choose_list = [button5, button10, button15]
             pages = 3
-            for choose in choose_list:
-                if choose == None:
-                    pass
-                else:
-                    pages = choose
 
             squery = request.GET.get('query')
             if squery == None or squery == '':
@@ -147,17 +131,9 @@ def storage(request):
             'user_data': user_data,
             'devices_data': devices_data,
         })
-
+@login_required
 def offline(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -170,7 +146,7 @@ def offline(request):
 
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
             def get_devices_data(self):
@@ -271,57 +247,9 @@ def offline(request):
             'user_data': user_data,
             'devices_data': devices_data,
         })
-
-def graph(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_devices_employees(self):
-                all_employees_data = Employees.objects.all()
-                return all_employees_data
-
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-
-        return render(request, 'storage/graph.html', {
-            'page_title': 'Склад',
-            'app_name': 'Головна',
-            'page_name': 'Графа',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-
-
+@login_required
 def cart_view(request):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -330,7 +258,7 @@ def cart_view(request):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
             def get_item_requests(self):
@@ -351,17 +279,9 @@ def cart_view(request):
             'user_data': user_data,
             'item_requests': getdata().get_item_requests()
         })
-
+@login_required
 def request_check(request, sel_list: str):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -370,7 +290,7 @@ def request_check(request, sel_list: str):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         sel_list_str = re.findall(r"[\w']+", sel_list)
@@ -384,7 +304,7 @@ def request_check(request, sel_list: str):
                 'product_id': request_move.id,
                 'product_code': request_move.code,
                 'product_employee': request_move.employee,
-                'product_user': Employees.objects.get(user_id=request_move.user),
+                'product_user': request_move.user,
                 'product_item': request_move.item,
                 'product_status': request_move.status,
                 'product_notes': request_move.notes
@@ -405,17 +325,9 @@ def request_check(request, sel_list: str):
             'final_list': final_list,
             'str_list': sel_list
         })
-
+@login_required
 def request_confirm(request, str_list: str):
-    if not request.user.is_authenticated:
-        # Якщо користувач не авторизований - перехід на сторінку авторизації
-        return redirect("/")
-
-    elif request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    if not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -424,7 +336,7 @@ def request_confirm(request, str_list: str):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}
@@ -452,13 +364,15 @@ def request_confirm(request, str_list: str):
             # sel_str = [str(x) for x in sel_list_str if x.isalpha()]
             final_list = []
 
+
+
             for request_id in sel_num:
                 request_move = RequestDevice.objects.get(id=request_id)
                 final_list.append({
                     'product_id': request_move.id,
                     'product_code': request_move.code,
                     'product_employee': request_move.employee,
-                    'product_user': Employees.objects.get(user=request_move.user),
+                    'product_user': request_move.user,
                     'product_item': request_move.item,
                     'product_status': request_move.status,
                     'product_notes': request_move.notes
@@ -533,7 +447,7 @@ def item_update(request, requests_id):
 
         return redirect("/")
 
-    elif request.user.is_employee and not request.user.groups.filter(name='Admins').exists():
+    elif not request.user.groups.filter(name='Admins').exists():
 
         return redirect("/")
 
@@ -541,7 +455,7 @@ def item_update(request, requests_id):
         class getdata(object):
             def get_employee_data(self):
                 if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user=request.user.id)
+                    employee_data = Employees.objects.get(user_id=request.user.id)
                     return employee_data
 
         user_data = {}

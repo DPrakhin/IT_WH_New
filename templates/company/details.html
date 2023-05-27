@@ -3,68 +3,182 @@
 
 <!-- IT WH: КОМПАНІЯ - ПРО КОМПАНІЮ -->
 {% block content %}
-    <div class="container">
-        <h3 style="color: darkblue;">Інформація про компанію:</h3>
-        {% if company_info %}
-            <div class="container">
-                <div class="progress-table-wrap">
-                    <div class="table-head">
-                        <img src="/media/{{ company_info.company_logo }}">
+<div id="main">
+    <div class="main-content container-fluid">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <h3 style="black">Інформація про компанію:</h3>
+        </div>
+        <section class="section">
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card" >
+                        <div class="card-header" >
+                            <h4>Перегляд новин</h4>
+                        </div>
+                        <div class="card-body" >
+                            <div class="row" >
+                                <div class="col-md-12" >
+                                    <p>Коротко про різні технологічні новини</p>
+                                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" >
+                                        <ol class="carousel-indicators">
+                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                                            <li data-bs-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner" >
+                                            <div class="carousel-item active" >
+                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto1.jpg' %}" class="d-block w-100 main-img-n" alt="...">
+                                                <div class="carousel-caption d-none d-md-block" >
+                                                    <h5>NVIDIA представила відеокарту RTX 4070</h5>
+                                                    <p>Відеокарта буде доступною з 13 квітня за ціною від $599.</p>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item" >
+                                                <img src="{% static 'static_f_2/images/cpsamples/newsphoto3.png' %}" class="d-block w-100 main-img-n" alt="...">
+                                                <div class="carousel-caption d-none d-md-block" >
+                                                    <h5>Apple WWDC 2023 пройде 5-9 червня</h5>
+                                                    <p>очікуються нові версії ОС для всіх пристроїв, є шанс побачити гарнітуру AR, новий Mac Pro та 15” MacBook Air</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Назва компанії: {{ company_info.company_title }}
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h4 class="card-title">Короткий опис сайту:</h4>
+                                <p class="card-text">
+                                    Зроблений в 2023 році. Фінальний проект на django.
+                                </p>
+                                <p class="card-text">
+                                    Коротко про виконавців: Тимофій, Денис, Даніїл, Артем.
+                                </p>
+                                <small class="text-muted">Оновлений</small>
+                            </div>
+                            <img class="card-img-bottom img-fluid" src="{% static 'static_f_2/images/samples/programmers-coding-computer-app-7CFXNL5.jpg' %}" alt="Card image cap">
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Код ЄДРПОУ: {{ company_info.company_code }}
+                </div>
+                <div class="col-md-5">
+                    {% if company_info %}
+                    <div class="card" >
+                        <div class="card-content" >
+                            <img style="min-height: 600px;" class="card-img img-fluid" src="{% static 'static_f_2/images/samples/learning-new-codes-8VKXG4E.jpg' %}" alt="Card image">
+                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" >
+                                <div style="margin-bottom: 10px;" class="overlay-status text-right" >
+                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
+                                    <span class="btn-group">
+                                        {% if user_admin == 1%}
+                                        <a href="/company/update/{{ company_info.id }}" class="btn btn-outline-white btn-sm">Оновити відомості</a>
+                                        <a href="/company/delete/{{ company_info.id }}" class="btn btn-outline-white btn-sm">Видалити компанію</a>
+                                        <a href="/company/create" class="btn btn-outline-white btn-sm">Додати Компанію</a>
+                                        {% else %}
+                                        <h3 style="color: darkred; text-align: center;">
+                                            Нажаль, в базі відстутні відомості про компанію!
+                                        </h3>
+                                        <h4 style="color: darkblue; text-align: center;">
+                                            Будь ласка, додайте інформацію про компанію в базу даних.
+                                        </h4>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between" style="gap: 3%">
+                                    <div style="flex-basis: 40%; width: 150px; height: 200px;">
+                                        <img style="border-radius: 10px; width: 100%; height: 100%; object-fit: cover;" src="/media/{{ company_info.company_logo }}">
+                                    </div>
+                                    <div style="flex-basis: 80%;" class="overlay-content" >
+                                        <ul class="list-group">
+                                            <li class="list-group-item active" style="background: orange; border: 1px solid orange;">Назва компанії: {{ company_info.company_title }}</li>
+                                            <li class="list-group-item">Код ЄДРПОУ: {{ company_info.company_code }}</li>
+                                            <li class="list-group-item">Електрона пошта: {{ company_info.email }}</li>
+                                            <li class="list-group-item">Телефон: {{ company_info.phone }}</li>
+                                            <li class="list-group-item">Назва міста: {{ company_info.city }}</li>
+                                            <li class="list-group-item">Адреса компанії: {{ company_info.address }}</li>
+                                            <li class="list-group-item">Директор компанії: {{ company_info.company_boss }}</li>
+                                            <li class="list-group-item">Матеріально-Відповідальна особа: {{ company_info.product_owner }}</li>
+                                            <li class="list-group-item">Коментарі: {{ company_info.comments }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Електрона пошта: {{ company_info.email }}
+                    {% endif %}
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Кількість обладнання:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ count }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas1" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Телефон: {{ company_info.phone }}
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Категорія:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ user_data.u_group }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas3" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Назва міста: {{ company_info.city }}
-                    </div>
-                    <div class="table-row">
-                        Адреса компанії: {{ company_info.address }}
-                    </div>
-                    <div class="table-row">
-                        Директор компанії: {{ company_info.company_boss }}
-                    </div>
-                    <div class="table-row">
-                        Матеріально-Відповідальна особа: {{ company_info.product_owner }}
-                    </div>
-                    <div class="table-row">
-                        Коментарі: {{ company_info.comments }}
+                    <div class="card">
+                        <div class="card card-statistic">
+                            <div class="card-body bg-warning p-0">
+                                <div class="d-flex flex-column">
+                                    <div class='px-3 py-3 d-flex justify-content-between'>
+                                        <h3 class='card-title'>Статус:</h3>
+                                        <div class="card-right d-flex align-items-center">
+                                            <p>{{ indicate }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="chart-wrapper">
+                                        <canvas id="canvas4" style="height:100px !important"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% if user_admin == 1%}
-            <div class="container">
-                <a href="/company/update/{{ company_info.id }}" class="btn btn-success my-btn">Оновити відомості</a>
-            </div>
-            <div class="container">
-                <a href="/company/delete/{{ company_info.id }}" class="btn btn-danger my-btn">Видалити компанію</a>
-            </div>
-            {% endif %}
-        {% else %}
-            <h3 style="color: darkred; text-align: center;">
-                Нажаль, в базі відстутні відомості про компанію!
-            </h3>
-            <h4 style="color: darkblue; text-align: center;">
-                Будь ласка, додайте інформацію про компанію в базу даних.
-            </h4>
-            {% if user_admin == 1%}
-            <div class="container">
-                <a href="/company/create" class="btn btn-success my-btn">Додати Компанію</a>
-            </div>
-            {% endif %}
-        {% endif %}
-        <div class="container">
-            <br />
-            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
-        </div>
+        </section>
     </div>
+</div>
 {% endblock content %}
 <!-- *** *** *** *** *** -->

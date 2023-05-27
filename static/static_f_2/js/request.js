@@ -17,9 +17,9 @@ const doCalculate = () => {
     $('#moveto').attr('href', `/storage/request_check/${selRequestIds}`)
 
     if (selRequestIds == /\s/g.test(selRequestIds)) {
-        $('#moveto').fadeOut(1000);
+        $('#moveto').fadeOut(0);
     } else {
-        $('#moveto').fadeIn(1000);
+        $('#moveto').fadeIn(0);
     }
 }
 

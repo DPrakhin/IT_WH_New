@@ -3,39 +3,37 @@
 
 <!-- IT WH: КОМПАНІЯ - ВИДАЛИТИ КОМПАНІЮ -->
 {% block content %}
-    <div class="container">
-        <h3 style="color: darkblue;">Ви збираєтесь видалити відомості про компанію:</h3>
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="container" style="max-width: 1400px;">
         {% if user_admin == 1 %}
-            <div class="container">
-                <div class="progress-table-wrap">
-                    <div class="table-head">
-                        <img src="/media/{{ company_info.company_logo }}">
-                    </div>
-                    <div class="table-row">
-                        Назва компанії: {{ company_info.company_title }}
-                    </div>
-                    <div class="table-row">
-                        Код ЄДРПОУ: {{ company_info.company_code }}
-                    </div>
-                    <div class="table-row">
-                        Електрона пошта: {{ company_info.email }}
-                    </div>
-                    <div class="table-row">
-                        Телефон: {{ company_info.phone }}
-                    </div>
-                    <div class="table-row">
-                        Директор компанії: {{ company_info.company_boss }}
-                    </div>
-                    <div class="table-row">
-                        Матеріально-Відповідальна особа: {{ company_info.product_owner }}
+        <div class="card-header">
+            <h4 class="card-title">Ви збираєтесь видалити відомості про компанію:</h4>
+        </div>
+        <div class="card-content" style="margin: 10px 0;">
+            <div class="card">
+                <div class="card-content" style="margin: 0 auto;">
+                    <img style="padding: 10px; margin: 0 auto;" src="/media/{{ company_info.company_logo }}" class="card-img-top img-fluid" alt="singleminded">
+                    <div class="card-body" >
+                        <h5 class="card-title">Назва компанії: {{ company_info.company_title }}</h5>
+                        <p class="card-text">
+                            Код ЄДРПОУ: {{ company_info.company_code }}
+                        </p>
                     </div>
                 </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Електрона пошта: {{ company_info.email }}</li>
+                    <li class="list-group-item">Телефон: {{ company_info.phone }}</li>
+                    <li class="list-group-item">Директор компанії: {{ company_info.company_boss }}</li>
+                    <li class="list-group-item">Матеріально-Відповідальна особа: {{ company_info.product_owner }}</li>
+                </ul>
+                <div style="padding: 10px;">
+                    <form action="/company/delete/{{ company_info.id }}" method="POST" class="col-sm-12 d-flex justify-content-end">
+                        {% csrf_token %}
+                        <input type="submit" value="Видалити компанію" class="btn btn-outline-danger my-btn">
+                    </form>
+                </div>
             </div>
-        <form action="/company/delete/{{ company_info.id }}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="Видалити компанію" class="btn btn-danger my-btn">
-        </form>
-        {% else %}
+            {% else %}
             <div class="container">
                 <h3 style="color: darkred; text-align: center;">
                     Нажаль, лише користувач с правами Адміністратора може видалити ці відомості!
@@ -44,11 +42,12 @@
                     Будь ласка, зробить вхід в систему з відповідними правами.
                 </h4>
             </div>
-        {% endif %}
+            {% endif %}
             <div class="container">
-                <br />
-                <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+                <a href="/company/details" class="btn btn-primary my-btn">Повернутись</a>
             </div>
+        </div>
     </div>
+</div>
 {% endblock content %}
 <!-- *** *** *** *** *** -->

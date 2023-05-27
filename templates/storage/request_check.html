@@ -5,123 +5,43 @@
 {% block content %}
 
 {% if user_data.u_group == 'Admins'%}
-<div class="container" style="max-width: 1300px;">
-    <div class="page-title">
-        <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
-            <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
-            <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </nav>
-    </div>
-    <div class="cart_inner">
-        <h3 class="title_confirmation">Підтвердження запиту на закупку</h3>
-        <div style="padding-top: 20px;" class="row order_d_inner">
-            {% for requests in final_list %}
-            <div class="col-lg-4" style="margin-bottom: 40px;">
-                <div class="details_item card" style="padding: 10px;">
-                    <h4>Про запит #{{ requests.product_id }} завантаженого {{ requests.product_user }}</h4>
-                    <ul class="list">
-                        <li><a href="#"><span>Request code</span> : {{ requests.product_code }}</a></li>
-                        <li><a href="#"><span>Employee</span> : {{ requests.product_employee }}<img style="margin-left: 5px; width: 40px; height: 40px; object-fit: cover; border-radius: 20px;" src="/media/{{ requests.product_employee.photo }}" alt=""></a></li>
-                        <li><a href="#"><span>Item</span> : {{ requests.product_item }}</a></li>
-                        <li><a href="#"><span>Netes</span> : {{ requests.product_notes }}</a></li>
-                        <li><a href="#"><span>Status</span> : {{ requests.product_status }}</a></li>
-                    </ul>
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="container" style="max-width: 1300px;">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+        <div class="cart_inner">
+            <h3 class="title_confirmation">Підтвердження запиту на закупку</h3>
+            <div style="padding-top: 20px;" class="row order_d_inner">
+                {% for requests in final_list %}
+                <div class="col-lg-4" style="margin-bottom: 40px;">
+                    <div class="details_item card" style="padding: 10px;">
+                        <h4>Про запит #{{ requests.product_id }} завантаженого {{ requests.product_user }}</h4>
+                        <ul class="list">
+                            <li><a href="#"><span>Request code</span> : {{ requests.product_code }}</a></li>
+                            <li><a href="#"><span>Employee</span> : {{ requests.product_employee }}<img style="margin-left: 5px; width: 40px; height: 40px; object-fit: cover; border-radius: 20px;" src="/media/{{ requests.product_employee.photo }}" alt=""></a></li>
+                            <li><a href="#"><span>Item</span> : {{ requests.product_item }}</a></li>
+                            <li><a href="#"><span>Netes</span> : {{ requests.product_notes }}</a></li>
+                            <li><a href="#"><span>Status</span> : {{ requests.product_status }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="checkout_btn_inner d-flex align-items-center" style="margin-bottom: 40px;">
+                    <a class="gray_btn" href="{% url 'cart_view' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;список</a>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_confirm/{{ str_list }}">&Longrightarrow;&nbsp;&nbsp;&nbsp;Підтвердити</a>
                 </div>
             </div>
-            {% endfor %}
-            <div class="checkout_btn_inner d-flex align-items-center" style="margin-bottom: 40px;">
-                <a class="gray_btn" href="{% url 'cart_view' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;список</a>
-                &nbsp;
-                &nbsp;
-                &nbsp;
-                <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_confirm/{{ str_list }}">&Longrightarrow;&nbsp;&nbsp;&nbsp;Підтвердити</a>
-            </div>
         </div>
-        <!--<div class="order_details_table">
-        <h2>Перелік</h2>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                        </td>
-                        <td>
-                            <h5>x 02</h5>
-                        </td>
-                        <td>
-                            <p>$720.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Subtotal</h4>
-                        </td>
-                        <td>
-                            <h5></h5>
-                        </td>
-                        <td>
-                            <p>$2160.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Shipping</h4>
-                        </td>
-                        <td>
-                            <h5></h5>
-                        </td>
-                        <td>
-                            <p>Flat rate: $50.00</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>Total</h4>
-                        </td>
-                        <td>
-                            <h5></h5>
-                        </td>
-                        <td>
-                            <p>$2210.00</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>-->
     </div>
 </div>
 {% endif %}
