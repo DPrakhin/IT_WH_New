@@ -24,31 +24,6 @@
 
             <div class="row mb-4">
                 <div class="col-md-3">
-                    <!--<div class="card">
-                        <div class="sidebar-categories">
-                        <div style="background: orange" class="head"><a style="color: white; font-weight: 700" href="#" class="cart">Категорії</a></div>
-                        <ul class="main-categories">
-                            <li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
-                                    class="lnr lnr-arrow-right"></span>Все</a>
-                                <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
-                                    <li class="main-nav-list child"><a href="{% url 'storage' %}">Все</a></li>
-                                </ul>
-                            </li>
-                            <li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
-                                    class="lnr lnr-arrow-right"></span>Вільне</a>
-                                <ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
-                                    <li class="main-nav-list child"><a href="{% url 'offline' %}">Вільне</a></li>
-                                </ul>
-                            </li>
-                            <li class="main-nav-list"><a class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
-                                                         aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>####</a>
-                                <ul class="collapse" id="babyCare" data-toggle="collapse" aria-expanded="false" aria-controls="babyCare">
-                                    <li class="main-nav-list child"><a href="">####</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    </div>--> <!-- це сам sidebar -->
                     <div class="card" >
                         <div class="card-header" >
                             <h4>Перегляд новин</h4>
@@ -121,7 +96,7 @@
                                 </div>
                                 <div style="display: inline-block; margin-left: 10px;">
                                     <div><label class="">Опції</label></div>
-                                    <a class="btn btn-dark " href="{% url 'user_create' %}">Додати співтобітника</a>
+                                    <a class="btn btn-dark " href="/employees/emp_create">Додати співтобітника</a>
                                     <a class="btn btn-dark " href="{% url 'device_create' %}">Додати обладнання</a>
                                 </div>
                             </div>
@@ -194,36 +169,32 @@
                 </section>
                 </div>
                 <div class="col-md-3">
-                    <div class="card">
-                        <div class="card card-statistic">
-                            <div class="card-body bg-warning p-0">
-                                <div class="d-flex flex-column">
-                                    <div class='px-3 py-3 d-flex justify-content-between'>
-                                        <h3 class='card-title'>Кількість обладнання:</h3>
-                                        <div class="card-right d-flex align-items-center">
-                                            <p>{{ count }}</p>
-                                        </div>
+                    <div class="card card-statistic">
+                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
+                            <div class="d-flex flex-column">
+                                <div class='px-3 py-3 d-flex justify-content-between'>
+                                    <h3 class='card-title'>Кількість обладнання:</h3>
+                                    <div class="card-right d-flex align-items-center">
+                                        <p>{{ count }}</p>
                                     </div>
-                                    <div class="chart-wrapper">
-                                        <canvas id="canvas1" style="height:100px !important"></canvas>
-                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="canvas1" style="height:100px !important"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card card-statistic">
-                            <div class="card-body bg-warning p-0">
-                                <div class="d-flex flex-column">
-                                    <div class='px-3 py-3 d-flex justify-content-between'>
-                                        <h3 class='card-title'>Категорія:</h3>
-                                        <div class="card-right d-flex align-items-center">
-                                            <p>{{ user_data.u_group }}</p>
-                                        </div>
+                    <div class="card card-statistic">
+                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
+                            <div class="d-flex flex-column">
+                                <div class='px-3 py-3 d-flex justify-content-between'>
+                                    <h3 class='card-title'>Категорія:</h3>
+                                    <div class="card-right d-flex align-items-center">
+                                        <p>{{ user_data.u_group }}</p>
                                     </div>
-                                    <div class="chart-wrapper">
-                                        <canvas id="canvas3" style="height:100px !important"></canvas>
-                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="canvas3" style="height:100px !important"></canvas>
                                 </div>
                             </div>
                         </div>

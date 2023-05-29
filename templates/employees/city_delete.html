@@ -3,27 +3,29 @@
 
 <!-- IT WH: СПІВРОБІТНИКИ - ВИДАЛИТИ ЛОКАЦІЮ -->
 {% block content %}
-    <div class="container">
-        <h3 style="color: darkblue;">Ви збираєтесь видалити відомості про наступну локацію:</h3>
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="container" style="max-width: 1400px;">
         {% if user_admin == 1 %}
-            <div class="container">
-                <div class="progress-table-wrap">
-                    <div class="table-row">
-                        Назва міста: {{ city_info.city }}
-                    </div>
-                    <div class="table-row">
-                        Кількість пов'язаних співробітників: {{ emp_count }}
-                    </div>
-                    <div class="table-row">
-                        Кількість пов'язаних компаній: {{ company_count  }}
+        <div class="card-header">
+            <h4 class="card-title">Ви збираєтесь видалити відомості про наступну локацію:</h4>
+        </div>
+        <div class="card-content" style="margin: 10px 0;">
+            <div class="card">
+                <div class="card-content" style="margin: 0 auto;">
+                    <div class="card-body" >
+                        <h5 class="card-title">Назва міста: {{ city_info.city }}</h5>
+                        <h4 class="card-title">Кількість пов'язаних співробітників: {{ emp_count }}</h4>
+                        <h3 class="card-title">Кількість пов'язаних компаній: {{ company_count  }}</h3>
                     </div>
                 </div>
+                <div style="padding: 10px;">
+                    <form action="/employees/city_delete/{{ city_info.id }}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Видалити місто" class="btn btn-danger my-btn">
+                    </form>
+                </div>
             </div>
-        <form action="/employees/city_delete/{{ city_info.id }}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="Видалити місто" class="btn btn-danger my-btn">
-        </form>
-        {% else %}
+            {% else %}
             <div class="container">
                 <h3 style="color: darkred; text-align: center;">
                     Нажаль, лише користувач с правами Адміністратора може видалити ці відомості!
@@ -32,11 +34,12 @@
                     Будь ласка, зробить вхід в систему з відповідними правами.
                 </h4>
             </div>
-        {% endif %}
+            {% endif %}
             <div class="container">
-                <br />
-                <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+                <a href="/employees/cities" class="btn btn-primary my-btn">Повернутись</a>
             </div>
+        </div>
     </div>
+</div>
 {% endblock content %}
 <!-- *** *** *** *** *** -->

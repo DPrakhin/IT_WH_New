@@ -142,39 +142,6 @@ def admin_page(request):
             'count': count,
         })
 
-
-# ID відноситься до Employees Table
-@login_required
-def user_create(request):
-    if not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user_id=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-        # -----------------
-
-
-        return render(request, 'admin_page/create_user.html', {
-            'page_title': 'Акаунти',
-            'app_name': 'Головна',
-            'page_name': 'Створення',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-
-
 # ID відноситься до Devices Table
 @login_required
 def device_create(request):
