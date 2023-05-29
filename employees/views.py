@@ -31,6 +31,7 @@ def emp_about(request):
         employee_info = None
 
     context['employee_info'] = employee_info
+    context['employee_data'] = employee_info
     context['user_admin'] = user_admin
     return render(request, 'employees/about.html', context=context)
 
@@ -138,7 +139,7 @@ def dep_list(request):
         for dep_data in all_departments:
             # Шукаємо співробітників із данного відділу:
             try:
-                Employees.objects.get(department=dep_data.id)
+                Employees.objects.filter(department=dep_data.id)
             except:
                 emp_count = 0
             else:
@@ -174,7 +175,7 @@ def ustatus_list(request):
         for u_status in all_user_status:
             # Шукаємо співробітників із данного відділу:
             try:
-                Employees.objects.get(status=u_status.id)
+                Employees.objects.filter(status=u_status.id)
             except:
                 emp_count = 0
             else:
@@ -210,7 +211,7 @@ def cities_list(request):
         for our_city in all_cities:
             # Шукаємо співробітників із даного міста:
             try:
-                Employees.objects.get(location=our_city.id)
+                Employees.objects.filter(location=our_city.id)
             except:
                 emp_count = 0
 
@@ -326,7 +327,42 @@ def city_create(request):
 
 @login_required
 def dep_delete(request, dep_id):
-    pass
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Видалити Відділ',
+        'app_name': 'Співробітники',
+        'page_name': 'Видалити назву відділу'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+
+    context['user_admin'] = user_admin
+
+    # Збираємо необхідні відомості
+    # про кількість співробітників пов'язаних в відділом:
+    try:
+        Employees.objects.filter(department=dep_id)
+    except:
+        emp_count = 0
+    else:
+        emp_count = len(Employees.objects.filter(department=dep_id))
+
+
+    # Інформацію про сам департмент:
+    dep_info = Departments.objects.get(id=dep_id)
+
+    # Перевіряємо GET/POST:
+    if request.method == 'POST':
+        dep_info.delete()
+
+        return redirect('/employees/departments')
+
+    context['emp_count'] = emp_count
+    context['dep_info'] = dep_info
+    return render(request, 'employees/deps_delete.html', context=context)
 
 
 @login_required
@@ -379,4 +415,39 @@ def city_delete(request, city_id):
 
 @login_required
 def ustatus_delete(request, ustatus_id):
-    pass
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Видалити Локацію',
+        'app_name': 'Співробітники',
+        'page_name': 'Видалити форму роботи'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+
+    context['user_admin'] = user_admin
+
+    # Збираємо необхідні відомості
+    # про кількість співробітників пов'язаних з даною формою роботи:
+    try:
+        Employees.objects.filter(status=ustatus_id)
+    except:
+        emp_count = 0
+    else:
+        emp_count = len(Employees.objects.filter(status=ustatus_id))
+
+
+    # Інформацію про сам департмент:
+    ustatus_info = UserStatus.objects.get(id=ustatus_id)
+
+    # Перевіряємо GET/POST:
+    if request.method == 'POST':
+        ustatus_info.delete()
+
+        return redirect('/employees/ustatus')
+
+    context['emp_count'] = emp_count
+    context['ustatus_info'] = ustatus_info
+    return render(request, 'employees/ustatus_delete.html', context=context)

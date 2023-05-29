@@ -174,6 +174,7 @@ def user_create(request):
             'user_data': user_data,
         })
 
+
 # ID відноситься до Devices Table
 @login_required
 def device_create(request):
@@ -204,6 +205,8 @@ def device_create(request):
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
         })
+
+
 @login_required
 def device_update(request, deviceinner_device_id):
     if not request.user.groups.filter(name='Admins').exists():
@@ -252,6 +255,8 @@ def device_update(request, deviceinner_device_id):
                 target_device.comments = form2.cleaned_data.get('comments')
                 target_device.save()
             return redirect('/admin_page/accounts')
+
+
 @login_required
 def device_details(request, deviceinner_device_id):
     if not request.user.groups.filter(name='Admins').exists():
@@ -281,6 +286,8 @@ def device_details(request, deviceinner_device_id):
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
         })
+
+
 @login_required
 def device_delete(request, deviceinner_device_id):
     if not request.user.groups.filter(name='Admins').exists():

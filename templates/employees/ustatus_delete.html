@@ -1,0 +1,39 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+<!-- IT WH: СПІВРОБІТНИКИ - ВИДАЛИТИ ФОРМУ РОБОТИ -->
+{% block content %}
+    <div class="container">
+        <h3 style="color: darkblue;">Ви збираєтесь видалити відомості про наступну форму роботи:</h3>
+        {% if user_admin == 1 %}
+            <div class="container">
+                <div class="progress-table-wrap">
+                    <div class="table-row">
+                        Форма роботи: {{ ustatus_info.ustatus }}
+                    </div>
+                    <div class="table-row">
+                        Кількість пов'язаних співробітників: {{ emp_count }}
+                    </div>
+                </div>
+            </div>
+        <form action="/employees/ustatus_delete/{{ ustatus_info.id }}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Видалити форму роботи" class="btn btn-danger my-btn">
+        </form>
+        {% else %}
+            <div class="container">
+                <h3 style="color: darkred; text-align: center;">
+                    Нажаль, лише користувач с правами Адміністратора може видалити ці відомості!
+                </h3>
+                <h4 style="color: darkblue; text-align: center;">
+                    Будь ласка, зробить вхід в систему з відповідними правами.
+                </h4>
+            </div>
+        {% endif %}
+            <div class="container">
+                <br />
+                <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
+            </div>
+    </div>
+{% endblock content %}
+<!-- *** *** *** *** *** -->
