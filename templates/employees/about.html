@@ -3,71 +3,243 @@
 
 <!-- IT WH: СПІРОБІТНИК - ПРО СПІВРОБІТНИКА -->
 {% block content %}
-    <div class="container">
-        <h3 style="color: darkblue;">Інформація про спіробітника:</h3>
-        {% if employee_info %}
-            <div class="container">
-                <div class="progress-table-wrap">
-                    <div class="table-head">
-                        <img src="/media/{{ employee_info.photo }}">
+<div id="main">
+    <div class="main-content container-fluid">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <h3 class="headli-1">Інформація про спіробітника:</h3>
+        </div>
+        <section class="section">
+
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card card-statistic">
+                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
+                            <div class="d-flex flex-column">
+                                <div class='px-3 py-3 d-flex justify-content-between'>
+                                    <h3 class='card-title'>Кількість обладнання:</h3>
+                                    <div class="card-right d-flex align-items-center">
+                                        <p>{{ count }}</p>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="canvas1" style="height:100px !important"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        Ім'я співробітника: {{ employee_info.first_name }}
+                    <div class="card collapse-icon accordion-icon-rotate">
+                    <div class="card-header">
+                        <h1 class="card-title pl-1">Accordion</h1>
                     </div>
-                    <div class="table-row">
-                        Прізвище співробітника: {{ employee_info.last_name }}
-                    </div>
-                    <div class="table-row">
-                        Електрона пошта: {{ employee_info.email }}
-                    </div>
-                    <div class="table-row">
-                        Внутрішній номер: {{ employee_info.eid }}
-                    </div>
-                    <div class="table-row">
-                        Відділ: {{ employee_info.department }}
-                    </div>
-                    <div class="table-row">
-                        Посада: {{ employee_info.title }}
-                    </div>
-                    <div class="table-row">
-                        Локація: {{ employee_info.location }}
-                    </div>
-                    <div class="table-row">
-                        Мобільний телефон: {{ employee_info.mobilephone }}
-                    </div>
-                    <div class="table-row">
-                        Форма роботи: {{ employee_info.status }}
-                    </div>
-                    <div class="table-row">
-                        Коментарі: {{ employee_info.comments }}
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div id="cardAccordion">
+                                <div class="card">
+                                    <div class="card-header collapsed" id="headingOne" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" role="button">
+                                        <span class="collapsed collapse-title">Accordion Item 1</span>
+                                    </div>
+                                    <div id="collapseOne" class="pt-1 collapse" aria-labelledby="headingOne" data-parent="#cardAccordion" style="">
+                                        <div class="card-body">
+                                            Cheesecake muffin cupcake dragée lemon drops tiramisu cake gummies chocolate
+                                            cake. Marshmallow tart
+                                            croissant. Tart dessert tiramisu marzipan lollipop lemon drops.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card collapse-header">
+                                    <div class="card-header" id="headingTwo" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" role="button">
+                                        <span class="collapsed collapse-title">Accordion Item 2</span>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse pt-1" aria-labelledby="headingTwo" data-parent="#cardAccordion">
+                                        <div class="card-body">
+                                            Pastry pudding cookie toffee bonbon jujubes jujubes powder topping. Jelly beans
+                                            gummi bears sweet
+                                            roll bonbon muffin liquorice. Wafer lollipop sesame snaps.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingThree" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" role="button">
+                                        <span class="collapsed collapse-title">Accordion Item 3</span>
+                                    </div>
+                                    <div id="collapseThree" class="collapse pt-1" aria-labelledby="headingThree" data-parent="#cardAccordion">
+                                        <div class="card-body">
+                                            Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping
+                                            fruitcake. Caramels
+                                            liquorice biscuit ice cream fruitcake cotton candy tart.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingFour" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" role="button">
+                                        <span class="collapsed  collapse-title">Accordion Item 4</span>
+                                    </div>
+                                    <div id="collapseFour" class="collapse pt-1" aria-labelledby="headingFour" data-parent="#cardAccordion">
+                                        <div class="card-body">
+                                            Sweet pie candy jelly. Sesame snaps biscuit sugar plum. Sweet roll topping
+                                            fruitcake. Caramels
+                                            liquorice biscuit ice cream fruitcake cotton candy tart.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                    <div class="card" >
+                        <div class="card-content" >
+                            <div class="card-body" >
+                                <h4 class="card-title">Feedback Form</h4>
+                                <p class="card-text">
+                                    Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet roll. Toffee sugar
+                                    plum sugar
+                                    plum jelly-o jujubes bonbon dessert carrot cake.
+                                </p>
+                                <form class="form" method="post" data-dashlane-rid="9c03d38ac7a1f7b5" data-form-type="contact">
+                                    <div class="form-body" >
+                                        <div class="form-group" >
+                                            <label for="feedback1" class="sr-only">Name</label>
+                                            <input type="text" id="feedback1" class="form-control" placeholder="Name" name="name" data-dashlane-rid="509cd4377c84f847" data-form-type="name" data-kwimpalastatus="alive" data-kwimpalaid="1685356668655-0">
+                                            <span id="1685356668655-0" data-dashlanecreated="true" style="color: initial; font: initial; font-palette: initial; font-synthesis: initial; forced-color-adjust: initial; text-orientation: initial; text-rendering: initial; -webkit-font-smoothing: initial; -webkit-locale: initial; -webkit-text-orientation: initial; -webkit-writing-mode: initial; writing-mode: initial; zoom: initial; accent-color: initial; place-content: initial; place-items: initial; place-self: initial; alignment-baseline: initial; animation-composition: initial; animation: initial; app-region: initial; appearance: initial; aspect-ratio: initial; backdrop-filter: initial; backface-visibility: initial; background: url(&quot;chrome-extension://gehmmocbbkpblljhkekmfhjpfbkclbph/content/injected/logo-autofill-unknown.svg&quot;) center center / contain no-repeat; background-blend-mode: initial; baseline-shift: initial; baseline-source: initial; block-size: initial; border-block: initial; border: none; border-radius: initial; border-collapse: initial; border-end-end-radius: initial; border-end-start-radius: initial; border-inline: initial; border-start-end-radius: initial; border-start-start-radius: initial; bottom: initial; box-shadow: initial; box-sizing: initial; break-after: initial; break-before: initial; break-inside: initial; buffered-rendering: initial; caption-side: initial; caret-color: initial; clear: initial; clip: initial; clip-path: initial; clip-rule: initial; color-interpolation: initial; color-interpolation-filters: initial; color-rendering: initial; color-scheme: initial; columns: initial; column-fill: initial; gap: initial; column-rule: initial; column-span: initial; contain: initial; contain-intrinsic-block-size: initial; contain-intrinsic-size: initial; contain-intrinsic-inline-size: initial; container: initial; content: initial; content-visibility: initial; counter-increment: initial; counter-reset: initial; counter-set: initial; cursor: pointer; cx: initial; cy: initial; d: initial; display: inline; dominant-baseline: initial; empty-cells: initial; fill: initial; fill-opacity: initial; fill-rule: initial; filter: initial; flex: initial; flex-flow: initial; float: initial; flood-color: initial; flood-opacity: initial; grid: initial; grid-area: initial; height: 16px; hyphenate-character: initial; hyphenate-limit-chars: initial; hyphens: initial; image-orientation: initial; image-rendering: initial; initial-letter: initial; inline-size: initial; inset-block: initial; inset-inline: initial; isolation: initial; left: 320.188px; letter-spacing: initial; lighting-color: initial; line-break: initial; list-style: initial; margin-block: initial; margin: initial; margin-inline: initial; marker: initial; mask: initial; mask-type: initial; math-depth: initial; math-shift: initial; math-style: initial; max-block-size: initial; max-height: initial; max-inline-size: initial; max-width: initial; min-block-size: initial; min-height: initial; min-inline-size: initial; min-width: 16px; mix-blend-mode: initial; object-fit: initial; object-position: initial; object-view-box: initial; offset: initial; opacity: 1; order: initial; orphans: initial; outline: initial; outline-offset: initial; overflow-anchor: initial; overflow-clip-margin: initial; overflow-wrap: initial; overflow: initial; overscroll-behavior-block: initial; overscroll-behavior-inline: initial; overscroll-behavior: initial; padding-block: initial; padding: initial; padding-inline: initial; page: initial; page-orientation: initial; paint-order: initial; perspective: initial; perspective-origin: initial; pointer-events: initial; position: absolute; quotes: initial; r: initial; resize: initial; right: initial; rotate: initial; ruby-position: initial; rx: initial; ry: initial; scale: initial; scroll-behavior: initial; scroll-margin-block: initial; scroll-margin: initial; scroll-margin-inline: initial; scroll-padding-block: initial; scroll-padding: initial; scroll-padding-inline: initial; scroll-snap-align: initial; scroll-snap-stop: initial; scroll-snap-type: initial; scrollbar-gutter: initial; shape-image-threshold: initial; shape-margin: initial; shape-outside: initial; shape-rendering: initial; size: initial; speak: initial; stop-color: initial; stop-opacity: initial; stroke: initial; stroke-dasharray: initial; stroke-dashoffset: initial; stroke-linecap: initial; stroke-linejoin: initial; stroke-miterlimit: initial; stroke-opacity: initial; stroke-width: initial; tab-size: initial; table-layout: initial; text-align: initial; text-align-last: initial; text-anchor: initial; text-combine-upright: initial; text-decoration: initial; text-decoration-skip-ink: initial; text-emphasis: initial; text-emphasis-position: initial; text-indent: initial; text-overflow: initial; text-shadow: initial; text-size-adjust: initial; text-transform: initial; text-underline-offset: initial; text-underline-position: initial; top: 187.969px; touch-action: initial; transform: initial; transform-box: initial; transform-origin: initial; transform-style: initial; transition: initial; translate: initial; user-select: initial; vector-effect: initial; vertical-align: initial; view-transition-name: initial; visibility: visible; border-spacing: initial; -webkit-box-align: initial; -webkit-box-decoration-break: initial; -webkit-box-direction: initial; -webkit-box-flex: initial; -webkit-box-ordinal-group: initial; -webkit-box-orient: initial; -webkit-box-pack: initial; -webkit-box-reflect: initial; -webkit-highlight: initial; -webkit-line-break: initial; -webkit-line-clamp: initial; -webkit-mask-box-image: initial; -webkit-mask: initial; -webkit-mask-composite: initial; -webkit-print-color-adjust: initial; -webkit-rtl-ordering: initial; -webkit-ruby-position: initial; -webkit-tap-highlight-color: initial; -webkit-text-combine: initial; -webkit-text-decorations-in-effect: initial; -webkit-text-fill-color: initial; -webkit-text-security: initial; -webkit-text-stroke: initial; -webkit-user-drag: initial; -webkit-user-modify: initial; white-space: initial; widows: initial; width: 16px; will-change: initial; word-break: initial; word-spacing: initial; x: initial; y: initial; z-index: auto;"></span></div>
+                                        <div class="form-group" >
+                                            <label for="feedback4" class="sr-only">Last Game</label>
+                                            <input type="text" id="feedback4" class="form-control" placeholder="Last Name" name="LastName" data-dashlane-rid="031f62ba5211782e" data-form-type="name,last" data-kwimpalastatus="alive" data-kwimpalaid="1685356668655-1">
+                                            <span id="1685356668655-1" data-dashlanecreated="true" style="color: initial; font: initial; font-palette: initial; font-synthesis: initial; forced-color-adjust: initial; text-orientation: initial; text-rendering: initial; -webkit-font-smoothing: initial; -webkit-locale: initial; -webkit-text-orientation: initial; -webkit-writing-mode: initial; writing-mode: initial; zoom: initial; accent-color: initial; place-content: initial; place-items: initial; place-self: initial; alignment-baseline: initial; animation-composition: initial; animation: initial; app-region: initial; appearance: initial; aspect-ratio: initial; backdrop-filter: initial; backface-visibility: initial; background: url(&quot;chrome-extension://gehmmocbbkpblljhkekmfhjpfbkclbph/content/injected/logo-autofill-unknown.svg&quot;) center center / contain no-repeat; background-blend-mode: initial; baseline-shift: initial; baseline-source: initial; block-size: initial; border-block: initial; border: none; border-radius: initial; border-collapse: initial; border-end-end-radius: initial; border-end-start-radius: initial; border-inline: initial; border-start-end-radius: initial; border-start-start-radius: initial; bottom: initial; box-shadow: initial; box-sizing: initial; break-after: initial; break-before: initial; break-inside: initial; buffered-rendering: initial; caption-side: initial; caret-color: initial; clear: initial; clip: initial; clip-path: initial; clip-rule: initial; color-interpolation: initial; color-interpolation-filters: initial; color-rendering: initial; color-scheme: initial; columns: initial; column-fill: initial; gap: initial; column-rule: initial; column-span: initial; contain: initial; contain-intrinsic-block-size: initial; contain-intrinsic-size: initial; contain-intrinsic-inline-size: initial; container: initial; content: initial; content-visibility: initial; counter-increment: initial; counter-reset: initial; counter-set: initial; cursor: pointer; cx: initial; cy: initial; d: initial; display: inline; dominant-baseline: initial; empty-cells: initial; fill: initial; fill-opacity: initial; fill-rule: initial; filter: initial; flex: initial; flex-flow: initial; float: initial; flood-color: initial; flood-opacity: initial; grid: initial; grid-area: initial; height: 16px; hyphenate-character: initial; hyphenate-limit-chars: initial; hyphens: initial; image-orientation: initial; image-rendering: initial; initial-letter: initial; inline-size: initial; inset-block: initial; inset-inline: initial; isolation: initial; left: 320.188px; letter-spacing: initial; lighting-color: initial; line-break: initial; list-style: initial; margin-block: initial; margin: initial; margin-inline: initial; marker: initial; mask: initial; mask-type: initial; math-depth: initial; math-shift: initial; math-style: initial; max-block-size: initial; max-height: initial; max-inline-size: initial; max-width: initial; min-block-size: initial; min-height: initial; min-inline-size: initial; min-width: 16px; mix-blend-mode: initial; object-fit: initial; object-position: initial; object-view-box: initial; offset: initial; opacity: 1; order: initial; orphans: initial; outline: initial; outline-offset: initial; overflow-anchor: initial; overflow-clip-margin: initial; overflow-wrap: initial; overflow: initial; overscroll-behavior-block: initial; overscroll-behavior-inline: initial; overscroll-behavior: initial; padding-block: initial; padding: initial; padding-inline: initial; page: initial; page-orientation: initial; paint-order: initial; perspective: initial; perspective-origin: initial; pointer-events: initial; position: absolute; quotes: initial; r: initial; resize: initial; right: initial; rotate: initial; ruby-position: initial; rx: initial; ry: initial; scale: initial; scroll-behavior: initial; scroll-margin-block: initial; scroll-margin: initial; scroll-margin-inline: initial; scroll-padding-block: initial; scroll-padding: initial; scroll-padding-inline: initial; scroll-snap-align: initial; scroll-snap-stop: initial; scroll-snap-type: initial; scrollbar-gutter: initial; shape-image-threshold: initial; shape-margin: initial; shape-outside: initial; shape-rendering: initial; size: initial; speak: initial; stop-color: initial; stop-opacity: initial; stroke: initial; stroke-dasharray: initial; stroke-dashoffset: initial; stroke-linecap: initial; stroke-linejoin: initial; stroke-miterlimit: initial; stroke-opacity: initial; stroke-width: initial; tab-size: initial; table-layout: initial; text-align: initial; text-align-last: initial; text-anchor: initial; text-combine-upright: initial; text-decoration: initial; text-decoration-skip-ink: initial; text-emphasis: initial; text-emphasis-position: initial; text-indent: initial; text-overflow: initial; text-shadow: initial; text-size-adjust: initial; text-transform: initial; text-underline-offset: initial; text-underline-position: initial; top: 258.203px; touch-action: initial; transform: initial; transform-box: initial; transform-origin: initial; transform-style: initial; transition: initial; translate: initial; user-select: initial; vector-effect: initial; vertical-align: initial; view-transition-name: initial; visibility: visible; border-spacing: initial; -webkit-box-align: initial; -webkit-box-decoration-break: initial; -webkit-box-direction: initial; -webkit-box-flex: initial; -webkit-box-ordinal-group: initial; -webkit-box-orient: initial; -webkit-box-pack: initial; -webkit-box-reflect: initial; -webkit-highlight: initial; -webkit-line-break: initial; -webkit-line-clamp: initial; -webkit-mask-box-image: initial; -webkit-mask: initial; -webkit-mask-composite: initial; -webkit-print-color-adjust: initial; -webkit-rtl-ordering: initial; -webkit-ruby-position: initial; -webkit-tap-highlight-color: initial; -webkit-text-combine: initial; -webkit-text-decorations-in-effect: initial; -webkit-text-fill-color: initial; -webkit-text-security: initial; -webkit-text-stroke: initial; -webkit-user-drag: initial; -webkit-user-modify: initial; white-space: initial; widows: initial; width: 16px; will-change: initial; word-break: initial; word-spacing: initial; x: initial; y: initial; z-index: auto;"></span></div>
+                                        <div class="form-group" >
+                                            <label for="feedback2" class="sr-only">Email</label>
+                                            <input type="email" id="feedback2" class="form-control" placeholder="Email" name="email" data-dashlane-rid="43ccf1b6a682d153" data-form-type="email" data-kwimpalastatus="alive" data-kwimpalaid="1685356668655-2">
+                                            <span id="1685356668655-2" data-dashlanecreated="true" style="color: initial; font: initial; font-palette: initial; font-synthesis: initial; forced-color-adjust: initial; text-orientation: initial; text-rendering: initial; -webkit-font-smoothing: initial; -webkit-locale: initial; -webkit-text-orientation: initial; -webkit-writing-mode: initial; writing-mode: initial; zoom: initial; accent-color: initial; place-content: initial; place-items: initial; place-self: initial; alignment-baseline: initial; animation-composition: initial; animation: initial; app-region: initial; appearance: initial; aspect-ratio: initial; backdrop-filter: initial; backface-visibility: initial; background: url(&quot;chrome-extension://gehmmocbbkpblljhkekmfhjpfbkclbph/content/injected/logo-autofill-known.svg&quot;) center center / contain no-repeat; background-blend-mode: initial; baseline-shift: initial; baseline-source: initial; block-size: initial; border-block: initial; border: none; border-radius: initial; border-collapse: initial; border-end-end-radius: initial; border-end-start-radius: initial; border-inline: initial; border-start-end-radius: initial; border-start-start-radius: initial; bottom: initial; box-shadow: initial; box-sizing: initial; break-after: initial; break-before: initial; break-inside: initial; buffered-rendering: initial; caption-side: initial; caret-color: initial; clear: initial; clip: initial; clip-path: initial; clip-rule: initial; color-interpolation: initial; color-interpolation-filters: initial; color-rendering: initial; color-scheme: initial; columns: initial; column-fill: initial; gap: initial; column-rule: initial; column-span: initial; contain: initial; contain-intrinsic-block-size: initial; contain-intrinsic-size: initial; contain-intrinsic-inline-size: initial; container: initial; content: initial; content-visibility: initial; counter-increment: initial; counter-reset: initial; counter-set: initial; cursor: pointer; cx: initial; cy: initial; d: initial; display: inline; dominant-baseline: initial; empty-cells: initial; fill: initial; fill-opacity: initial; fill-rule: initial; filter: initial; flex: initial; flex-flow: initial; float: initial; flood-color: initial; flood-opacity: initial; grid: initial; grid-area: initial; height: 16px; hyphenate-character: initial; hyphenate-limit-chars: initial; hyphens: initial; image-orientation: initial; image-rendering: initial; initial-letter: initial; inline-size: initial; inset-block: initial; inset-inline: initial; isolation: initial; left: 320.188px; letter-spacing: initial; lighting-color: initial; line-break: initial; list-style: initial; margin-block: initial; margin: initial; margin-inline: initial; marker: initial; mask: initial; mask-type: initial; math-depth: initial; math-shift: initial; math-style: initial; max-block-size: initial; max-height: initial; max-inline-size: initial; max-width: initial; min-block-size: initial; min-height: initial; min-inline-size: initial; min-width: 16px; mix-blend-mode: initial; object-fit: initial; object-position: initial; object-view-box: initial; offset: initial; opacity: 1; order: initial; orphans: initial; outline: initial; outline-offset: initial; overflow-anchor: initial; overflow-clip-margin: initial; overflow-wrap: initial; overflow: initial; overscroll-behavior-block: initial; overscroll-behavior-inline: initial; overscroll-behavior: initial; padding-block: initial; padding: initial; padding-inline: initial; page: initial; page-orientation: initial; paint-order: initial; perspective: initial; perspective-origin: initial; pointer-events: initial; position: absolute; quotes: initial; r: initial; resize: initial; right: initial; rotate: initial; ruby-position: initial; rx: initial; ry: initial; scale: initial; scroll-behavior: initial; scroll-margin-block: initial; scroll-margin: initial; scroll-margin-inline: initial; scroll-padding-block: initial; scroll-padding: initial; scroll-padding-inline: initial; scroll-snap-align: initial; scroll-snap-stop: initial; scroll-snap-type: initial; scrollbar-gutter: initial; shape-image-threshold: initial; shape-margin: initial; shape-outside: initial; shape-rendering: initial; size: initial; speak: initial; stop-color: initial; stop-opacity: initial; stroke: initial; stroke-dasharray: initial; stroke-dashoffset: initial; stroke-linecap: initial; stroke-linejoin: initial; stroke-miterlimit: initial; stroke-opacity: initial; stroke-width: initial; tab-size: initial; table-layout: initial; text-align: initial; text-align-last: initial; text-anchor: initial; text-combine-upright: initial; text-decoration: initial; text-decoration-skip-ink: initial; text-emphasis: initial; text-emphasis-position: initial; text-indent: initial; text-overflow: initial; text-shadow: initial; text-size-adjust: initial; text-transform: initial; text-underline-offset: initial; text-underline-position: initial; top: 328.438px; touch-action: initial; transform: initial; transform-box: initial; transform-origin: initial; transform-style: initial; transition: initial; translate: initial; user-select: initial; vector-effect: initial; vertical-align: initial; view-transition-name: initial; visibility: visible; border-spacing: initial; -webkit-box-align: initial; -webkit-box-decoration-break: initial; -webkit-box-direction: initial; -webkit-box-flex: initial; -webkit-box-ordinal-group: initial; -webkit-box-orient: initial; -webkit-box-pack: initial; -webkit-box-reflect: initial; -webkit-highlight: initial; -webkit-line-break: initial; -webkit-line-clamp: initial; -webkit-mask-box-image: initial; -webkit-mask: initial; -webkit-mask-composite: initial; -webkit-print-color-adjust: initial; -webkit-rtl-ordering: initial; -webkit-ruby-position: initial; -webkit-tap-highlight-color: initial; -webkit-text-combine: initial; -webkit-text-decorations-in-effect: initial; -webkit-text-fill-color: initial; -webkit-text-security: initial; -webkit-text-stroke: initial; -webkit-user-drag: initial; -webkit-user-modify: initial; white-space: initial; widows: initial; width: 16px; will-change: initial; word-break: initial; word-spacing: initial; x: initial; y: initial; z-index: auto;"></span></div>
+                                        <div class="form-group" >
+                                            <select name="reason" class="form-control" data-dashlane-rid="31914b2b18461b89" data-form-type="other">
+                                                <option value="Inquiry">Inquiry</option>
+                                                <option value="Complain">complaints</option>
+                                                <option value="Quotation">Quotation</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-label-group" >
+                                            <textarea class="form-control" id="label-textarea" rows="3" placeholder="Suggestion" data-dashlane-rid="8f33d4a697bb849b" data-form-type="other"></textarea>
+                                            <label for="label-textarea"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions d-flex justify-content-end" >
+                                        <button type="submit" class="btn btn-primary me-1" data-dashlane-label="true" data-dashlane-rid="84dfc6d64d3e9c78" data-form-type="action">Submit</button>
+                                        <button type="reset" class="btn btn-light-primary" data-dashlane-label="true" data-dashlane-rid="b10a497f4116df56" data-form-type="other">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    {% if employee_info %}
+                    <div class="card" >
+                        <div class="card-content" style="min-width: 410px;">
+                            <div class="backg"></div>
+                            <div class="row no-gutters">
+                                <div class="col-md-12 col-lg-3" style="min-width: 220px;">
+                                    <img class="card-img-top img-fluid" style="outline: 5px solid rgba(255,255,255,0.7); border-radius: 100px; width: 200px; height: 200px; object-fit: cover;" src="/media/{{ employee_info.photo }}" alt="Card image cap">
+                                </div>
+                                <div class="col-md-12 col-lg-8 relative-from" style="min-width: 400px;">
+                                    <div style="flex-direction: column" class="card-body d-flex" >
+                                        <h4 class="card-title">Ім'я співробітника: {{ employee_info.first_name }}</h4>
+                                        <h3 class="card-title">Прізвище співробітника: {{ employee_info.last_name }}</h3>
+                                        <p class="card-text info_add">
+                                            Електрона пошта: {{ employee_info.email }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Внутрішній номер: {{ employee_info.eid }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Відділ: {{ employee_info.department }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Посада: {{ employee_info.title }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Локація: {{ employee_info.location }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Мобільний телефон: {{ employee_info.mobilephone }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Форма роботи: {{ employee_info.status }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Коментарі: {{ employee_info.comments }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card-body d-flex" style="justify-content: space-between;">
+                                        <a class="btn btn-outline-white" style="max-width: 220px; margin-top: 5px;" href="/employees/update/{{ employee_info.id }}">Оновити відомості</a>
+                                        {% if user_admin == 1%}
+                                        <a class="btn btn-dark" style="max-width: 220px; margin-top: 5px; margin-left: 5px;" href="/employees/delete/{{ employee_info.id }}">Видалити співробітника</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        <h3 style="color: darkred; text-align: center;">
+                            Нажаль, в базі відстутні відомості про співробітника з електроною поштою {{ user.email }}!
+                        </h3>
+                        <h4 style="color: darkblue; text-align: center;">
+                            Будь ласка, додайте відповідну інформацію в базу даних.
+                        </h4>
+                        {% if user_admin == 1%}
+                            <div class="container">
+                            <a href="/employees/create" class="btn btn-success my-btn">Додати Співробітника</a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
-            <div class="container">
-                <a href="/employees/update/{{ employee_info.id }}" class="btn btn-success my-btn">Оновити відомості</a>
-            </div>
-            {% if user_admin == 1%}
-            <div class="container">
-                <a href="/employees/delete/{{ employee_info.id }}" class="btn btn-danger my-btn">Видалити співробітника</a>
-            </div>
-            {% endif %}
-        {% else %}
-            <h3 style="color: darkred; text-align: center;">
-                Нажаль, в базі відстутні відомості про співробітника з електроною поштою {{ user.email }}!
-            </h3>
-            <h4 style="color: darkblue; text-align: center;">
-                Будь ласка, додайте відповідну інформацію в базу даних.
-            </h4>
-            {% if user_admin == 1%}
-            <div class="container">
-                <a href="/employees/create" class="btn btn-success my-btn">Додати Співробітника</a>
-            </div>
-            {% endif %}
-        {% endif %}
-        <div class="container">
-            <br />
-            <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
-        </div>
+
+        </section>
     </div>
+</div>
+<style>
+.backg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url("{% static 'static_f_2/images/samples/modern-teaching-concept-P7BTJU7.jpg' %}");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(2px)
+}
+.relative-from{
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.9);
+    margin-top: 10px;
+}
+.info_add{
+    font-size: 16px;
+    font-weight: 500;
+    color: #222222
+}
+tr{
+    color: black;
+}
+.headli-1{
+    display: inline-block
+}
+.ph-img{
+    object-fit: cover;
+}
+.main-img-n{
+    filter: blur(2px)
+}
+</style>
 {% endblock content %}
 <!-- *** *** *** *** *** -->
+
