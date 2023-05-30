@@ -5,7 +5,88 @@
 {% block content %}
 
 {% if user_data.u_group == 'Admins'%}
-<h6>Hello User</h6>
+<div style="background: #faf9ff; padding-bottom: 200px;">
+    <div class="container" style="max-width: 1400px;">
+        <div class="card-content" style="min-width: 410px;">
+            <div class="card-header">
+                <h4 class="card-title">Інформація про обладнання</h4>
+            </div>
+            <div class="row no-gutters justify-content-between">
+                <div class="col-md-12 col-lg-12 relative-from" style="min-width: 400px;">
+                    <div style="flex-direction: column; gap: 10px; padding: 30px;" class="card-body d-flex" >
+                        <div class="card-group justify-content-between" >
+                            <div class="card-content" >
+                                <img class="card-img-top img-fluid" style="width: 200px; height: 200px; object-fit: contain;" src="/media/{{ devices.device_type.dev_type_logo }}" alt="Card image cap">
+                                <div class="card-body" >
+                                    <h4 class="card-title">Тип: {{ devices.device_type }}</h4>
+                                    <p class="card-text"></p>
+                                </div>
+                            </div>
+                            <div class="card-content" >
+                                <img class="card-img-top img-fluid" style="width: 200px; height: 200px; object-fit: cover; border-radius: 100px; border: 3px solid black;" src="/media/{{ devices.user_id.photo }}" alt="Card image cap">
+                                <div class="card-body" >
+                                    <h4 class="card-title">Власник: {{ devices.user_id }}</h4>
+                                    <p class="card-text info_add">
+                                        Телефон: {{ devices.user_id.mobilephone }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li style="background: orange; border: 2px solid orange;" class="list-group-item active info_add">Назва обладнання: {{ devices.device_title }}</li>
+                            <li class="list-group-item info_add">Модель обладнання: {{ devices.device_model }}</li>
+                            <li class="list-group-item info_add">Серійний номер: {{ devices.serial_number }}</li>
+                            <li class="list-group-item info_add">Статус пристрою: {{ devices.device_status }}</li>
+                            <li class="list-group-item info_add">Дата придбання: {{ devices.purchase_date }}</li>
+                            <li class="list-group-item info_add">Коментарі: {{ devices.comments }}</li>
+                        </ul>
+                        <ul class="list-group">
+                            <li style="background: orange; border: 2px solid orange;" class="list-group-item active info_add">Термін гарантії: {{ devices.device_warranty }}</li>
+                            <li class="list-group-item info_add">Коментарі: <a target="_blank" href="{{ devices.supplier.url }}">{{ devices.device_warranty.comments }}</a></li>
+                        </ul>
+                        <ul class="list-group">
+                            <li style="background: orange; border: 2px solid orange;" class="list-group-item active info_add"><span style="padding-right: 20px;"><img style="width: 70px; height: 70px; background-color: white; object-fit: contain; border-radius: 50px; border: 3px solid black;" src="/media/{{ devices.device_vendor.vendor_logo }}" alt=""></span>Виробник: {{ devices.device_vendor }}</li>
+                            <li class="list-group-item info_add">Сайт виробника (URL): <a target="_blank" href="{{ devices.device_vendor.url }}">{{ devices.device_vendor.url }}</a></li>
+                        </ul>
+                        <ul class="list-group">
+                            <li style="background: orange; border: 2px solid orange;" class="list-group-item active info_add">Постачальник: {{ devices.supplier }}</li>
+                            <li class="list-group-item info_add">Сайт постачальника (URL): <a target="_blank" href="{{ devices.supplier.url }}">{{ devices.supplier.url }}</a></li>
+                            <li class="list-group-item info_add">Електрона пошта (EMail): {{ devices.supplier.email }}</li>
+                            <li class="list-group-item info_add">Номер телефону: {{ devices.supplier.phone }}</li>
+                            <li class="list-group-item info_add">Коментарі: {{ devices.supplier.comments }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-body d-flex" style="justify-content: space-between;">
+                        <a class="btn btn-outline-dark" style="max-width: 220px; margin-top: 5px;" href="/admin_page/accounts">Повернутись</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.relative-from{
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.9);
+    margin-top: 40px;
+}
+.info_add{
+    font-size: 18px;
+    font-weight: 400;
+    color: #222222
+}
+tr{
+    color: black;
+}
+.headli-1{
+    display: inline-block
+}
+.info_add{
+    font-size: 16px;
+}
+</style>
 {% endif %}
 
 {% endblock content %}
