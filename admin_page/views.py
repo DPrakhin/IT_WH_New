@@ -58,7 +58,15 @@ def admin_page(request):
                 for amount in range(len(x.get('device'))+1):
                     outer = amount
                 output.append(outer)
-                count = sum(output)
+            count = sum(output)
+
+        if request.user.groups.filter(name='Admins').exists():
+            output = []
+            for x in range(len(getdata().get_devices_employees())):
+                outer = x
+                output.append(outer)
+            count_employee = sum(output)
+
 
         if request.user.groups.filter(name='Admins').exists():
             user_data = {}
@@ -140,6 +148,7 @@ def admin_page(request):
             'employee_data': getdata().get_employee_data(),
             'indicate': indicate,
             'count': count,
+            'count_employee': count_employee
         })
 
 # ID відноситься до Devices Table

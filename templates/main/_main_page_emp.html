@@ -4,7 +4,7 @@
 <!-- IT WH: DashBoard -->
 {% block content %}
 
-<div id="main">
+<div style="background: #faf9ff; padding-bottom: 50px;">
     <div class="main-content container-fluid">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
@@ -15,7 +15,53 @@
                 </button>
             </nav>
             <h3 class="headli-1">Головна</h3>
-            <p class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }}  {{ employee_data.last_name }}</p>
+            <p style="padding-left: 50px;" class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }}  {{ employee_data.last_name }}</p>
+            <div class="card-body light display-right" id="cookieNotice" style="display: none;">
+                <!-- Button trigger for basic modal -->
+                <span style="font-size: 20px; font-weight: 300; color: black; padding-right: 10px;"> Підтвердіть будь ласка cookie файли</span>
+                <button style="font-weight: 500;" type="button" id="button_click_cookie" class="btn btn-outline-dark block" data-bs-toggle="modal" data-bs-target="#default">Cookie файли</button>
+                <!--Basic Modal -->
+                <div class="modal fade text-left" id="default" tabindex="-1" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel1">файли cookies</h5>
+                                <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Політика Cookie
+                                    Ця політика щодо файлів cookie пояснює, що таке файли cookie та як ми їх використовуємо. У статті нижче пояснюється, який тип файлів cookie ми використовуємо, інформацію, яку ми збираємо за допомогою файлів cookie, і як цю інформацію використовують. Детальну інформацію про те, як ми використовуємо та зберігаємо ваші особисті дані безпечно, перегляньте нашу політику конфіденційності.
+
+                                    1. Що таке cookie ?
+
+                                    Файл cookie - це невеликий файл, який містить певний обсяг даних, який наш веб-сайт може надіслати у ваш браузер на комп’ютері чи мобільному пристрої. Вміст файлу cookie можна отримати або прочитати лише на веб-сайті, який створює файл cookie. Текст у файлі cookie часто складається з ідентифікаторів, назв сайтів та символів. Файли cookie унікальні для веб-переглядачів або мобільних додатків, які дозволяють веб-сайтам зберігати дані, такі як ваші налаштування. Важливо уточнити, що файли cookie не збирають будь-які особисті дані, що зберігаються на вашому жорсткому диску чи комп'ютері.
+
+                                    2. Як ми використовуємо файли cookie ?
+
+                                    Файли cookie, які ми використовуємо, не зберігають ідентифікуючу особисту інформацію та не можуть завдати шкоди вашому комп'ютеру. Ми хочемо, щоб наш веб-сайт був інформативним для вас. Ось чому ми використовуємо файли cookie.
+
+                                    Використовуючи наш веб-сайт, ви погоджуєтесь на використання файлів cookie та інших технологій, визначених у цій політиці. Ми цінуємо, що деяким користувачам може подобатися більш індивідуальний контроль над їхнім відвідуванням нашого веб-сайту, і можемо відповідно налаштувати їх налаштування. Про це можна прочитати у розділі нижче "Як керувати та видаляти файли cookie".
+
+                                    3. Як контролювати та видаляти файли cookie ?
+
+                                    команда "IT Warehouse" не використовуватиме файли cookie для збору особистої інформації про вас. Однак якщо ви вирішите відключити, відхилити чи заблокувати наші файли cookie, деякі частини наших веб-сайтів не працюватимуть повноцінно, або в деяких випадках наш веб-сайт взагалі не буде доступний.
+
+                                    Ви можете очистити всі файли cookie, які зберігаються на вашому комп’ютері, а більшість веб-браузерів надає можливість блокувати файли cookie. Однак, виконуючи це, вам доведеться змінювати налаштування користувача кожного разу, коли ви відвідуєте наш веб-сайт. Дізнайтеся, як керувати налаштуваннями файлів cookie для вашого браузера тут:
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="acceptCookieConsent();" type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Прийняти</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <section class="section">
 
@@ -216,6 +262,7 @@
 
         </section>
     </div>
+    <script src="{% static 'static_f_2/js/vendors.js' %}"></script>
 </div>
 <style>
                     tr{

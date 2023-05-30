@@ -16,6 +16,10 @@ def main_page(request):
         print('User', request.user.user_name, 'is User')
         return redirect("/main/main_page/users")
 
+    elif request.user.groups.filter(name='Users').exists() and request.user.is_employee:
+        print('User', request.user.user_name, 'is User')
+        return redirect("/main/main_page/users")
+
     else:
         return redirect("/main/main_page/employees")
 
@@ -133,97 +137,4 @@ def main_page_admins(request):
             'user_data': user_data,
             'all_employees_data': getdata().get_all_employees(),
             'indicate': indicate
-        })
-
-
-@login_required
-def device_update(request, device_id):
-    if not request.user.groups.filter(name='Admins').exists():
-        return redirect("/")
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists():
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-        # -----------------
-
-
-        return render(request, 'main/device_update.html', {
-            'page_title': 'Головна сторінка',
-            'app_name': 'Обладнання',
-            'page_name': 'Редагування',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-
-
-@login_required
-def device_details(request, device_id):
-    if not request.user.groups.filter(name='Admins').exists():
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists():
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-        else:
-            user_data['u_group'] = 'Employees'
-        # -----------------
-
-
-        return render(request, 'main/device_details.html', {
-            'page_title': 'Головна сторінка',
-            'app_name': 'Обладнання',
-            'page_name': 'Деталі',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
-
-
-@login_required
-def device_delete(request, device_id):
-    if not request.user.groups.filter(name='Admins').exists():
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists():
-                    employee_data = Employees.objects.get(user=request.user.id)
-                    return employee_data
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-
-        # -----------------
-
-
-        return render(request, 'main/device_delete.html', {
-            'page_title': 'Головна сторінка',
-            'app_name': 'Обладнання',
-            'page_name': 'Видалення',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
         })
