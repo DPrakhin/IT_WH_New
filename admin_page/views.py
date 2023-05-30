@@ -254,6 +254,7 @@ def device_details(request, deviceinner_device_id):
             user_data['u_group'] = 'Admins'
         # -----------------
 
+        devices = Devices.objects.get(id=deviceinner_device_id)
 
         return render(request, 'admin_page/details_device.html', {
             'page_title': 'Обладняння',
@@ -261,6 +262,7 @@ def device_details(request, deviceinner_device_id):
             'page_name': 'Деталі',
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
+            'devices': devices
         })
 
 
@@ -285,11 +287,18 @@ def device_delete(request, deviceinner_device_id):
             user_data['u_group'] = 'Admins'
         # -----------------
 
+        devices = Devices.objects.get(id=deviceinner_device_id)
 
-        return render(request, 'admin_page/delete_device.html', {
-            'page_title': 'Обладняння',
-            'app_name': 'Головна',
-            'page_name': 'Видалення',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
+        if request.method == 'GET':
+            return render(request, 'admin_page/delete_device.html', context={
+                'page_title': 'Акаунти',
+                'app_name': 'Головна',
+                'page_name': 'Видалення',
+                'employee_data': getdata().get_employee_data(),
+                'user_data': user_data,
+                'deviceinner_device': devices
+            })
+        elif request.method == 'POST':
+            devices.delete()
+
+            return redirect('/admin_page/accounts')
