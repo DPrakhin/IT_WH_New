@@ -7,6 +7,9 @@ urlpatterns = [
     path('about', emp_about, name='employee-about'),
     path('list', emp_list, name='employee-list'),
     path('emp_create', emp_create, name='employee-create'),
+    re_path(r'^details/(?P<emp_id>[0-9]+)$', emp_details, name='employee-details'),
+    re_path(r'^update/(?P<emp_id>[0-9]+)$', emp_update, name='employee-update'),
+    re_path(r'^delete/(?P<emp_id>[0-9]+)$', emp_delete, name='employee-delete'),
 
     # Інформація про відділи
     path('departments', dep_list, name='department-list'),

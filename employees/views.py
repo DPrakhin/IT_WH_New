@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
 from .models import Employees, Departments, UserStatus, Cities
 from .forms import CitiesForm, DepartmentsForm, UserStatusForm, EmployeesForm
+
 from users.models import NewUser
 from company.models import Company
+from assets.models import Devices
 
 
 # ІНФОРМАЦІЯ ПРО ОКРЕМОГО КОРИСТУВАЧА СПІВРОБІТНИКА:
@@ -115,6 +117,96 @@ def emp_create(request):
 
     context['form'] = form
     return render(request, 'employees/emp_create.html', context=context)
+
+
+@login_required
+def emp_details(request, emp_id):
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Відділи',
+        'app_name': 'Співробітники',
+        'page_name': 'Перелік відділів'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+    context['user_admin'] = user_admin
+    # ---
+
+    print('Emp ID = ', emp_id)
+    return render(request, 'employees/emp_details.html', context=context)
+
+
+@login_required
+def emp_update(request, emp_id):
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Відділи',
+        'app_name': 'Співробітники',
+        'page_name': 'Перелік відділів'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+    context['user_admin'] = user_admin
+    # ---
+
+    print('Emp ID = ', emp_id)
+    return render(request, 'employees/emp_update.html', context=context)
+
+
+@login_required
+def emp_delete(request, emp_id):
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Видалити',
+        'app_name': 'Співробітники',
+        'page_name': 'Видалити співробітника'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+    context['user_admin'] = user_admin
+    # ---
+
+    # Важливі додаткові дані:
+    # 1. Кількість обладнання за співробітником:
+
+    # 2. Чи є матеріально-відповідальна особа - product_owner:
+    if len(Company.objects.all()) > 0:
+        company_info = Company.objects.all()
+
+        for company in company_info:
+            product_owner = company.product_owner
+            product_owner_id = company.product_owner.id
+    else:
+        product_owner = None
+
+    print('Product owner = ', product_owner)
+    print('Product owner ID = ', product_owner_id)
+
+    # 3. Перевіряємо, чи є користува з доступом до системи:
+    # Ищем не так, Искать нужно по эл.почте => Переписать
+    try:
+        user_account = NewUser.objects.get(id=emp_id)
+    except:
+        user_account = None
+    else:
+        user_account_id = user_account.id
+
+    print('User Account = ', user_account)
+    print('User Account ID =', user_account_id)
+
+    # Подальша обробка:
+
+    context['product_owner'] = product_owner
+    return render(request, 'employees/emp_delete.html', context=context)
 
 
 @login_required

@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                <div class="card">
                         <div class="card-content">
                             <div class="card-body">
                                 <h4 class="card-title">Короткий опис сайту:</h4>
@@ -89,14 +89,6 @@
                                         {% if user_admin == 1%}
                                         <a href="/company/update/{{ company_info.id }}" class="btn btn-outline-white btn-sm">Оновити відомості</a>
                                         <a href="/company/delete/{{ company_info.id }}" class="btn btn-outline-white btn-sm">Видалити компанію</a>
-                                        <a href="/company/create" class="btn btn-outline-white btn-sm">Додати Компанію</a>
-                                        {% else %}
-                                        <h3 style="color: darkred; text-align: center;">
-                                            Нажаль, в базі відстутні відомості про компанію!
-                                        </h3>
-                                        <h4 style="color: darkblue; text-align: center;">
-                                            Будь ласка, додайте інформацію про компанію в базу даних.
-                                        </h4>
                                         {% endif %}
                                     </span>
                                 </div>
@@ -121,6 +113,20 @@
                                     Коментарі: {{ company_info.comments }}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="card">
+                        <div class="card-content" style="height: 650px;">
+                            <h3 style="color: darkred; text-align: center;">
+                            Нажаль, в базі відстутні відомості про компанію!
+                            </h3>
+                            <h4 style="color: darkblue; text-align: center;">
+                            Будь ласка, додайте інформацію про компанію в базу даних.
+                            </h4>
+                            {% if user_admin == 1 %}
+                                <a href="/company/create" class="btn btn-outline-white btn-sm">Додати Компанію</a>
+                            {% endif %}
                         </div>
                     </div>
                     {% endif %}
