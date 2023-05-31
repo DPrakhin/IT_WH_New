@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 
 from .models import Employees, Departments, UserStatus, Cities
-from .forms import CitiesForm, DepartmentsForm, UserStatusForm, EmployeesForm
+from .forms import CitiesForm, DepartmentsForm, UserStatusForm, EmployeesForm, EmployeesUpdateForm
 
 from users.models import NewUser
 from company.models import Company
@@ -243,7 +243,22 @@ def emp_update(request, emp_id):
     context['user_admin'] = user_admin
     # ---
 
-    print('Emp ID = ', emp_id)
+    # 1. Збираємо потрібну інформацію:
+    employee_info = Employees.objects.get(id=emp_id)
+    employee_email = employee_info.email
+    employee_eid = employee_info.eid
+
+    # 2. Готуємо базову форму:
+    form = EmployeesUpdateForm(instance=employee_info)
+
+    # 3. POST or GET:
+    if request.method == 'POST':
+        print('INPUT DATA:', request.POST)
+
+    context['employee_email'] = employee_email
+    context['employee_eid'] = employee_eid
+    context['employee_id'] = emp_id
+    context['form'] = form
     return render(request, 'employees/emp_update.html', context=context)
 
 
