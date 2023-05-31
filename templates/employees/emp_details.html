@@ -1,10 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Employees Details</title>
-</head>
-<body>
+{% extends '_layouts/base.html' %}
+{% load static %}
 
-</body>
-</html>
+<!-- IT WH: СПІРОБІТНИК - ДЕТАЛЬНА ІНФОРМАЦІЯ -->
+{% block content %}
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="main-content container-fluid">
+        <div class="page-title">
+            <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+            <h3 class="headli-1">Інформація про спіробітника:</h3>
+        </div>
+        <section class="section">
+            <!-- ІНФОРМАЦІЯ ПРО КІЛЬКІСТЬ ОБЛАДНАННЯ -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card card-statistic">
+                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
+                            <div class="d-flex flex-column">
+                                <div class='px-3 py-3 d-flex justify-content-between'>
+                                    <h3 class='card-title'>Кількість обладнання:</h3>
+                                    <div class="card-right d-flex align-items-center">
+                                        <p>{{ devices_count }}</p>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="canvas1" style="height:100px !important"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    {% if employee_info %}
+                    <div class="card" >
+                        <div class="card-content" style="min-width: 410px;">
+                            <div class="backg"></div>
+                            <div class="row no-gutters">
+                                <div class="col-md-12 col-lg-3" style="min-width: 220px;">
+                                    <img class="card-img-top img-fluid" style="outline: 5px solid rgba(255,255,255,0.7); border-radius: 100px; width: 200px; height: 200px; object-fit: cover;" src="/media/{{ employee_info.photo }}" alt="Card image cap">
+                                </div>
+                                <div class="col-md-12 col-lg-8 relative-from" style="min-width: 400px;">
+                                    <div style="flex-direction: column" class="card-body d-flex" >
+                                        <h4 class="card-title">Ім'я співробітника: {{ employee_info.first_name }}</h4>
+                                        <h3 class="card-title">Прізвище співробітника: {{ employee_info.last_name }}</h3>
+                                        <p class="card-text info_add">
+                                            Електрона пошта: {{ employee_info.email }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Внутрішній номер: {{ employee_info.eid }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Відділ: {{ employee_info.department }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Посада: {{ employee_info.title }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Локація: {{ employee_info.location }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Мобільний телефон: {{ employee_info.mobilephone }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Форма роботи: {{ employee_info.status }}
+                                        </p>
+                                        <p class="card-text info_add">
+                                            Коментарі: {{ employee_info.comments }}
+                                        </p>
+                                        {% if is_product_owner == 1 %}
+                                        <p class="card-text info_add" style="color: red">
+                                            Співробітник є Матеріально-Відповідальною особою!
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card-body d-flex" style="justify-content: space-between;">
+                                        <a class="btn btn-outline-white" style="max-width: 220px; margin-top: 5px;" href="/employees/update/{{ employee_info.id }}">Оновити відомості</a>
+                                        {% if user_admin == 1%}
+                                        <a class="btn btn-dark" style="max-width: 220px; margin-top: 5px; margin-left: 5px;" href="/employees/delete/{{ employee_info.id }}">Видалити співробітника</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <h3 style="color: darkred; text-align: center;">
+                        Нажаль, в базі відстутні відомості про співробітника з електроною поштою {{ user.email }}!
+                    </h3>
+                    <h4 style="color: darkblue; text-align: center;">
+                        Будь ласка, додайте відповідну інформацію в базу даних.
+                    </h4>
+                    {% if user_admin == 1%}
+                    <div class="container">
+                        <a href="/employees/create" class="btn btn-success my-btn">Додати Співробітника</a>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+<style>
+.backg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url("{% static 'static_f_2/images/samples/modern-teaching-concept-P7BTJU7.jpg' %}");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(2px)
+}
+.relative-from{
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.9);
+    margin-top: 10px;
+}
+.info_add{
+    font-size: 16px;
+    font-weight: 500;
+    color: #222222
+}
+tr{
+    color: black;
+}
+.headli-1{
+    display: inline-block
+}
+.ph-img{
+    object-fit: cover;
+}
+.main-img-n{
+    filter: blur(2px)
+}
+</style>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

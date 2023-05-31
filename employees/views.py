@@ -27,7 +27,6 @@ def emp_about(request):
         user_admin = 1
 
     # Отримуємо відомості про співробітника з відподвідної бази:
-    print('Email = ', request.user.email)
     try:
         employee_info = Employees.objects.get(email=request.user.email)
     except:
@@ -203,7 +202,28 @@ def emp_details(request, emp_id):
     context['user_admin'] = user_admin
     # ---
 
-    print('Emp ID = ', emp_id)
+    # 1. Зберігаємо інформацію про потрібного користувача:
+    employee_info = Employees.objects.get(id=emp_id)
+
+    # 2. Рахуємо кількість обладнання:
+    try:
+        len(Devices.objects.filter(user_id=emp_id))
+    except:
+        devices_count = 0
+    else:
+        devices_count = len(Devices.objects.filter(user_id=emp_id))
+
+    # 3. Перевіряємо, чи є користувач ProductOwner:
+    is_product_owner = 0
+    if len(Company.objects.all()) > 0:
+        for company in Company.objects.all():
+            if company.product_owner is not None:
+                if company.product_owner.id == int(emp_id):
+                    is_product_owner = 1
+
+    context['employee_info'] = employee_info
+    context['devices_count'] = devices_count
+    context['is_product_owner'] = is_product_owner
     return render(request, 'employees/emp_details.html', context=context)
 
 
