@@ -14,6 +14,11 @@
                 </button>
             </nav>
             <h3 class="headli-1">Інформація про спіробітника:</h3>
+            {% if user.is_employee %}
+            <p class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }} {{ employee_data.last_name }}</p>
+            {% else %}
+            <p class="text-subtitle text-muted">Все про профіль Admin</p>
+            {% endif %}
         </div>
         <section class="section">
 

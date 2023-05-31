@@ -16,7 +16,6 @@
                 </button>
             </nav>
             <h3 class="headli-1">Склад</h3> <!-- можете прибрати -->
-            <p class="text-subtitle text-muted">Все про профіль Admin</p> <!-- можете прибрати -->
         </div>
         <section class="section">
 
@@ -24,6 +23,14 @@
 
             <div class="row mb-4">
                 <div class="col-md-3">
+                    <div class="card" >
+                        <div class="card-header" >
+                            <h4 class="card-title">Таблиця запитів</h4>
+                        </div>
+                        <div class="card-body" ><div class="chartjs-size-monitor" ><div class="chartjs-size-monitor-expand" ><div class="" ></div></div><div class="chartjs-size-monitor-shrink" ><div class="" ></div></div></div>
+                            <canvas id="myBar" style="display: block; width: 327px; height: 163px;" width="327" height="163" class="chartjs-render-monitor"></canvas>
+                        </div>
+                    </div>
                     <div class="card" >
                         <div class="card-header" >
                             <h4>Перегляд новин</h4>
@@ -64,21 +71,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <h4 class="card-title">Короткий опис сайту:</h4>
-                                <p class="card-text">
-                                    Зроблений в 2023 році. Фінальний проект на django.
-                                </p>
-                                <p class="card-text">
-                                    Коротко про виконавців: Тимофій, Денис, Даніїл, Артем.
-                                </p>
-                                <small class="text-muted">Оновлений</small>
-                            </div>
-                            <img class="card-img-bottom img-fluid" src="{% static 'static_f_2/images/samples/programmers-coding-computer-app-7CFXNL5.jpg' %}" alt="Card image cap">
                         </div>
                     </div>
                 </div>
@@ -136,46 +128,51 @@
                         </div>
                     </div>
                     <section class="lattest-product-area pb-40 category-list">
-                    <div class="row" id="choose_item">
-                        {% for data in devices_data %}
-                        <div class="col-lg-4 col-md-6" >
-                            <div class="card bg-light single-product">
-                                <img class="img-fluid" style="border-radius: 5px 5px 0px 0px; height: 200px; object-fit: cover" src="/media/{{ data.employee.photo }}" alt="">
-                                <div style="padding: 10px; " class="product-details">
-                                    {% for deviceinner in data.device %}
-                                    <p style="font-size: 20px; color: black; font-weight: 500">{{ deviceinner.device_type }}</p>
-                                    <div class="details">
-                                        <p style="font-size: 17px; color: black; font-weight: 500"><strong>Виробник:</strong> {{ deviceinner.device_vendor }}</p>
-                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Назва:</strong> {{ deviceinner.device_title }}</p>
-                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Модель:</strong> {{ deviceinner.device_model }}</p>
-                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Серійний номер:</strong> {{ deviceinner.serial_number }}</p>
-                                        <p style="font-size: 15px; color: black; font-weight: 500"><strong>Власник:</strong> {{ deviceinner.username }}</p>
+                        <div class="row" id="choose_item">
+                            {% for data in devices_data %}
+                            <div class="col-lg-4 col-md-6" >
+                                <div class="card bg-light single-product">
+                                    <div class="product-header">
+                                        <img class="img-fluid" style="display: block; border: 5px solid rgba(255, 149, 0, 0.89); margin: 10px auto; border-radius: 200px; height: 250px; width: 250px; object-fit: cover;" src="/media/{{ data.employee.photo }}" alt="">
+                                        <div class="text-header" style="margin: 0 20px;">
+                                            <span style="font-size: 20px; color: black; font-weight: 500">{{ data.employee }}</span>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    {% endfor %}
-                                    <div class="prd-bottom btn icon icon-left hover-text " style="display: flex; flex-direction: column; gap: 10px;">
-                                        <input type="hidden" value="{{ data.employee.id }}">
-                                        <input type="text" id="item_name" class="form-control" placeholder="Тип обладняння">
-                                        <button class="add-to-cart-btn btn icon icon-left btn-outline-dark hover-text ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                            Додати запит
-                                        </button>
+                                    <div style="padding: 10px; " class="product-details">
+                                        {% for deviceinner in data.device %}
+                                        <p style="font-size: 20px; color: black; font-weight: 500">{{ deviceinner.device_type }}</p>
+                                        <div class="details">
+                                            <p style="font-size: 17px; color: black; font-weight: 500"><strong>Виробник:</strong> {{ deviceinner.device_vendor }}</p>
+                                            <p style="font-size: 15px; color: black; font-weight: 500"><strong>Назва:</strong> {{ deviceinner.device_title }}</p>
+                                            <p style="font-size: 15px; color: black; font-weight: 500"><strong>Модель:</strong> {{ deviceinner.device_model }}</p>
+                                            <p style="font-size: 15px; color: black; font-weight: 500"><strong>Серійний номер:</strong> {{ deviceinner.serial_number }}</p>
+                                            <p style="font-size: 15px; color: black; font-weight: 500"><strong>Власник:</strong> {{ deviceinner.username }}</p>
+                                        </div>
+                                        <hr>
+                                        {% endfor %}
+                                        <div class="prd-bottom btn icon icon-left hover-text " style="display: flex; flex-direction: column; gap: 10px;">
+                                            <input type="hidden" value="{{ data.employee.id }}">
+                                            <input type="text" id="item_name" class="form-control" placeholder="Тип обладняння : тільки англійською">
+                                            <button class="add-to-cart-btn btn icon icon-left btn-outline-dark hover-text ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                Додати запит
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
-                </section>
+                    </section>
                 </div>
                 <div class="col-md-3">
                     <div class="card card-statistic">
                         <div style="border-radius: 5px;" class="card-body bg-warning p-0">
                             <div class="d-flex flex-column">
                                 <div class='px-3 py-3 d-flex justify-content-between'>
-                                    <h3 class='card-title'>Кількість обладнання:</h3>
+                                    <h3 class='card-title'>Кількість співробітників:</h3>
                                     <div class="card-right d-flex align-items-center">
-                                        <p>{{ count }}</p>
+                                        <p>{{ employee_count }}</p>
                                     </div>
                                 </div>
                                 <div class="chart-wrapper">
@@ -199,12 +196,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card" >
-                        <div class="card-header" >
-                            <h4 class="card-title">Таблиця запитів</h4>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Нотатки</h4>
                         </div>
-                        <div class="card-body" ><div class="chartjs-size-monitor" ><div class="chartjs-size-monitor-expand" ><div class="" ></div></div><div class="chartjs-size-monitor-shrink" ><div class="" ></div></div></div>
-                            <canvas id="bar" style="display: block; width: 327px; height: 163px;" width="327" height="163" class="chartjs-render-monitor"></canvas>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p>
+                                    Можете зберігати задачі яві вже виконані та які ще ні
+                                </p>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox1" value="yes">
+                                        <div id="checkfield1" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox2" value="yes">
+                                        <div id="checkfield2" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox3" value="yes">
+                                        <div id="checkfield3" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox4" value="yes">
+                                        <div id="checkfield4" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox5" value="yes">
+                                        <div id="checkfield5" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox6" value="yes">
+                                        <div id="checkfield6" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" class="form-check-input me-1 save-cb-state" name="mycheckbox7" value="yes">
+                                        <div id="checkfield7" class="edit_checker" style="padding: 3px;" data-text="Написати щось" contenteditable></div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -214,20 +245,85 @@
     </div>
 </div>
 <style>
-                    tr{
-                        color: black;
-                    }
-                    .headli-1{
-                        display: inline-block
-                    }
-                    .ph-img{
-                        object-fit: cover;
-                    }
-                    .main-img-n{
-                        filter: blur(2px)
-                    }
+.edit_checker{
+    margin-left: 10px;
+    font-size: 15px;
+}
+input[type=checkbox]{
+    padding: 10px;
+}
+.form-check-input[type=checkbox]{
+    border-radius: 10px;
+}
+[contenteditable]:empty:not(:focus):before {
+  content: attr(data-text)
+}
+.list-group-item{
+    border: 0;
+}
+tr{
+    color: black;
+}
+.headli-1{
+    display: inline-block
+}
+.ph-img{
+    object-fit: cover;
+}
+.main-img-n{
+    filter: blur(2px)
+}
                 </style>
+<script src="{% static 'static_f_2/vendors/chartjs/Chart.js' %}"></script>
+<script src="{% static 'static_f_2/js/pages/dashboard.js' %}" type="text/javascript"></script>
+<script type="text/javascript">
+    var getlabels = {{labels|safe}};
+    var getdata = {{data|safe}};
+
+    var ctxBar = document.getElementById("myBar").getContext("2d");
+    var myBar = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: getlabels,
+        datasets: [{
+          label: 'Amount of requests',
+          backgroundColor: chartColors.orange,
+          data: getdata
+        }]
+      },
+      options: {
+        responsive: true,
+        barRoundness: 1,
+        title: {
+          display: false,
+          text: "Chart.js - Bar Chart with Rounded Tops (drawRoundedTopRectangle Method)"
+        },
+        legend: {
+          display:false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              suggestedMax: 10 + 6,
+              padding: 10,
+            },
+            gridLines: {
+              drawBorder: false,
+            }
+          }],
+          xAxes: [{
+                gridLines: {
+                    display:false,
+                    drawBorder: false
+                }
+            }]
+        }
+      }
+    });
+</script>
 <script src="{% static 'static_f_2/js/cart.js' %}"></script>
+<script src="{% static 'static_f_2/js/checkboxlist.js' %}"></script>
 {% endif %}
 
 {% endblock content %}
