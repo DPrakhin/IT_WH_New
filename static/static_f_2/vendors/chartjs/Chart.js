@@ -4846,7 +4846,9 @@ function computeFlexCategoryTraits(index, ruler, options) {
 		start: start
 	};
 }
-
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
 var controller_bar = core_datasetController.extend({
 
 	dataElementType: elements.Rectangle,
@@ -5150,6 +5152,9 @@ var controller_bar = core_datasetController.extend({
 	}
 
 });
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// --------------------------------------------------------------
 
 var valueOrDefault$4 = helpers$1.valueOrDefault;
 var resolve$1 = helpers$1.options.resolve;

@@ -399,16 +399,16 @@ var myBar = new Chart(ctxBar, {
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
     datasets: [{
-      label: 'Students',
-      backgroundColor: [chartColors.grey, chartColors.grey, chartColors.grey, chartColors.grey, chartColors.info, chartColors.blue, chartColors.grey],
+      label: 'Employee',
+      backgroundColor: [chartColors.orange, chartColors.orange, chartColors.orange, chartColors.orange, chartColors.orange, chartColors.orange, chartColors.orange],
       data: [
-        5, 
-        10, 
-        30, 
-        40, 
-        35, 
-        55, 
-        15, 
+        5,
+        10,
+        30,
+        40,
+        35,
+        55,
+        60,
       ]
     }]
   },
@@ -442,6 +442,9 @@ var myBar = new Chart(ctxBar, {
     }
   }
 });
+
+
+
 var radialBarsOptions = {
   series: [44, 80, 67],
   chart: {

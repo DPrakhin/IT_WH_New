@@ -1,10 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Employees Update</title>
-</head>
-<body>
+{% extends '_layouts/base.html' %}
+{% load static %}
 
-</body>
-</html>
+<!-- IT WH: КОМПАНІЮ - ОНОВИТИ ВІДОМОСТІ ПРО КОМПАНІЮ -->
+{% block content %}
+<div style="background: #faf9ff; padding-bottom: 50px;">
+    <div class="container" style="max-width: 1400px;">
+        <div class="card-header">
+            <h4 class="card-title">Форма редагування</h4>
+        </div>
+        <div class="card-content" style="margin: 10px 0">
+            {% if user_admin == 1 %}
+            <div class="card">
+                <div class="card-body">
+                    <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
+                     <form action="/company/update/{{ company_info.id }}" method="post">
+                        {% csrf_token %}
+
+                         {% for field in form %}
+                            <div class="form-group row align-items-center" >
+                                <div class="col-lg-4 col-3 sender_top" >
+                                    <label for="{{ field.name }}" class="col-form-label">{{ field.label }}</label>
+                                </div>
+                                <div class="col-lg-8 col-9 sender_bottom" >
+                                    {{ field }}
+                                    <div class="texth" style="color: red; display: inline-block">{{ field.help_text }}</div>
+                                    {% for error in field.errors %}
+                                        <div class="texter" style="color: red; display: inline-block">{{ error|escape }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                         {% endfor %}
+
+                         <div class="col-sm-12 d-flex justify-content-end">
+                             <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
+                                     data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Редагувати
+                             </button>
+                         </div>
+                    </form>
+                    <!-- *** -->
+                </div>
+                {% else %}
+                <div class="container">
+                    <h3 style="color: darkred; text-align: center;">
+                        Нажаль, лише користувач с правами Адміністратора може додавати ці відомості!
+                    </h3>
+                    <h4 style="color: darkblue; text-align: center;">
+                        Будь ласка, зробить вхід в систему з відповідними правами.
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+            <div class="container">
+                <a href="/company/details" class="btn btn-primary my-btn">Повернутись</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .sender_top > label {
+        font-size: 14px;
+    }
+    .sender_bottom > input, textarea, .nice-select{
+        padding-left: 10px;
+        margin: 5px;
+        border: 1px solid gray;
+        border-radius: 15px;
+    }
+    .sender_bottom > textarea {
+        padding-top: 10px;
+    }
+    .form-group .texth{
+        margin: 5px;
+        height: 40px;
+    }
+    .form-group .texter{
+        padding: 5px;
+        margin-left: 10px;
+    }
+    .nice-select{
+        border: 2px solid gray;
+        max-width: 60%;
+        min-width: 40%;
+    }
+
+    .sender_bottom > input:focus, .nice-select:focus{
+        border: 2px solid #ff9300;
+        outline: 2px;
+        border-radius: 5px;
+        box-shadow: 3px 3px 0px orange;
+    }
+    .sender_bottom > textarea:focus{
+        border: 2px solid #ff9300;
+        outline: 2px;
+        border-radius: 5px;
+        box-shadow: 3px 3px 0px orange;
+    }
+
+    #id_company_logo{
+        padding: 0;
+        border: 0px solid black;
+        border-radius: 0;
+        box-shadow: 0 0 0 white;
+        width: 30%;
+    }
+
+    .form-group input {
+        width: 60%;
+        height: 40px;
+        font-size: 15px;
+    }
+    .form-group textarea {
+        width: 60%;
+    }
+    .my-btn {
+        width: 150px;
+    }
+    footer {
+        margin-top: 20px;
+    }
+    .errorlist {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock content %}
+<!-- *** *** *** *** *** -->

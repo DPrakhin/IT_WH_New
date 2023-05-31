@@ -11,6 +11,7 @@ from .forms import ItemForm
 import re
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+import json
 @login_required
 def storage(request):
     if not request.user.groups.filter(name='Admins').exists():
@@ -117,11 +118,43 @@ def storage(request):
                         inner_data['device'] = devices_data_all
                         devices_data.append(inner_data)
 
+        # ----------- funciton -------------
+
+        item_requests = RequestDevice.objects.all()
+
+        labels_item = []
+        data_item_empl_checker = []
+        data_item_empl = []
+
+        for item in item_requests:
+            data_labels = f'{item.employee.first_name} {item.employee.last_name}'
+            labels_item.append(data_labels)
+            data_item_empl_checker.append(item.employee)
+            data_item_empl.append(item)
+
+        result_item_labels = []
+        [result_item_labels.append(x) for x in labels_item if x not in result_item_labels]
+
+        result_item_data = []
+        [result_item_data.append(y) for y in data_item_empl_checker if y not in result_item_data]
+
+        get_number = []
+        for firstitem in result_item_data:
+            number = 0
+            for nextitem in data_item_empl:
+                if firstitem == nextitem.employee:
+                    number += 1
+            get_number.append(number)
+
+        # -------------------------------------------------------
+
         user_data = {}
         user_data['u_id'] = request.user.id
         user_data['u_email'] = request.user.email
         if request.user.groups.filter(name='Admins').exists():
             user_data['u_group'] = 'Admins'
+
+        employee_count = len(getdata().get_devices_employees())
 
         return render(request, 'storage/index.html', {
             'page_title': 'Склад',
@@ -130,122 +163,9 @@ def storage(request):
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
             'devices_data': devices_data,
-        })
-@login_required
-def offline(request):
-    if not request.user.groups.filter(name='Admins').exists():
-
-        return redirect("/")
-
-    else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_devices_employees(self):
-                all_employees_data = Employees.objects.filter(department = Departments.objects.get(department = 'Storage'))
-                return all_employees_data
-
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Employees.objects.get(user_id=request.user.id)
-                    return employee_data
-
-            def get_devices_data(self):
-                final_storage = []
-                for devices in getdata().get_devices_employees():
-                    devices_data_all = []
-                    inner_data = {}
-                    get_data = Devices.objects.filter(user_id=devices)
-
-                    for data in get_data:
-                        if data.user_id == devices:
-                            local_storage = {}
-                            local_storage['device_id'] = data.id
-                            local_storage['device_type'] = data.device_type
-                            local_storage['device_vendor'] = data.device_vendor
-                            local_storage['device_title'] = data.device_title
-                            local_storage['device_model'] = data.device_model
-                            local_storage['serial_number'] = data.serial_number
-                            local_storage['device_status'] = data.device_status
-                            local_storage['username'] = data.user_id
-                            local_storage['supplier'] = data.supplier
-                            local_storage['purchase_date'] = data.purchase_date
-                            local_storage['device_warranty'] = data.device_warranty
-                            local_storage['comments'] = data.comments
-                            devices_data_all.append(local_storage)
-                    inner_data[f'employee'] = devices
-                    inner_data['device'] = devices_data_all
-                    final_storage.append(inner_data)
-                return final_storage
-
-        if request.method=='GET':
-            devices_data = []
-
-            squery = request.GET.get('query')
-            if squery == None or squery == '':
-                devices_data = getdata().get_devices_data()
-            else:
-                for devices in getdata().get_devices_employees():
-                    devices_data_all = []
-                    inner_data = {}
-                    get_data = Devices.objects.filter(user_id=devices)
-
-                    if get_data.exists():
-                        check = True
-                    else:
-                        check = False
-
-                    for data in get_data:
-                        if data.user_id == devices:
-                            list_checker = [str(data.device_type), str(data.device_vendor), str(data.device_title),
-                                            str(data.device_model), str(data.serial_number), str(data.device_status),
-                                            str(data.user_id), str(data.supplier), str(data.purchase_date), str(data.device_warranty),
-                                            str(data.comments)]
-                            for output in list_checker:
-                                if str(squery) == output:
-                                    sort_check = True
-                                    print(devices)
-                                    if sort_check == True:
-                                        local_storage = {}
-                                        local_storage['device_id'] = data.id
-                                        local_storage['device_type'] = data.device_type
-                                        local_storage['device_vendor'] = data.device_vendor
-                                        local_storage['device_title'] = data.device_title
-                                        local_storage['device_model'] = data.device_model
-                                        local_storage['serial_number'] = data.serial_number
-                                        local_storage['device_status'] = data.device_status
-                                        local_storage['username'] = data.user_id
-                                        local_storage['supplier'] = data.supplier
-                                        local_storage['purchase_date'] = data.purchase_date
-                                        local_storage['device_warranty'] = data.device_warranty
-                                        local_storage['comments'] = data.comments
-                                        devices_data_all.append(local_storage)
-
-                    entered = False
-                    for fir in devices_data_all:
-                        if fir == []:
-                            entered = False
-                        else:
-                            entered = True
-
-                    if check == True and entered == True:
-                        inner_data[f'employee'] = devices
-                        inner_data['device'] = devices_data_all
-                        devices_data.append(inner_data)
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-
-
-        return render(request, 'storage/offline.html', {
-            'page_title': 'Склад',
-            'app_name': 'Головна',
-            'page_name': 'Склад',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-            'devices_data': devices_data,
+            'employee_count': employee_count,
+            'labels': json.dumps(result_item_labels),
+            'data': json.dumps(get_number)
         })
 @login_required
 def cart_view(request):

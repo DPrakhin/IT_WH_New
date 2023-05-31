@@ -61,11 +61,7 @@ def admin_page(request):
             count = sum(output)
 
         if request.user.groups.filter(name='Admins').exists():
-            output = []
-            for x in range(len(getdata().get_devices_employees())):
-                outer = x
-                output.append(outer)
-            count_employee = sum(output)
+            count_employee = len(getdata().get_devices_employees())
 
 
         if request.user.groups.filter(name='Admins').exists():

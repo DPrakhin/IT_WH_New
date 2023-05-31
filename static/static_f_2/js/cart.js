@@ -1,7 +1,5 @@
 $(document).ready(() => {
 
-    console.log('cart.js -> Start')
-
     $('#choose_item').on('click', '.add-to-cart-btn', (event) => {
             if($(event.target).prev().val() == "") {
                 alert('Заповніть поле типу')
