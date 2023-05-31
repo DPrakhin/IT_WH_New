@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 
 from .models import Employees, Departments, UserStatus, Cities
@@ -64,9 +65,9 @@ def emp_list(request):
 def emp_create(request):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Співробітник',
+        'page_title': 'Додати співробітника',
         'app_name': 'Співробітники',
-        'page_name': 'Додати нового співробітника'
+        'page_name': 'Додати співробітника'
     }
 
     # Перевіряємо Admin/Users:
@@ -75,26 +76,37 @@ def emp_create(request):
         user_admin = 1
 
     context['user_admin'] = user_admin
+    # ---
 
     # Починаємо роботу з додавання Співробітника:
     form = EmployeesForm()
 
     # Як дізнатися про усю інформацію по групах:
-    # all_groups = Group.objects.all()
-    # for user_group in all_groups:
-    #    print('GROUP=', user_group.id)
-    #    print('GROUP=', user_group.name)
+    all_groups = Group.objects.all()
+    for user_group in all_groups:
+        print('GROUP=', user_group.id)
+        print('GROUP=', user_group.name)
 
     # Перевіряємо GET/POST:
     if request.method == 'POST':
-        form = EmployeesForm(request.POST, request.FILES)
-        user_id = -1
-        user_password = 'Secret1!'
+        # Важливі дані:
+        # group_id == 2 --- Users
+        employee_group_id = 2
+        employee_password = 'Secret1!'
 
+        # Дані потрібні для відправки листа:
+        email_from = 'it.warehouse@itwh.ua'
+        email_subject = 'IT.WareHouse: Запис створено'
+
+        form = EmployeesForm(request.POST, request.FILES)
         # Перевіряємо введені дані:
         if form.is_valid():
+            employee_data = Employees()
+
             employee_email = form.cleaned_data['email']
-            employee_name = form.cleaned_data['first_name']
+            employee_eid = form.cleaned_data['eid']
+            employee_fname = form.cleaned_data['first_name']
+            employee_lname = form.cleaned_data['last_name']
 
             # Перевіряємо, чи є вже такий EMail у базі користувачів:
             try:
@@ -102,18 +114,74 @@ def emp_create(request):
 
             except:
                 # Користувача не знайдено, потрібно створити:
-                new_user = NewUser.objects.create_user(employee_email, employee_name, user_password)
-                new_user.groups.set([2])
+                print('User is not present, will be created')
+                new_user = NewUser.objects.create_user(employee_email, employee_fname, employee_password)
+                new_user.groups.set([employee_group_id])
                 new_user.is_active = True
                 new_user.is_employee = True
                 new_user.save()
-                print('No users found')
+                employee_user_id = new_user.id
+
+                print('User was created, his ID:', employee_user_id)
+                email_body = '''
+                    <h2>Повідомлення з сайту IT.WareHouse</h2>
+                    <hr />
+                    <h4 style="color: darkblue;">
+                    <h4>Вам створено обліковий запис:</h4>
+                    <h4>
+                '''
+
+                email_body += 'Логін: ' + employee_email
+                email_body += 'Пароль: ' + employee_password
+
+                email_body += '</h4><hr />'
 
             else:
-                user_id = NewUser.objects.get(email=employee_email).id
-            # ---
+                employee_user = NewUser.objects.get(email=employee_email)
+                employee_user_id = employee_user.id
+                employee_user.is_active = True
+                employee_user.is_employee = True
+                employee_user.save()
 
-            return redirect('/employees/list')
+                print('User is present, his ID:', employee_user_id)
+                email_body = '''
+                    <h2>Повідомлення з сайту IT.WareHouse</h2>
+                    <hr />
+                    <h4 style="color: darkblue;">
+                    <h4>Для вас створено запис в базі співробітників:</h4>
+                    <hr />
+                '''
+
+            # Додаємо користувача у базу даних:
+            employee_data.first_name = employee_fname
+            employee_data.last_name = employee_lname
+            employee_data.email = employee_email
+            employee_data.eid = employee_eid
+            employee_data.department  = form.cleaned_data['department']
+            employee_data.title = form.cleaned_data['title']
+            employee_data.user_id = NewUser.objects.get(id=employee_user_id)
+
+            if request.POST.get('photo') == '':
+                employee_data.photo = 'photos/default_user.jpg'
+
+            employee_data.mobilephone = form.cleaned_data['mobilephone']
+            employee_data.comments = form.cleaned_data['comments']
+
+            city_id = request.POST.get('location')
+            if city_id != '':
+                employee_data.location = Cities.objects.get(id=city_id)
+
+            ustatus_id = request.POST.get('status')
+            if ustatus_id != '':
+                employee_data.status = UserStatus.objects.get(id=ustatus_id)
+
+            employee_data.save()
+
+            # Надсилаємо листа користувачу про створення акаунту:
+            success = send_mail(email_subject, '', email_from, [employee_email],
+                                fail_silently=False, html_message=email_body)
+            if success:
+                return redirect('/employees/list')
 
     context['form'] = form
     return render(request, 'employees/emp_create.html', context=context)
@@ -193,6 +261,7 @@ def emp_delete(request, emp_id):
 
     # 3. Перевіряємо, чи є користува з доступом до системи:
     # Ищем не так, Искать нужно по эл.почте => Переписать
+    # NewUser.objects.get(email=employee_email)
     try:
         user_account = NewUser.objects.get(id=emp_id)
     except:
