@@ -64,8 +64,8 @@ def main_page_employee(request):
 # НЕ ЗМІНЮВАТИ
 @login_required
 def main_page_users(request):
-    if not request.user.groups.filter(name='Users').exists():
-        return redirect("/")
+    if request.user.is_employee:
+        return redirect("/main/main_page/employees")
 
     else:
         user_data = {'u_id': request.user.id, 'u_email': request.user.email}
