@@ -8,20 +8,16 @@ from assets.models import Devices
 
 @login_required
 def main_page(request):
-    if request.user.groups.filter(name='Admins').exists() and not request.user.is_employee:
+    if request.user.groups.filter(name='Admins').exists():
         print('User', request.user.user_name, 'is Admin')
         return redirect("/main/main_page/admins")
 
-    elif request.user.groups.filter(name='Users').exists():
-        print('User', request.user.user_name, 'is User')
-        return redirect("/main/main_page/users")
-
     elif request.user.groups.filter(name='Users').exists() and request.user.is_employee:
         print('User', request.user.user_name, 'is User')
-        return redirect("/main/main_page/users")
+        return redirect("/main/main_page/employees")
 
     else:
-        return redirect("/main/main_page/employees")
+        return redirect("/main/main_page/users")
 
 
 # Є ЗМІНИ:
@@ -60,7 +56,7 @@ def main_page_employee(request):
 
     return render(request, 'main/_main_page_emp.html', context={
         'page_title': 'Головна сторінка',
-        'app_name': 'Головна',
+        'app_name': '',
         'page_name': 'Головна працівник',
         'user_data': user_data,
         'employee_data': getdata().get_employee_data(),
@@ -95,7 +91,7 @@ def main_page_users(request):
 
         return render(request, 'main/_main_page_user.html', context={
             'page_title': 'Головна сторінка',
-            'app_name': 'Головна',
+            'app_name': '',
             'page_name': 'Головна користувач',
             'user_data': user_data,
             'indicate': indicate,
@@ -104,13 +100,8 @@ def main_page_users(request):
 # НЕ ЗМІНЮВАТИ
 @login_required
 def main_page_admins(request):
-    if request.user.groups.filter(name='Users').exists():
-
-        return redirect("/")
-
-    elif request.user.is_employee:
-
-        return redirect("/")
+    if request.user.is_employee:
+        return redirect("/main/main_page/employees")
     else:
         class getdata(object):
             def get_all_employees(self):
@@ -132,7 +123,7 @@ def main_page_admins(request):
 
         return render(request, 'main/_main_page_admin.html', context={
             'page_title': 'Головна сторінка',
-            'app_name': 'Головна',
+            'app_name': '',
             'page_name': 'Головна адміністратор',
             'user_data': user_data,
             'all_employees_data': getdata().get_all_employees(),

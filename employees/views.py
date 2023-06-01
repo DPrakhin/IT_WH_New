@@ -231,9 +231,9 @@ def emp_details(request, emp_id):
 def emp_update(request, emp_id):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Відділи',
+        'page_title': 'Оновлення даних',
         'app_name': 'Співробітники',
-        'page_name': 'Перелік відділів'
+        'page_name': 'Оновлення даних співробітника'
     }
 
     # Перевіряємо Admin/Users:

@@ -113,3 +113,28 @@ class EmployeesForm(ModelForm):
             'mobilephone': '',
             'comments': ''
         }
+
+
+class EmployeesUpdateForm(ModelForm):
+    def clean_first_name(self):
+        data = self.cleaned_data['first_name']
+        data = ((data.strip()).lower()).title()
+
+        if len(data) < 1:
+            raise ValidationError('Увага !! Ім"я співробітника не може бути порожнім.')
+
+        return data
+
+    def clean_last_name(self):
+        data = self.cleaned_data['last_name']
+        data = ((data.strip()).lower()).title()
+
+        if len(data) < 1:
+            raise ValidationError('Увага !! Прізвище співробітника не може бути порожнім.')
+
+        return data
+
+    class Meta:
+        model = Employees
+        fields = ['photo', 'first_name', 'last_name', 'department', 'title', 'location', 'mobilephone', 'status',
+                  'comments']

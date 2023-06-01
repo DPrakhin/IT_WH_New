@@ -136,7 +136,7 @@ def admin_page(request):
 
         return render(request, 'admin_page/index.html', context={
             'page_title': 'Акаунти',
-            'app_name': 'Головна',
+            'app_name': '',
             'page_name': 'Акаунти',
             'user_data': user_data,
             'device_data': device_data,

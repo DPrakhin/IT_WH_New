@@ -9,13 +9,8 @@
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
                 <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
-                <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </nav>
             <h3 class="headli-1">Головна</h3>
-            <p style="padding-left: 50px;" class="text-subtitle text-muted">Все про профіль {{ employee_data.first_name }}  {{ employee_data.last_name }}</p>
             <div class="card-body light display-right" id="cookieNotice" style="display: none;">
                 <!-- Button trigger for basic modal -->
                 <span style="font-size: 20px; font-weight: 300; color: black; padding-right: 10px;"> Підтвердіть будь ласка cookie файли</span>
@@ -123,13 +118,9 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Кількість учасників</h4>
+                            <h4 class="card-title">Співробітники компанії:</h4>
                         </div>
                         <div class="card-content">
-                            <div class="card-body">
-                                <p class="card-text"><strong>Представлення</strong> кожного члена команди </p>
-                            </div>
-
                             <!-- Table with no outer spacing -->
                             <div class="table-responsive">
                                 <table class="table mb-0">
@@ -193,21 +184,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <h4 class="card-title">Короткий опис сайту:</h4>
-                                <p class="card-text">
-                                    Зроблений в 2023 році. Фінальний проект на django.
-                                </p>
-                                <p class="card-text">
-                                    Коротко про виконавців: Тимофій, Денис, Даніїл, Артем.
-                                </p>
-                                <small class="text-muted">Оновлений</small>
-                            </div>
-                            <img class="card-img-bottom img-fluid" src="{% static 'static_f_2/images/samples/programmers-coding-computer-app-7CFXNL5.jpg' %}" alt="Card image cap">
                         </div>
                     </div>
                 </div>
