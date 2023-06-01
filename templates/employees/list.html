@@ -125,31 +125,6 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
-                                        <div class="pagination" style="margin-top: 20px;">
-                                            <span>
-                                                {% if employee_list.has_previous %}
-                                                    <a href="?page=1" style="width: 100px;">&laquo;Перша</a>
-                                                    <a href="?page={{ employee_list.previous_page_number }}" style="width: 100px;">
-                                                        Попередня
-                                                    </a>
-                                                {% endif %}
-
-                                                <span class="current">
-                                                    &nbsp;
-                                                    [Сторінка {{ employee_list.number }} із {{ employee_list.paginator.num_pages }}]
-                                                    &nbsp;
-                                                </span>
-
-                                                {% if employee_list.has_next %}
-                                                    <a href="?page={{ employee_list.next_page_number }}" style="width: 100px;">
-                                                        Наступна
-                                                    </a>
-                                                    <a href="?page={{ employee_list.paginator.num_pages }}" style="width: 100px;">
-                                                        Остання&raquo;
-                                                    </a>
-                                                {% endif %}
-                                            </span>
-                                        </div>
                                     {% else %}
                                     <h3 style="color: darkred; text-align: center;">
                                         Нажаль, в базі відстутні відомості про співробітників!
@@ -157,6 +132,40 @@
                                     <h4 style="color: darkblue; text-align: center;">
                                         Будь ласка, додайте відповідну інформацію в базу даних.
                                     </h4>
+                                    {% endif %}
+                                </div>
+
+                                <div class="dataTable-bottom" >
+                                    <div class="dataTable-info" style="font-weight: 700">Показано {{ employee_list.number }} з {{ employee_list.paginator.num_pages }} сторінок</div>
+                                    {% if employee_list.has_other_pages %}
+                                    <ul class="pagination pagination-primary float-start dataTable-pagination pagination-sm">
+                                        {% if employee_list.has_previous %}
+                                        <li class="page-item pager"><a href="?page=1" class="page-link" data-page="1">‹‹</a></li>
+                                        <li class="page-item "><a href="?page={{ employee_list.previous_page_number }}" class="page-link" data-page="">‹</a></li>
+                                        {% endif %}
+
+                                        {% if employee_list.number|add:'-2' > 1 %}
+                                        <li class="page-item"><a href="?page={{ employee_list.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                                        {% endif %}
+
+                                        {% for i in employee_list.paginator.page_range %}
+                                        {% if employee_list.number == i %}
+                                        <li class="page-item active"><span class="page-link" data-page="">{{ i }}</span><span></span></li>
+                                        {% elif i > employee_list.number|add:'-2' and i < employee_list.number|add:'2' %}
+                                        <li class="page-item"><a href="?page={{ i }}" class="page-link" data-page="">{{ i }}</a></li>
+                                        {% endif %}
+                                        {% endfor %}
+
+                                        {% if employee_list.paginator.num_pages > employee_list.number|add:'2' %}
+                                        <li><a href="?page={{ employee_list.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                                        <li><a href="?page={{ employee_list.paginator.num_pages }}" class="page-link" data-page="">{{ employee_list.paginator.num_pages }}</a></li>
+                                        {% endif %}
+
+                                        {% if employee_list.has_next %}
+                                        <li class="page-item"><a href="?page={{ employee_list.next_page_number }}" class="page-link" data-page="">›</a></li>
+                                        <li class="page-item pager"><a href="?page={{ employee_list.paginator.num_pages }}" class="page-link" data-page="">››</a></li>
+                                        {% endif %}
+                                    </ul>
                                     {% endif %}
                                 </div>
                             </div>
