@@ -125,10 +125,13 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
-                                        <div class="pagination" style="margin-top: 20px; width: auto;">
+                                        <div class="pagination" style="margin-top: 20px;">
+                                            <span>
                                                 {% if employee_list.has_previous %}
-                                                    <a href="?page=1" class="pag-link">&laquo;Перша</a>
-                                                    <a href="?page={{ employee_list.previous_page_number }}" class="pag-link">Попередня</a>
+                                                    <a href="?page=1" style="width: 100px;">&laquo;Перша</a>
+                                                    <a href="?page={{ employee_list.previous_page_number }}" style="width: 100px;">
+                                                        Попередня
+                                                    </a>
                                                 {% endif %}
 
                                                 <span class="current">
@@ -138,13 +141,14 @@
                                                 </span>
 
                                                 {% if employee_list.has_next %}
-                                                    <a href="?page={{ employee_list.next_page_number }}">
+                                                    <a href="?page={{ employee_list.next_page_number }}" style="width: 100px;">
                                                         Наступна
                                                     </a>
-                                                    <a href="?page={{ employee_list.paginator.num_pages }}" class="pag-link">
+                                                    <a href="?page={{ employee_list.paginator.num_pages }}" style="width: 100px;">
                                                         Остання&raquo;
                                                     </a>
                                                 {% endif %}
+                                            </span>
                                         </div>
                                     {% else %}
                                     <h3 style="color: darkred; text-align: center;">
