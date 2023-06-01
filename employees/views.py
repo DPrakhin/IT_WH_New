@@ -33,8 +33,14 @@ def emp_about(request):
     except:
         employee_info = None
 
+    devices_count = 0
+    if employee_info:
+        if Devices.objects.filter(user_id=employee_info.id):
+            devices_count = len(Devices.objects.filter(user_id=employee_info.id))
+
     context['employee_info'] = employee_info
     context['employee_data'] = employee_info
+    context['devices_count'] = devices_count
     context['user_admin'] = user_admin
     return render(request, 'employees/about.html', context=context)
 
@@ -309,38 +315,83 @@ def emp_delete(request, emp_id):
     context['user_admin'] = user_admin
     # ---
 
-    # Важливі додаткові дані:
-    # 1. Кількість обладнання за співробітником:
+    # 1. Базова інформація про співробітника:
+    employee_info = Employees.objects.get(id=emp_id)
 
-    # 2. Чи є матеріально-відповідальна особа - product_owner:
-    if len(Company.objects.all()) > 0:
-        company_info = Company.objects.all()
-
-        for company in company_info:
-            product_owner = company.product_owner
-            product_owner_id = company.product_owner.id
+    # 2. Кількість обладнання у співробітника:
+    if Devices.objects.filter(user_id=emp_id):
+        devices_count = len(Devices.objects.filter(user_id=emp_id))
     else:
-        product_owner = None
+        devices_count = 0
 
-    print('Product owner = ', product_owner)
-    print('Product owner ID = ', product_owner_id)
+    # 3. Перевіряємо, чи є product_owner
+    #    визначаємо його ID:
+    product_owner = -1
+    product_owner_email = None
 
-    # 3. Перевіряємо, чи є користува з доступом до системи:
-    # Ищем не так, Искать нужно по эл.почте => Переписать
-    # NewUser.objects.get(email=employee_email)
-    try:
-        user_account = NewUser.objects.get(id=emp_id)
-    except:
-        user_account = None
+    if Company.objects.all():
+        for company in Company.objects.all():
+            if company.product_owner:
+                if company.product_owner.id == int(emp_id):
+                    product_owner = company.product_owner.id
+                    product_owner_email = Employees.objects.get(id=product_owner).email
+                    product_owner = -10
+                else:
+                    product_owner = company.product_owner.id
+                    product_owner_email = Employees.objects.get(id=product_owner).email
+
+    # 4. Шукаємо користувача пов'язаного зі співробітником:
+    user_employee_id = None
+    if NewUser.objects.filter(email=employee_info.email):
+        user_employee_id = NewUser.objects.get(email=employee_info.email).id
+
+    # 5. Робимо перевірку, чи може бути співробітник видалений із бази:
+    if request.user.email == employee_info.email:
+        # Користувач не може видалити сам себе:
+        can_delete = -1
+    elif product_owner == -1 and devices_count == 0:
+        can_delete = 1
+    elif product_owner >= 0:
+        can_delete = 10
     else:
-        user_account_id = user_account.id
-
-    print('User Account = ', user_account)
-    print('User Account ID =', user_account_id)
+        can_delete = -1
 
     # Подальша обробка:
+    if request.method == 'POST':
+        # Видалення - простий випадок:
+        if can_delete == 1:
+            employee_info.delete()
+            user_account = NewUser.objects.get(id=user_employee_id)
+            user_account.is_employee = False
+            user_account.is_staff = False
+            user_account.is_active = False
+            user_account.save()
 
+        # Видалення, більш складний випадок:
+        elif can_delete == 10:
+            if devices_count > 0:
+                # Потрібно переписати усі пристрої на матеріально-відповідальну особу:
+                all_devices = Devices.objects.filter(user_id=emp_id)
+                for device in all_devices:
+                    device.user_id = Employees.objects.get(email=product_owner_email)
+                    device.save()
+
+            employee_info.delete()
+            user_account = NewUser.objects.get(id=user_employee_id)
+            user_account.is_employee = False
+            user_account.is_staff = False
+            user_account.is_active = False
+            user_account.save()
+
+        return redirect('/employees/list')
+
+    #context['product_owner'] = product_owner
+    context['employee_id'] = emp_id
+    context['employee_info'] = employee_info
+    context['devices_count'] = devices_count
     context['product_owner'] = product_owner
+    context['product_owner_email'] = product_owner_email
+    context['can_delete'] = can_delete
     return render(request, 'employees/emp_delete.html', context=context)
 
 

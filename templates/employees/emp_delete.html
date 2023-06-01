@@ -13,19 +13,33 @@
             <div class="card">
                 <div class="card-content" style="margin: 0 auto;">
                     <div class="card-body" >
-                        <h5 class="card-title">Ім'я: {{ city_info.city }}</h5>
-                        <h4 class="card-title">Прізвище: {{ emp_count }}</h4>
-                        <h3 class="card-title">Електронна пошта: {{ company_count  }}</h3>
-                        <h3 class="card-title">Номер співробітника: {{ company_count  }}</h3>
-                        <h3 class="card-title">Кількість обладнання: {{ company_count  }}</h3>
-                        <h3 class="card-title">Матеріально відповідальна особа: {{ product_owner  }}</h3>
+                        <h5 class="card-title">Ім'я: {{ employee_info.first_name }}</h5>
+                        <h4 class="card-title">Прізвище: {{ employee_info.last_name }}</h4>
+                        <h3 class="card-title">Електронна пошта: {{ employee_info.email  }}</h3>
+                        <h3 class="card-title">Номер співробітника: {{ employee_info.eid }}</h3>
+                        {% if devices_count == 0 %}
+                            <h3 class="card-title" style="color: green; text-decoration: bold;">Кількість обладнання: {{ devices_count }}</h3>
+                        {% else %}
+                            <h3 class="card-title" style="color: red; text-decoration: bold;">Кількість обладнання: {{ devices_count }}</h3>
+                        {% endif %}
+                        {% if product_owner == -1 %}
+                            <h3 class="card-title" style="color: red">Матеріально Відповідальна Особа (МВО) в компанії не вказана!</h3>
+                        {% elif product_owner == -10 %}
+                            <h3 class="card-title" style="color: red; text-decoration: bold;">Цей співробітник - Матеріально Відповідальна Особа (МВО)!</h3>
+                        {% else %}
+                            <h3 class="card-title" style="color: green; text-decoration: bold;">Матеріально Відповідальна Особа (МВО): {{ product_owner_email }}</h3>
+                        {% endif %}
                     </div>
                 </div>
                 <div style="padding: 10px;">
-                    <form action="/employees/delete/{{ city_info.id }}" method="POST">
-                        {% csrf_token %}
-                        <input type="submit" value="Видалити співробітника" class="btn btn-danger my-btn">
-                    </form>
+                    {% if can_delete == -1 %}
+                        <h3 class="card-title" style="color: red">Нажаль співробітник не може бути видалений із бази!</h3>
+                    {% else %}
+                        <form action="/employees/delete/{{ employee_id }}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Видалити співробітника" class="btn btn-danger my-btn">
+                        </form>
+                    {% endif %}
                 </div>
             </div>
             {% else %}
