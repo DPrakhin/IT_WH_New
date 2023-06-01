@@ -21,15 +21,15 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Notes</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Employee</th>
-                        <th scope="col">Item</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Will</th>
-                        <th scope="col">Datetime</th>
-                        <th scope="col">Action</th>
-                        <th scope="col">Code</th>
+                        <th scope="col">Про запит ( Необхідно заповнити )</th>
+                        <th scope="col">Адмін</th>
+                        <th scope="col">Співробітник</th>
+                        <th scope="col">Річ</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col"></th>
+                        <th scope="col">Час</th>
+                        <th scope="col"></th>
+                        <th scope="col">Опис</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,7 +42,8 @@
                                     <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
                                 </div>
                                 <div class="media-body">
-                                    <p>{{ requests.notes }}</p>
+                                    <span style="color: black">Поле не заповнено</span>
+                                    <p style="color: black" class="field_required">{{ requests.notes }}</p>
                                 </div>
                             </div>
                         </td>
@@ -59,7 +60,7 @@
                             {{ requests.status }}
                         </td>
                         <td>
-                            <input type="checkbox" class="check" value="yes" checked>
+                            <input type="checkbox" class="check save-cb-state" value="yes">
                         </td>
                         <td>
                             {{ requests.datetime }}
@@ -68,7 +69,7 @@
                             <div class="btn-group-vertical">
                                 <button class="btn btn-outline-danger del-btn">Видалити</button>
                                 <input type="hidden" value="{{ requests.id }}">
-                                <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Оновити</a>
+                                <a class="btn btn-outline-primary add_button" href="/storage/cart/view/update/{{ requests.id }}">Додати</a>
                             </div>
                         </td>
                         <td>

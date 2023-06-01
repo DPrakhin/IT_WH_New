@@ -341,7 +341,7 @@ def cart(request):
         user_id=uid,
         employee_id=empid,
         item=itid,
-        notes='Required to complete'
+        notes=''
     )
 
     items = RequestDevice.objects.all()

@@ -238,9 +238,9 @@
                                 </div>
 
                                 <div class="dataTable-bottom" >
-                                    <div class="dataTable-info" style="font-weight: 700">Showing {{ device_data.number }} of {{ device_data.paginator.num_pages }} entries</div>
+                                    <div class="dataTable-info" style="font-weight: 700">Показано {{ device_data.number }} з {{ device_data.paginator.num_pages }} сторінок</div>
                                     {% if device_data.has_other_pages %}
-                                    <ul class="pagination pagination-primary float-end dataTable-pagination pagination-sm">
+                                    <ul class="pagination pagination-primary float-start dataTable-pagination pagination-sm">
                                         {% if device_data.has_previous %}
                                         <li class="page-item pager"><a href="?page=1" class="page-link" data-page="1">‹‹</a></li>
                                         <li class="page-item "><a href="?page={{ device_data.previous_page_number }}" class="page-link" data-page="">‹</a></li>
