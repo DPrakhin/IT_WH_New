@@ -9,11 +9,9 @@ from assets.models import Devices
 @login_required
 def main_page(request):
     if request.user.groups.filter(name='Admins').exists():
-        print('User', request.user.user_name, 'is Admin')
         return redirect("/main/main_page/admins")
 
     elif request.user.groups.filter(name='Users').exists() and request.user.is_employee:
-        print('User', request.user.user_name, 'is User')
         return redirect("/main/main_page/employees")
 
     else:
@@ -37,9 +35,7 @@ def main_page_employee(request):
             return device_data
 
     # ДАНІ КОРИСТУВАЧА:
-    user_data = {}
-    user_data['u_id'] = request.user.id
-    user_data['u_email'] = request.user.email
+    user_data = {'u_id': request.user.id, 'u_email': request.user.email}
 
     # Перевіряємо Admin/Users:
     user_admin = 0
@@ -49,9 +45,7 @@ def main_page_employee(request):
     else:
         user_data['u_group'] = 'Employees'
 
-
     indicate = 'Активний'
-
     count = len(getdata().get_devices_data())
 
     return render(request, 'main/_main_page_emp.html', context={
@@ -71,15 +65,10 @@ def main_page_employee(request):
 @login_required
 def main_page_users(request):
     if not request.user.groups.filter(name='Users').exists():
-
         return redirect("/")
 
     else:
-
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-
+        user_data = {'u_id': request.user.id, 'u_email': request.user.email}
         if request.user.groups.filter(name='Users').exists():
             user_data['u_group'] = 'Users'
 
@@ -88,7 +77,6 @@ def main_page_users(request):
         else:
             indicate = 'Не активний'
 
-
         return render(request, 'main/_main_page_user.html', context={
             'page_title': 'Головна сторінка',
             'app_name': '',
@@ -96,6 +84,7 @@ def main_page_users(request):
             'user_data': user_data,
             'indicate': indicate,
         })
+
 
 # НЕ ЗМІНЮВАТИ
 @login_required
@@ -108,10 +97,7 @@ def main_page_admins(request):
                 all_employees_data = Employees.objects.all()
                 return all_employees_data
 
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-
+        user_data = {'u_id': request.user.id, 'u_email': request.user.email}
         if request.user.groups.filter(name='Admins').exists():
             user_data['u_group'] = 'Admins'
 
@@ -119,7 +105,6 @@ def main_page_admins(request):
             indicate = 'Активний'
         else:
             indicate = 'Не активний'
-
 
         return render(request, 'main/_main_page_admin.html', context={
             'page_title': 'Головна сторінка',

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group
@@ -42,21 +43,26 @@ def emp_about(request):
 def emp_list(request):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Мої Дані',
+        'page_title': 'Список співробітників',
         'app_name': 'Співробітники',
-        'page_name': 'Інформація про співробітника'
+        'page_name': 'Інформація про співробітників'
     }
 
     # Перевіряємо Admin/Users:
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-
-    if len(Employees.objects.all()) > 0:
-        employee_list = Employees.objects.all()
-
     context['user_admin'] = user_admin
-    context['employee_list'] = employee_list
+    # ---
+
+    # Pagination:
+    employee_list = Employees.objects.all()
+
+    paginator = Paginator(employee_list, 5)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+
+    context['employee_list'] = page_object
     return render(request, 'employees/list.html', context=context)
 
 
@@ -190,9 +196,9 @@ def emp_create(request):
 def emp_details(request, emp_id):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Відділи',
+        'page_title': 'Деталі співробітника',
         'app_name': 'Співробітники',
-        'page_name': 'Перелік відділів'
+        'page_name': 'Інформація про співробітника'
     }
 
     # Перевіряємо Admin/Users:
@@ -253,7 +259,32 @@ def emp_update(request, emp_id):
 
     # 3. POST or GET:
     if request.method == 'POST':
-        print('INPUT DATA:', request.POST)
+        form = EmployeesUpdateForm(request.POST, request.FILES)
+        if form.is_valid():
+            employee_info.first_name = form.cleaned_data['first_name']
+            employee_info.last_name = form.cleaned_data['last_name']
+            employee_info.mobilephone = form.cleaned_data['mobilephone']
+            employee_info.comments = form.cleaned_data['comments']
+            employee_info.department = form.cleaned_data['department']
+            employee_info.title = form.cleaned_data['title']
+
+            if request.POST.get('photo') == '':
+                employee_info.photo = 'photos/default_user.jpg'
+
+            city_id = request.POST.get('location')
+            if city_id != '':
+                employee_info.location = Cities.objects.get(id=city_id)
+            else:
+                employee_info.location = None
+
+            ustatus_id = request.POST.get('status')
+            if ustatus_id != '':
+                employee_info.status = UserStatus.objects.get(id=ustatus_id)
+            else:
+                employee_info.status = None
+
+            employee_info.save()
+            return redirect('/main/main_page')
 
     context['employee_email'] = employee_email
     context['employee_eid'] = employee_eid
@@ -460,9 +491,9 @@ def dep_create(request):
 def ustatus_create(request):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Наші Локації',
+        'page_title': 'Форма роботи',
         'app_name': 'Співробітники',
-        'page_name': 'Перелік локацій'
+        'page_name': 'Додати форму роботи'
     }
 
     # Перевіряємо Admin/Users:
@@ -613,7 +644,7 @@ def city_delete(request, city_id):
 def ustatus_delete(request, ustatus_id):
     # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Видалити Локацію',
+        'page_title': 'Видалити форму роботи',
         'app_name': 'Співробітники',
         'page_name': 'Видалити форму роботи'
     }

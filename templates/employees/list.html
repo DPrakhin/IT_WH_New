@@ -125,6 +125,27 @@
                                         {% endfor %}
                                         </tbody>
                                     </table>
+                                        <div class="pagination" style="margin-top: 20px; width: auto;">
+                                                {% if employee_list.has_previous %}
+                                                    <a href="?page=1" class="pag-link">&laquo;Перша</a>
+                                                    <a href="?page={{ employee_list.previous_page_number }}" class="pag-link">Попередня</a>
+                                                {% endif %}
+
+                                                <span class="current">
+                                                    &nbsp;
+                                                    [Сторінка {{ employee_list.number }} із {{ employee_list.paginator.num_pages }}]
+                                                    &nbsp;
+                                                </span>
+
+                                                {% if employee_list.has_next %}
+                                                    <a href="?page={{ employee_list.next_page_number }}">
+                                                        Наступна
+                                                    </a>
+                                                    <a href="?page={{ employee_list.paginator.num_pages }}" class="pag-link">
+                                                        Остання&raquo;
+                                                    </a>
+                                                {% endif %}
+                                        </div>
                                     {% else %}
                                     <h3 style="color: darkred; text-align: center;">
                                         Нажаль, в базі відстутні відомості про співробітників!
@@ -207,6 +228,9 @@ tr{
 }
 .main-img-n{
     filter: blur(2px)
+}
+.pag-link {
+     text-decoration: none;
 }
 </style>
 {% endblock content %}

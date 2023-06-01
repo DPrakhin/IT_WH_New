@@ -42,7 +42,7 @@ class Employees(models.Model):
     mobilephone = models.CharField(max_length=20, null=True, default='', blank=True, verbose_name='Мобільний телефон')
     status = models.ForeignKey(UserStatus, null=True, on_delete=models.SET_NULL, blank=True,
                                verbose_name='Форма роботи')
-    photo = models.FileField(upload_to='photos/', null=True, default='default_user.jpg', blank=True,
+    photo = models.FileField(upload_to='photos/', null=True, default='photos/default_user.jpg', blank=True,
                              verbose_name='Фото')
     comments = models.TextField(max_length=300, null=True, default='', blank=True, verbose_name='Коментарі')
 
