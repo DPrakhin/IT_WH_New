@@ -9,10 +9,3 @@ urlpatterns = [
     re_path(r'^update/(?P<company_id>[0-9]+)$', update, name='update-company'),
     re_path(r'^delete/(?P<company_id>[0-9]+)$', delete, name='delete-company'),
 ]
-
-# Just Old Values:
-#     path('', index),
-#     path('create', create),
-#     path('details', details),
-#     path('update', update),
-#     path('delete', delete)
