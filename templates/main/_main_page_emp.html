@@ -4,7 +4,7 @@
 <!-- IT WH: DashBoard -->
 {% block content %}
 
-<div style="background: #faf9ff; padding-bottom: 50px;">
+<div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="main-content container-fluid">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
@@ -211,6 +211,7 @@
                                         <th>Постачальник</th>
                                         <th>Дата купівлі</th>
                                         <th>Гарантія товару</th>
+                                        <th>Дії</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -226,6 +227,11 @@
                                         <td>{{ device.supplier }}</td>
                                         <td>{{ device.purchase_date }}</td>
                                         <td>{{ device.device_warranty }}</td>
+                                        <td>
+                                            <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                                                <a class="btn btn-outline-warning" href="/admin_page/devices/details/{{ device.id }}">Деталі</a>
+                                            </div>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                     </tbody>

@@ -33,33 +33,21 @@ def storage(request):
             def get_devices_data(self):
                 final_storage = []
                 for devices in getdata().get_devices_employees():
-                    devices_data_all = []
+                    device_data_all = []
                     inner_data = {}
                     get_data = Devices.objects.filter(user_id=devices)
 
                     for data in get_data:
+                        get_id = {'id': data.id}
                         if data.user_id == devices:
-                            local_storage = {}
-                            local_storage['device_id'] = data.id
-                            local_storage['device_type'] = data.device_type
-                            local_storage['device_vendor'] = data.device_vendor
-                            local_storage['device_title'] = data.device_title
-                            local_storage['device_model'] = data.device_model
-                            local_storage['serial_number'] = data.serial_number
-                            local_storage['device_status'] = data.device_status
-                            local_storage['username'] = data.user_id
-                            local_storage['supplier'] = data.supplier
-                            local_storage['purchase_date'] = data.purchase_date
-                            local_storage['device_warranty'] = data.device_warranty
-                            local_storage['comments'] = data.comments
-                            devices_data_all.append(local_storage)
+                            local_storage = Devices.objects.filter(id=get_id.get('id'))
+                            device_data_all.append(local_storage)
                     inner_data[f'employee'] = devices
-                    inner_data['device'] = devices_data_all
+                    inner_data['device'] = device_data_all
                     final_storage.append(inner_data)
                 return final_storage
 
         if request.method == 'GET':
-            devices_data = []
             pages = 3
 
             squery = request.GET.get('query')
@@ -69,9 +57,13 @@ def storage(request):
                 page_number = request.GET.get('page')
                 devices_data = Paginator.get_page(paginator, page_number)
             else:
+                devices_data = []
                 for devices in getdata().get_devices_employees():
-                    devices_data_all = []
+                    device_data_all = []
                     inner_data = {}
+                    un_id_storage = []
+                    un_id_storage_emp = []
+                    get_id_emp = {'id': devices.id}
                     get_data = Devices.objects.filter(user_id=devices)
 
                     if get_data.exists():
@@ -84,38 +76,48 @@ def storage(request):
                             list_checker = [str(data.device_type), str(data.device_vendor), str(data.device_title),
                                             str(data.device_model), str(data.serial_number), str(data.device_status),
                                             str(data.user_id), str(data.supplier), str(data.purchase_date),
-                                            str(data.device_warranty),
-                                            str(data.comments)]
+                                            str(data.device_warranty)]
+                            get_id = {'id': data.id}
                             for output in list_checker:
                                 if str(squery) == output:
                                     sort_check = True
-                                    print(devices)
                                     if sort_check == True:
-                                        local_storage = {}
-                                        local_storage['device_id'] = data.id
-                                        local_storage['device_type'] = data.device_type
-                                        local_storage['device_vendor'] = data.device_vendor
-                                        local_storage['device_title'] = data.device_title
-                                        local_storage['device_model'] = data.device_model
-                                        local_storage['serial_number'] = data.serial_number
-                                        local_storage['device_status'] = data.device_status
-                                        local_storage['username'] = data.user_id
-                                        local_storage['supplier'] = data.supplier
-                                        local_storage['purchase_date'] = data.purchase_date
-                                        local_storage['device_warranty'] = data.device_warranty
-                                        local_storage['comments'] = data.comments
-                                        devices_data_all.append(local_storage)
+                                        un_id_storage.append(get_id.get('id'))
+
+                    list_checker_emp = [str(devices.first_name), str(devices.last_name), str(devices.email),
+                                        str(devices.eid), str(devices.title), str(devices.location),
+                                        str(devices.mobilephone), str(devices.status)]
+                    for output_emp in list_checker_emp:
+                        if str(squery) == output_emp:
+                            sort_check = True
+                            if sort_check == True:
+                                check = True
+                                un_id_storage_emp.append(get_id_emp.get('id'))
+                        elif str(squery) == str(devices.first_name) + ' ' + str(devices.last_name):
+                            sort_check = True
+                            if sort_check == True:
+                                check = True
+                                un_id_storage_emp.append(get_id_emp.get('id'))
+
+                    cm_id_storage_emp = []
+                    [cm_id_storage_emp.append(x) for x in un_id_storage_emp if x not in cm_id_storage_emp]
+                    for indexes in cm_id_storage_emp:
+                        device_data_all.append(Devices.objects.filter(user_id=indexes))
+
+                    cm_id_storage = []
+                    [cm_id_storage.append(x) for x in un_id_storage if x not in cm_id_storage]
+                    for indexes in cm_id_storage:
+                        device_data_all.append(Devices.objects.filter(id=indexes))
 
                     entered = False
-                    for fir in devices_data_all:
+                    for fir in device_data_all:
                         if fir == []:
                             entered = False
                         else:
                             entered = True
-
                     if check == True and entered == True:
                         inner_data[f'employee'] = devices
-                        inner_data['device'] = devices_data_all
+                        inner_data['device'] = device_data_all
                         devices_data.append(inner_data)
 
         # ----------- funciton -------------

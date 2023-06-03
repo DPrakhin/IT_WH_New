@@ -3,7 +3,7 @@
 
 <!-- IT WH: КОМПАНІЯ - ПРО КОМПАНІЮ -->
 {% block content %}
-<div style="background: #faf9ff; padding-bottom: 50px;">
+<div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="main-content container-fluid">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
@@ -72,11 +72,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-9">
                     {% if company_info %}
                     <div class="card" >
-                        <div class="card-content" style="height: 650px;">
-                            <img style="min-height: 650px; height: 650px; object-fit: cover;" class="card-img img-fluid" src="{% static 'static_f_2/images/samples/learning-new-codes-8VKXG4E.jpg' %}" alt="Card image">
+                        <div class="card-content" style="height: 700px;">
+                            <img style="min-height: 700px; height: 650px; object-fit: cover;" class="card-img img-fluid" src="{% static 'static_f_2/images/samples/learning-new-codes-8VKXG4E.jpg' %}" alt="Card image">
                             <div class="table-responsive card-img-overlay overlay-dark d-flex justify-content-between flex-column" >
                                 <div style="margin-bottom: 10px;" class="overlay-status text-right" >
                                     <p class="mb-25"><small>Last updated 3 mins ago</small></p>
@@ -126,53 +126,6 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="col-md-3">
-                    <div class="card card-statistic">
-                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
-                            <div class="d-flex flex-column">
-                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                    <h3 class='card-title'>Кількість обладнання:</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>{{ count }}</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas1" style="height:100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-statistic">
-                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
-                            <div class="d-flex flex-column">
-                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                    <h3 class='card-title'>Категорія:</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>{{ user_data.u_group }}</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas3" style="height:100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-statistic">
-                        <div style="border-radius: 5px;" class="card-body bg-warning p-0">
-                            <div class="d-flex flex-column">
-                                <div class='px-3 py-3 d-flex justify-content-between'>
-                                    <h3 class='card-title'>Статус:</h3>
-                                    <div class="card-right d-flex align-items-center">
-                                        <p>{{ indicate }}</p>
-                                    </div>
-                                </div>
-                                <div class="chart-wrapper">
-                                    <canvas id="canvas4" style="height:100px !important"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
@@ -180,12 +133,12 @@
 <style>
     .outer-img{
         flex-basis: 30%;
-        min-width: 230px;
-        min-height: 230px;
-        max-width: 230px;
-        max-height: 230px;
+        min-width: 300px;
+        min-height: 300px;
+        max-width: 300px;
+        max-height: 300px;
         outline: 5px solid orange;
-        border-radius: 120px;
+        border-radius: 150px;
         background-color: white;
     }
     .inner-img{
@@ -193,8 +146,8 @@
         display: block;
         bottom: 24%;
         top: 24%;
-        width: 195px;
-        height: 121px;
+        width: 250px;
+        height: 150px;
         margin: 0 auto;
     }
 </style>
