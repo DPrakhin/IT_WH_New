@@ -1,0 +1,61 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+            <div class="Sup_title">
+            <h3>Категорії обладнання</h3>
+            <h5>Тут відображаются всі типи обладнень та їх власники</h5>
+            </div>
+
+
+<div class="container" style="max-width: 1300px;">
+            <div class="cart_inner">
+                <div class="class=table table-bordered table-striped table-light dataTable-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Категорії обладнання</th>
+                                <th scope="col">Кількість обладнання</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for d in dev_type %}
+                            <tr>
+                                <td class="w_img">
+                                    <img src="/media/{{ d.dev_type_logo }}">
+                                </td>
+                                <td>
+                                    <h5>{{ d.dev_type }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d_len }}</h5>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</div>
+
+
+
+
+
+<style>
+.Sup_title{
+     text-align: center;
+     margin-top: 20px;
+     margin-bottom: 30px;
+}
+.w_img{
+    width: 150px;
+    zoom: 50%;
+}
+</style>
+
+{% endblock content %}
