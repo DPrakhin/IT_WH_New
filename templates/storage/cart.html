@@ -5,7 +5,7 @@
 {% block content %}
 
 {% if user_data.u_group == 'Admins' %}
-<div id="main" style="margin-left: 0; min-height: 800px;">
+<div style="background: #faf9ff; padding-bottom: 50px;">
     <div class="container" style="max-width: 1400px;">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
@@ -21,7 +21,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Про запит ( Необхідно заповнити <code>*</code> )</th>
+                        <th scope="col">Про запит ( Необхідно заповнити )</th>
                         <th scope="col">Адмін</th>
                         <th scope="col">Співробітник</th>
                         <th scope="col">Річ</th>
@@ -42,7 +42,7 @@
                                     <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
                                 </div>
                                 <div class="media-body">
-                                    <span style="color: black">Поле не заповнено <code>*</code></span>
+                                    <span style="color: black">Поле не заповнено</span>
                                     <p style="color: black" class="field_required">{{ requests.notes }}</p>
                                 </div>
                             </div>
@@ -60,16 +60,16 @@
                             {{ requests.status }}
                         </td>
                         <td>
-                            <input type="checkbox" class="check form-check-input save-cb-state" value="yes">
+                            <input type="checkbox" class="check save-cb-state" value="yes">
                         </td>
-                        <td style="min-width: 100px">
+                        <td>
                             {{ requests.datetime }}
                         </td>
                         <td>
                             <div class="btn-group-vertical">
                                 <button class="btn btn-outline-danger del-btn">Видалити</button>
                                 <input type="hidden" value="{{ requests.id }}">
-                                <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Додати</a>
+                                <a class="btn btn-outline-primary add_button" href="/storage/cart/view/update/{{ requests.id }}">Додати</a>
                             </div>
                         </td>
                         <td>
@@ -103,27 +103,12 @@
                         </td>
                         <td>
                         </td>
-                        <td>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <style>
-        .form-check-input {
-            position: static;
-            margin-top: 0rem;
-            margin-left: 0rem;
-        }
-        input[type=checkbox]{
-            padding: 8px;
-        }
-        .form-check-input[type=checkbox]{
-            border-radius: 5px;
-        }
-    </style>
 </div>
 <script src="{% static 'static_f_2/js/del_order.js' %}"></script>
 <script src="{% static 'static_f_2/js/request.js' %}"></script>

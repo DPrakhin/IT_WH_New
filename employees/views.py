@@ -61,30 +61,12 @@ def emp_list(request):
     context['user_admin'] = user_admin
     # ---
 
-    # Pagination / Search:
-    if request.method == 'GET':
-        pages = 4
+    # Pagination:
+    employee_list = Employees.objects.all()
 
-        squery = request.GET.get('query')
-        if squery == None or squery == '':
-            employee_list = Employees.objects.all()
-            paginator = Paginator(employee_list, pages)
-            page_number = request.GET.get('page')
-            page_object = Paginator.get_page(paginator, page_number)
-        else:
-            incomplete_page = []
-
-            for data in Employees.objects.all():
-                list_checker = [str(data.first_name), str(data.last_name), str(data.email),
-                                str(data.eid), str(data.department), str(data.title),
-                                str(data.location), str(data.mobilephone), str(data.status)]
-                get_id = {'id': data.id}
-                for output in list_checker:
-                    if str(squery) == output:
-                        incomplete_page.append(Employees.objects.get(id = get_id.get('id')))
-
-            page_object = []
-            [page_object.append(x) for x in incomplete_page if x not in page_object]
+    paginator = Paginator(employee_list, 5)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
 
     context['employee_list'] = page_object
     return render(request, 'employees/list.html', context=context)
@@ -518,51 +500,7 @@ def cities_list(request):
             data_my = (our_city, emp_count)
             our_city_list.append(data_my)
 
-    if request.method == 'GET':
-        squery = request.GET.get('query')
-        if squery == None or squery == '':
-            our_city_list = []
-            if len(Cities.objects.all()) > 0:
-                all_cities = Cities.objects.all()
-
-                for our_city in all_cities:
-                    # Шукаємо співробітників із даного міста:
-                    try:
-                        Employees.objects.filter(location=our_city.id)
-                    except:
-                        emp_count = 0
-
-                    else:
-                        emp_count = len(Employees.objects.filter(location=our_city.id))
-
-                    # Дуже цікавий момент - робимо кортеж, а потім додаємо його до списку:
-                    data_my = (our_city, emp_count)
-                    our_city_list.append(data_my)
-        else:
-            un_our_city_list = []
-            for data in Cities.objects.all():
-                list_checker = [str(data.city)]
-                get_id = {'id': data.id}
-                for output in list_checker:
-                    if str(squery) == output:
-                        if len(Cities.objects.all()) > 0:
-                            our_city = Cities.objects.get(id = get_id.get('id'))
-
-                            try:
-                                Employees.objects.filter(location=our_city.id)
-                            except:
-                                emp_count = 0
-
-                            else:
-                                emp_count = len(Employees.objects.filter(location=our_city.id))
-
-                            # Дуже цікавий момент - робимо кортеж, а потім додаємо його до списку:
-                            data_my = (our_city, emp_count)
-                            un_our_city_list.append(data_my)
-
-            our_city_list = []
-            [our_city_list.append(x) for x in un_our_city_list if x not in our_city_list]
-
+    print(our_city_list)
     context['user_admin'] = user_admin
     context['cities_list'] = our_city_list
     return render(request, 'employees/cities_list.html', context=context)
