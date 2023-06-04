@@ -88,7 +88,7 @@ class VendorsForm(ModelForm):
 
     class Meta:
         model = Vendors
-        field = ['vendor', 'url', 'vendor_logo']
+        fields = ['vendor', 'url', 'vendor_logo']
 
         initial = {
             'vendor': '',
