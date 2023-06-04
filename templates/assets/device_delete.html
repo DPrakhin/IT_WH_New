@@ -1,0 +1,32 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="background: #faf9ff; padding-bottom: 400px;">
+    <div class="container" style="max-width: 1400px;">
+        <div class="card-header">
+            <h4 class="card-title">Видалити обладнання:</h4>
+        </div>
+        <div class="card-content" style="margin: 10px 0;">
+            <div class="card">
+                <div class="card-content" style="margin: 0 auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Назва обладнання: {{ device.device_title }}</h5>
+                        <h4 class="card-title">Виробник: {{ device.device_vendor }}</h4>
+                        <h3 class="card-title">Модель: {{ device.device_model }}</h3>
+                    </div>
+                </div>
+                <div style="padding: 10px;">
+                    <form action="{% url 'delete_device' device_id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені, що хочете видалити це обладнання?')">Видалити</button>
+                    </form>
+                </div>
+            </div>
+            <div class="container">
+                <a href="/assets/list" class="btn btn-primary">Повернутись</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends '_layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="background: #faf9ff; padding-bottom: 400px;">
+    <div class="container" style="max-width: 1400px;">
+        <div class="card-header">
+            <h4 class="card-title">Ви збираєтесь видалити наступного виробника:</h4>
+        </div>
+        <div class="card-content" style="margin: 10px 0;">
+            <div class="card">
+                <div class="card-content" style="margin: 0 auto;">
+                    <div class="card-body">
+                        <h5 class="card-title">Назва виробника: {{ vendor.vendor }}</h5>
+                        <h4 class="card-title">Кількість пов'язаних пристроїв:  {{ vendor.device_set.count }}</h4>
+                    </div>
+                </div>
+                <div style="padding: 10px;">
+                    <form action="{% url 'vendor_delete' vendor.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Видалити виробника" class="btn btn-danger my-btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <a href="/assets/vendors" class="btn btn-primary my-btn">Повернутись</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
