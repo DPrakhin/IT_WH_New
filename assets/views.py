@@ -36,7 +36,7 @@ def device_list(request):
 
 
 @login_required
-def create_device(request):
+def dev_create(request):
     
     context = {
         'page_title': 'Додати обладнання',
@@ -52,8 +52,15 @@ def create_device(request):
     if request.method == 'POST':
         form = DevicesForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('assets/list') 
+            dev_data = Devices()
+            dev_data.device_model = form.cleaned_data['device_model']
+            dev_data.device_status = form.cleaned_data['device_status']
+            dev_data.device_title = form.cleaned_data['device_title']
+            dev_data.device_type = form.cleaned_data['device_type']
+            dev_data.device_vendor = form.cleaned_data['device_vendor']
+            dev_data.device_warranty = form.cleaned_data['device_warranty']
+            dev_data.save()
+            return redirect('/assets/list') 
     else:
         form = DevicesForm()
     
@@ -84,9 +91,9 @@ def device_update(request, device_id=None):
         form = DevicesForm(request.POST, instance=device_info)
         if form.is_valid():
             form.save()
-            return redirect(reverse('device_update', kwargs={'device_id': device_id}))
+            return redirect('/assets/list')
 
-    context['id'] = device_id
+    context['device_id'] = device_id
     context['form'] = form
     return render(request, 'assets/device_update.html', context)
 
@@ -175,6 +182,7 @@ def vendors(request):
 
 def vendor_delete(request, vendor_id):
     vendor = get_object_or_404(Vendors, id=vendor_id)
+    count = len(Devices.objects.filter(device_vendor=vendor_id))
 
     if request.method == 'POST':
         vendor.delete()
@@ -184,7 +192,8 @@ def vendor_delete(request, vendor_id):
         'page_title': 'Видалення виробника',
         'app_name': 'Обладання',
         'page_name': 'Видалення виробника',
-        'vendor': vendor
+        'vendor': vendor,
+        'count' : count
     }
 
     return render(request, 'assets/vendor_delete.html', context=context)
@@ -206,8 +215,12 @@ def vend_create(request):
     if request.method == 'POST':
         form = VendorsForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('assets/vendor') 
+            vend_data = Vendors()
+            vend_data.vendor = form.cleaned_data['vendor']
+            vend_data.url = form.cleaned_data['url']
+            vend_data.vendor_logo = form.cleaned_data['vendor_logo']
+            vend_data.save()
+            return redirect('/assets/vendors') 
     else:
         form = VendorsForm()
     

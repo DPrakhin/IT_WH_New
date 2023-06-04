@@ -1,7 +1,8 @@
 import datetime
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, SelectDateWidget
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from .models import *
 
@@ -83,7 +84,7 @@ class VendorsForm(ModelForm):
 
         return data
 
-    logo = forms.FileField(label='Логотип', help_text='Оберіть файл з логотипом (*.jpg)',
+    vendor_logo = forms.FileField(label='Логотип', help_text='Оберіть файл з логотипом (*.jpg)',
                            allow_empty_file=False, required=False, widget=forms.FileInput(attrs={'accept': '.jpg'}))
 
     class Meta:
@@ -119,6 +120,10 @@ class SuppliersForm(ModelForm):
             'comments': ''
         }
 
+def past_year(ago):
+    this_year = timezone.now().year
+    return list(range(this_year-ago-1, this_year+1))
+
 
 # ОБЛАДНАННЯ:
 class DevicesForm(ModelForm):
@@ -131,6 +136,8 @@ class DevicesForm(ModelForm):
 
         data[0].upper()
         return data
+    
+    purchase_date = forms.DateField(label='Дата придбання', widget=SelectDateWidget(years=past_year(20)))
 
     class Meta:
         model = Devices
