@@ -184,12 +184,8 @@ def cart_view(request):
                     return employee_data
 
             def get_item_requests(self):
-                item_requests = RequestDevice.objects.filter(status='У очікуванні завершення')
+                item_requests = RequestDevice.objects.all()
                 return item_requests
-
-            def get_item_wait(self):
-                item_wait = RequestDevice.objects.filter(status='На обробці у відділі')
-                return item_wait
 
         user_data = {}
         user_data['u_id'] = request.user.id
@@ -203,8 +199,7 @@ def cart_view(request):
             'page_name': 'Список',
             'employee_data': getdata().get_employee_data(),
             'user_data': user_data,
-            'item_requests': getdata().get_item_requests(),
-            'item_wait': getdata().get_item_wait()
+            'item_requests': getdata().get_item_requests()
         })
 @login_required
 def request_check(request, sel_list: str):
@@ -324,11 +319,7 @@ def request_confirm(request, str_list: str):
 
             success = send_mail(subject, '', f'{email1}', [email2], fail_silently=False, html_message=body)
 
-            if success:
-                for request_id in sel_num:
-                    request_dev = RequestDevice.objects.get(id=request_id)
-                    request_dev.status = 'На обробці у відділі'
-                    request_dev.save()
+            if 2:
                 return render(request, 'storage/thanks.html', {
                     'page_title': 'Список',
                     'app_name': 'Список',
@@ -338,7 +329,7 @@ def request_confirm(request, str_list: str):
                 })
 
 
-@login_required
+
 def cart(request):
     response = dict()
     response['test_message'] = 'AJAX works fine!'
@@ -359,18 +350,16 @@ def cart(request):
     response['count'] = len(items)
 
     return JsonResponse(response)
-@login_required
+
 def cart_display(request):
     response = dict()
     uid = request.GET.get('uid')
-    items = RequestDevice.objects.filter(status='У очікуванні завершення')
-    items_wait = RequestDevice.objects.filter(status='На обробці у відділі')
+    items = RequestDevice.objects.all()
 
     response['count'] = len(items)
-    response['count_wait'] = len(items_wait)
 
     return JsonResponse(response)
-@login_required
+
 def item_update(request, requests_id):
     if not request.user.is_authenticated:
         # Якщо користувач не авторизований - перехід на сторінку авторизації
@@ -414,10 +403,11 @@ def item_update(request, requests_id):
                 target_device.user = form2.cleaned_data.get('user')
                 target_device.employee = form2.cleaned_data.get('employee')
                 target_device.item = form2.cleaned_data.get('item')
+                target_device.status = form2.cleaned_data.get('status')
                 target_device.notes = form2.cleaned_data.get('notes')
                 target_device.save()
             return redirect('/storage/cart/view')
-@login_required
+
 def item_delete(request):
     response = dict()
 
@@ -428,11 +418,3 @@ def item_delete(request):
     response['result'] = 'Запит співробітника був видалений'
 
     return JsonResponse(response)
-
-@login_required
-def item_wait_delete(request, item_id):
-    if request.method == 'GET':
-        item_wait = RequestDevice.objects.get(id=item_id)
-        item_wait.delete()
-
-    return redirect('/storage/cart/view')

@@ -1,6 +1,7 @@
 from django.db import models
 from employees.models import Cities, Employees
 
+
 # ОПИС КОМПАНІЇ:
 class Company(models.Model):
     # ОБОВ'ЯЗКОВІ ПОЛЯ:
@@ -28,18 +29,3 @@ class Company(models.Model):
 
     def __str__(self) -> str:
         return str(self.company_title) + '(ЄДРПОУ: ' + str(self.company_code) + ')'
-
-class NewsPost(models.Model):
-
-    post_heading = models.CharField(max_length=200, default='', verbose_name='Заголовок *')
-    description = models.TextField(max_length=650, default='', null=True, blank=True, verbose_name='Опис *')
-
-    post_image = models.FileField(upload_to='posts/', null=True, blank=True, default='default-post.jpg',
-                                    verbose_name='Фото')
-    post_date = models.DateField(null=True, blank=True, verbose_name='Дата завантаження')
-    tag = models.CharField(max_length=150, default='', verbose_name='Тег *')
-    author = models.ForeignKey(Employees, null=True, blank=True,on_delete=models.SET_NULL, verbose_name='Автор',
-                                                help_text='Оберіть автора')
-
-    def __str__(self) -> str:
-        return str(self.tag)

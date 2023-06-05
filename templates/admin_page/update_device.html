@@ -1,20 +1,22 @@
 {% extends '_layouts/base.html' %}
 {% load static %}
 
-<!-- IT WH: КОМПАНІЮ - ОНОВИТИ ВІДОМОСТІ ПРО КОМПАНІЮ -->
+<!-- IT WH: DashBoard -->
 {% block content %}
+
+{% if user_data.u_group == 'Admins'%}
 <div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
-            <h4 class="card-title">Ви збираєтесь оновити відомості про компанію (Код ЄДРПОУ: {{ company_info.company_code }}):</h4>
+            <h4 class="card-title">Форма створення</h4>
         </div>
         <div class="card-content" style="margin: 10px 0">
-            {% if user_admin == 1 %}
             <div class="card">
                 <div class="card-body">
                     <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
-                     <form action="/company/update/{{ company_info.id }}" method="post" enctype="multipart/form-data">
+                     <form action="{{ target_post.id }}" method="post">
                         {% csrf_token %}
+
                          {% for field in form %}
                             <div class="form-group row align-items-center" >
                                 <div class="col-lg-4 col-3 sender_top" >
@@ -29,6 +31,7 @@
                                 </div>
                             </div>
                          {% endfor %}
+
                          <div class="col-sm-12 d-flex justify-content-end">
                              <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
                                      data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Редагувати
@@ -37,19 +40,9 @@
                     </form>
                     <!-- *** -->
                 </div>
-                {% else %}
-                <div class="container">
-                    <h3 style="color: darkred; text-align: center;">
-                        Нажаль, лише користувач с правами Адміністратора може додавати ці відомості!
-                    </h3>
-                    <h4 style="color: darkblue; text-align: center;">
-                        Будь ласка, зробить вхід в систему з відповідними правами.
-                    </h4>
-                </div>
-                {% endif %}
             </div>
             <div class="container">
-                <a href="/company/details" class="btn btn-primary my-btn">Повернутись</a>
+                <a href="/admin_page/accounts" class="btn btn-primary my-btn">Повернутись</a>
             </div>
         </div>
     </div>
@@ -121,5 +114,7 @@
         font-weight: bold;
     }
 </style>
+{% endif %}
+
 {% endblock content %}
-<!-- *** *** *** *** *** -->
+<!-- IT WH: DashBoard -->

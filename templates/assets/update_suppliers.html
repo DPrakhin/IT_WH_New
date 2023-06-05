@@ -3,7 +3,7 @@
 
 <!-- IT WH: СПІВРОБІТНИК - ОНОВИТИ ВІДОМОСТІ ПРО СПІВРОБІТНИКА -->
 {% block content %}
-<div id="main" style="margin-left: 0; min-height: 800px;">
+<div style="background: #faf9ff; padding-bottom: 50px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
             <h4 class="card-title">Оновлення відомостей для постачальників: {{ sup_email }} (Номер: {{ sup_eid }})</h4>
@@ -12,27 +12,27 @@
             <div class="card">
                 <div class="card-body">
                     <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
-                    <form action="/assets/update_suppliers/{{ supp_id }}" method="post" enctype="multipart/form-data">
+                     <form action="/assets/update_suppliers/{{ supp_id }}" method="post">
                         {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form-group row align-items-center" >
-                            <div class="col-lg-4 col-3 sender_top" >
-                                <label for="{{ field.name }}" class="col-form-label">{{ field.label }}</label>
+                         {% for field in form %}
+                            <div class="form-group row align-items-center" >
+                                <div class="col-lg-4 col-3 sender_top" >
+                                    <label for="{{ field.name }}" class="col-form-label">{{ field.label }}</label>
+                                </div>
+                                <div class="col-lg-8 col-9 sender_bottom" >
+                                    {{ field }}
+                                    <div class="text" style="color: red; display: inline-block">{{ field.help_text }}</div>
+                                    {% for error in field.errors %}
+                                        <div class="texter" style="color: red; display: inline-block">{{ error|escape }}</div>
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <div class="col-lg-8 col-9 sender_bottom" >
-                                {{ field }}
-                                <div class="text" style="color: red; display: inline-block">{{ field.help_text }}</div>
-                                {% for error in field.errors %}
-                                <div class="texter" style="color: red; display: inline-block">{{ error|escape }}</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
-                                    data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Оновити
-                            </button>
-                        </div>
+                         {% endfor %}
+                         <div class="col-sm-12 d-flex justify-content-end">
+                             <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
+                                     data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Оновити
+                             </button>
+                         </div>
                     </form>
                     <!-- *** -->
                 </div>
@@ -44,10 +44,6 @@
     </div>
 </div>
 <style>
-    .nice-select .list {
-        max-height: 300px;
-        overflow: scroll;
-    }
     .sender_top > label {
         font-size: 14px;
     }

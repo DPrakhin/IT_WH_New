@@ -3,72 +3,72 @@
 
 {% block content %}
 {% if user_admin > 0  %}
-<div class="container" style="max-width: 1300px;">
-    <div class="cart_inner">
-        <div class="class=table table-bordered table-striped table-light dataTable-table">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Назва обладнання</th>
-                    <th scope="col">Тип обладнання</th>
-                    <th scope="col">Виробник обладнання</th>
-                    <th scope="col">Постачальник обладнання</th>
-                    <th scope="col">Модель обладнання</th>
-                    <th scope="col">Серійний номер</th>
-                    <th scope="col">Користувач</th>
-                    <th scope="col">Статус обладнання</th>
-                    <th scope="col">Дата придбання</th>
-                    <th scope="col">Гарантія</th>
-                </tr>
-                </thead>
-                <tbody>
+        <div class="container" style="max-width: 1300px;">
+            <div class="cart_inner">
+                <div class="class=table table-bordered table-striped table-light dataTable-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Назва обладнання</th>
+                                <th scope="col">Тип обладнання</th>
+                                <th scope="col">Виробник обладнання</th>
+                                <th scope="col">Постачальник обладнання</th>
+                                <th scope="col">Модель обладнання</th>
+                                <th scope="col">Серійний номер</th>
+                                <th scope="col">Користувач</th>
+                                <th scope="col">Статус обладнання</th>
+                                <th scope="col">Дата придбання</th>
+                                <th scope="col">Гарантія</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                {% for d in dev %}
-                <tr>
-                    <td class="w_img">
-                        {% for d1 in dev_type %}
-                        <img src="/media/{{ d1.dev_type_logo }}">
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <h5>{{ d.device_title }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.device_type }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.device_vendor }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.supplier }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.device_model}}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.serial_number }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.user_id }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.device_status }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.purchase_date }}</h5>
-                    </td>
-                    <td>
-                        <h5>{{ d.device_warranty }}</h5>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            {% for d in dev %}
+                            <tr>
+                                <td class="w_img">
+                                    {% for d1 in dev_type %}
+                                    <img src="/media/{{ d1.dev_type_logo }}">
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_title }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_type }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_vendor }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.supplier }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_model}}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.serial_number }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.user_id }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_status }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.purchase_date }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ d.device_warranty }}</h5>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<style>
+        <style>
             .w_img{
                 width: 150px;
                 zoom: 50%;

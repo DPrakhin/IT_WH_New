@@ -8,7 +8,6 @@ $(document).ready(() => {
         data: `uid=${user_id}`,
         success: (response) => {
             $('.number').text(response.count);
-            $('.number_wait').text(response.count_wait);
         }
     })
 

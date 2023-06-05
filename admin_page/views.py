@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from employees.models import Employees
 from assets.models import Devices
+from .forms import EmployeeForm, DeviceForm
 from django.contrib.auth.decorators import login_required
 
 # НЕ ЗМІНЮВАТИ
@@ -35,11 +36,8 @@ def admin_page(request):
                 return final_storage
 
             def get_employee_data(self):
-                if Employees.objects.filter(user_id=request.user.id).exists():
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
                     employee_data = Employees.objects.get(user_id=request.user.id)
-                    return employee_data
-                else:
-                    employee_data = ''
                     return employee_data
 
         if request.user.groups.filter(name='Admins').exists():
@@ -159,6 +157,87 @@ def admin_page(request):
             'model_options': model_options
         })
 
+# ID відноситься до Devices Table
+@login_required
+def device_create(request):
+    if not request.user.groups.filter(name='Admins').exists():
+
+        return redirect("/")
+
+    else:
+        # Обов'язкові відомості про акаунт
+        class getdata(object):
+            def get_employee_data(self):
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
+                    employee_data = Employees.objects.get(user_id=request.user.id)
+                    return employee_data
+
+        user_data = {}
+        user_data['u_id'] = request.user.id
+        user_data['u_email'] = request.user.email
+        if request.user.groups.filter(name='Admins').exists():
+            user_data['u_group'] = 'Admins'
+        # -----------------
+
+
+        return render(request, 'admin_page/create_device.html', {
+            'page_title': 'Обладняння',
+            'app_name': 'Головна',
+            'page_name': 'Створення',
+            'employee_data': getdata().get_employee_data(),
+            'user_data': user_data,
+        })
+
+
+@login_required
+def device_update(request, deviceinner_device_id):
+    if not request.user.groups.filter(name='Admins').exists():
+
+        return redirect("/")
+
+    else:
+        # Обов'язкові відомості про акаунт
+        class getdata(object):
+            def get_employee_data(self):
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
+                    employee_data = Employees.objects.get(user_id=request.user.id)
+                    return employee_data
+
+        user_data = {}
+        user_data['u_id'] = request.user.id
+        user_data['u_email'] = request.user.email
+        if request.user.groups.filter(name='Admins').exists():
+            user_data['u_group'] = 'Admins'
+
+        target_device = Devices.objects.get(id=deviceinner_device_id)
+
+        if request.method == 'GET':
+            return render(request, 'admin_page/update_device.html', context={
+                'page_title': 'Акаунти',
+                'app_name': 'Головна',
+                'page_name': 'Оновлення',
+                'employee_data': getdata().get_employee_data(),
+                'target_post': target_device,
+                'form': DeviceForm(instance=target_device),
+                'user_data': user_data,
+            })
+        elif request.method == 'POST':
+            form2 = DeviceForm(request.POST)
+            if form2.is_valid():
+                target_device.device_type = form2.cleaned_data.get('device_type')
+                target_device.device_vendor = form2.cleaned_data.get('device_vendor')
+                target_device.device_title = form2.cleaned_data.get('device_title')
+                target_device.device_model = form2.cleaned_data.get('device_model')
+                target_device.serial_number = form2.cleaned_data.get('serial_number')
+                target_device.device_status = form2.cleaned_data.get('device_status')
+                target_device.user_id = form2.cleaned_data.get('user_id')
+                target_device.supplier = form2.cleaned_data.get('supplier')
+                target_device.purchase_date = form2.cleaned_data.get('purchase_date')
+                target_device.device_warranty = form2.cleaned_data.get('device_warranty')
+                target_device.comments = form2.cleaned_data.get('comments')
+                target_device.save()
+            return redirect('/admin_page/accounts')
+
 
 @login_required
 def device_details(request, deviceinner_device_id):
@@ -170,12 +249,8 @@ def device_details(request, deviceinner_device_id):
         # Обов'язкові відомості про акаунт
         class getdata(object):
             def get_employee_data(self):
-                if Employees.objects.filter(user_id=request.user.id).exists() and request.user.groups.filter(
-                        name='Admins').exists():
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
                     employee_data = Employees.objects.get(user_id=request.user.id)
-                    return employee_data
-                else:
-                    employee_data = ''
                     return employee_data
 
         user_data = {}
@@ -207,12 +282,8 @@ def device_delete(request, deviceinner_device_id):
         # Обов'язкові відомості про акаунт
         class getdata(object):
             def get_employee_data(self):
-                if Employees.objects.filter(user_id=request.user.id).exists() and request.user.groups.filter(
-                        name='Admins').exists():
+                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
                     employee_data = Employees.objects.get(user_id=request.user.id)
-                    return employee_data
-                else:
-                    employee_data = ''
                     return employee_data
 
         user_data = {}

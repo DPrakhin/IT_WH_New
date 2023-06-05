@@ -1,9 +1,8 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from .models import Company, NewsPost
-from django.utils import timezone
 from django.forms import ModelForm
-from django.forms.widgets import NumberInput
+from django.core.exceptions import ValidationError
+from .models import Company
+
 
 # ФОРМА КОМПАНІЇ:
 class CompanyForm(ModelForm):
@@ -94,58 +93,3 @@ class CompanyUpdateForm(ModelForm):
         model = Company
         fields = ['company_title', 'company_logo', 'city', 'address', 'email', 'phone', 'company_boss',
                   'product_owner', 'comments']
-
-class CompanyNews(ModelForm):
-    def clean_post_image(self):
-        data = self.cleaned_data['post_image']
-
-        # Якщо файл не обраний, то додаємо в БД файл за замовчанням:
-        if data is None:
-            data = 'posts/default-post.jpg'
-
-        else:
-            # Якщо файл обраний - перевіряємо його обсяг
-            size_limit = 1920 * 1080
-
-            if data.size > size_limit:
-                raise ValidationError('Увага!! Файл з логотипом компанії повинен бути меньше ніж 800кБ!')
-
-        return data
-
-    post_image = forms.FileField(label='Фото', help_text='Оберіть файл (*.jpg)',
-                                   allow_empty_file=False, required=False,
-                                   widget=forms.FileInput(attrs={'accept': '.jpg'}))
-    post_date = forms.DateField(label='Дата завантаження', widget=NumberInput(attrs={'type': 'date'}))
-    class Meta:
-        model = NewsPost
-        fields = ['post_heading', 'description', 'post_image', 'post_date', 'tag', 'author']
-
-        initial = {
-            'post_heading': '',
-            'description': '',
-            'post_date': '',
-            'tag': '',
-            'author': '',
-        }
-
-class UpdateNews(ModelForm):
-    def clean_post_image(self):
-        data = self.cleaned_data['post_image']
-
-        if data is None:
-            data = 'posts/default-post.jpg'
-
-        else:
-            size_limit = 1920 * 1080
-
-            if data.size > size_limit:
-                raise ValidationError('Увага!! Файл з логотипом компанії повинен бути меньше ніж 800кБ!')
-
-        return data
-
-    post_image = forms.FileField(label='Фото', help_text='Оберіть файл (*.jpg)',
-                                   allow_empty_file=False, required=False,
-                                   widget=forms.FileInput(attrs={'accept': '.jpg'}))
-    class Meta:
-        model = NewsPost
-        fields = ['post_heading', 'description', 'post_image', 'tag', 'author']

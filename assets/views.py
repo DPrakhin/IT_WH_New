@@ -20,40 +20,17 @@ def device_list(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
     # ---
 
     # Pagination:
-    if request.method == 'GET':
-        pages = 3
+    dev_list = Devices.objects.all()
 
-        squery = request.GET.get('query')
-        if squery == None or squery == '':
-            dev_list = Devices.objects.all()
-            paginator = Paginator(dev_list, pages)
-            page_number = request.GET.get('page')
-            page_object = Paginator.get_page(paginator, page_number)
-        else:
-            incomplete_page = []
+    paginator = Paginator(dev_list, 5)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
 
-            for data in Devices.objects.all():
-                list_checker = [str(data.device_type), str(data.device_vendor), str(data.device_title),
-                                str(data.device_model), str(data.serial_number), str(data.device_status),
-                                str(data.user_id), str(data.supplier), str(data.purchase_date),
-                                str(data.device_warranty)]
-                get_id = {'id': data.id}
-                for output in list_checker:
-                    if str(squery) == output:
-                        incomplete_page.append(Devices.objects.get(id=get_id.get('id')))
-
-            page_object = []
-            [page_object.append(x) for x in incomplete_page if x not in page_object]
-
+    context['dev'] = dev_list
     context['dev_list'] = page_object
     return render(request, 'assets/list.html', context=context)
 
@@ -69,13 +46,8 @@ def dev_create(request):
 
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
 
     if request.method == 'POST':
         form = DevicesForm(request.POST)
@@ -106,12 +78,7 @@ def device_update(request, device_id=None):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
 
     if device_id:
         device_info = get_object_or_404(Devices, id=device_id)
@@ -133,14 +100,6 @@ def device_update(request, device_id=None):
 def delete_device(request, device_id):
     device = get_object_or_404(Devices, id=device_id)
 
-    user_admin = 0
-    if request.user.groups.filter(name='Admins').exists():
-        user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
-
     if request.method == 'POST':
         device.delete()
         return redirect('/assets/list')
@@ -151,8 +110,6 @@ def delete_device(request, device_id):
         'page_name': 'Видалення обладнання',
         'device': device,
         'device_id': device_id,
-        'user_admin': user_admin,
-        'employee_data': employee_data
     }
     return render(request, 'assets/device_delete.html', context)
 
@@ -163,11 +120,7 @@ def category(request):
     cat_all = Devices.objects.all()
     d_type = DeviceType.objects.all()
     d_len = len(cat_all)
-    #--------- для актуалізації інформації
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
+
 
     # Потрібно визначити групу користувача
     # так як, для Admins та Users різні варіанти:
@@ -180,7 +133,6 @@ def category(request):
             'user_admin': user_admin,
             'dev_type': d_type,
             'd_len': d_len,
-            'employee_data': employee_data,
         })
 
     else:
@@ -192,7 +144,6 @@ def category(request):
             'user_admin': user_admin,
             'dev_type': d_type,
             'd_len': d_len,
-            'employee_data': employee_data,
         })
 
 
@@ -210,10 +161,6 @@ def vendors(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     vend_list = []
     all_vendors = Vendors.objects.all()
@@ -229,7 +176,6 @@ def vendors(request):
         vend_list.append(our_ven_data)
 
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
     context['vend_list'] = vend_list
 
     return render(request, 'assets/vendors.html', context=context)
@@ -263,13 +209,8 @@ def vend_create(request):
 
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
 
     if request.method == 'POST':
         form = VendorsForm(request.POST)
@@ -293,10 +234,6 @@ def suppliers(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     all_s = Suppliers.objects.all()
     num_s = len(all_s)
@@ -304,7 +241,6 @@ def suppliers(request):
     return render(request, 'assets/suppliers.html', context={
         'sup': all_s,
         'len_sup': num_s,
-        'employee_data': employee_data,
         'user_admin': user_admin,
     })
 
@@ -316,10 +252,6 @@ def warranty(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     # Завантажуємо дані з бази
     all_devices = Devices.objects.all()
@@ -329,7 +261,6 @@ def warranty(request):
         'dev': all_devices,
         'dev_type': d_type,
         'user_admin': user_admin,
-        'employee_data': employee_data,
     })
 
 @login_required
@@ -345,12 +276,7 @@ def sup_update(request, supp_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
     # ---
 
     # 1. Збираємо потрібну інформацію:

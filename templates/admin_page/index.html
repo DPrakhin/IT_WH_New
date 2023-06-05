@@ -103,7 +103,7 @@
                                         </div>
                                     </div>
                                     <a class="btn btn-primary sel" href="/employees/emp_create">Додати співтобітника</a>
-                                    <a class="btn btn-primary sel" href="{% url 'dev_create' %}">Додати обладнання</a>
+                                    <a class="btn btn-primary sel" href="{% url 'device_create' %}">Додати обладнання</a>
                                 </div>
 
                                 <div class="dataTable-container capitalizer" >
@@ -203,7 +203,7 @@
                                                 <td>
                                                     <div class="btn-group mb-3" role="group" aria-label="Basic example">
                                                         <a class="btn btn-outline-warning" href="/admin_page/devices/details/{{ getdevice.id }}">Деталі</a>
-                                                        <a class="btn btn-outline-primary" href="/assets/update/{{ getdevice.id }}">Редагувати</a>
+                                                        <a class="btn btn-outline-primary" href="/admin_page/devices/update/{{ getdevice.id }}">Редагувати</a>
                                                         <a class="btn btn-outline-danger" href="/admin_page/devices/delete/{{ getdevice.id }}">Видалити</a>
                                                     </div>
                                                 </td>
@@ -363,10 +363,6 @@
     </div>
 </div>
 <style>
-.nice-select .list {
-        max-height: 300px;
-        overflow: scroll;
-    }
 .capitalizer{
     font-size: 15px
 }
