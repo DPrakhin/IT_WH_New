@@ -160,40 +160,20 @@ def delete_device(request, device_id):
 # ПЕРЕЛІК КАТЕГОРІЙ
 @login_required
 def category(request):
-    cat_all = Devices.objects.all()
-    d_type = DeviceType.objects.all()
-    d_len = len(cat_all)
-    #--------- для актуалізації інформації
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
-
-    # Потрібно визначити групу користувача
-    # так як, для Admins та Users різні варіанти:
-    if request.user.groups.filter(name='Admin').exists():
-        # Користувач в группі Admins
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
 
-        return render(request, 'assets/category.html', context={
-            'cat': cat_all,
-            'user_admin': user_admin,
-            'dev_type': d_type,
-            'd_len': d_len,
-            'employee_data': employee_data,
-        })
+    dtype = DeviceType.objects.all()
+    c = Devices.objects.all()
+    dev_count = len(c)
 
-    else:
-        # Користувач в группі Users
-        user_admin = 0
-
-        return render(request, 'assets/category.html', context={
-            'cat': cat_all,
-            'user_admin': user_admin,
-            'dev_type': d_type,
-            'd_len': d_len,
-            'employee_data': employee_data,
-        })
+    return render(request, 'assets/category.html', context={
+        'dev_type': dtype,
+        'ha': c,
+        'd_len': dev_count,
+        'user_admin': user_admin,
+    })
 
 
 # ПЕРЕЛІК ВИРОБНИКІВ
@@ -293,10 +273,6 @@ def suppliers(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     all_s = Suppliers.objects.all()
     num_s = len(all_s)
@@ -304,7 +280,6 @@ def suppliers(request):
     return render(request, 'assets/suppliers.html', context={
         'sup': all_s,
         'len_sup': num_s,
-        'employee_data': employee_data,
         'user_admin': user_admin,
     })
 
@@ -316,10 +291,6 @@ def warranty(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
 
     # Завантажуємо дані з бази
     all_devices = Devices.objects.all()
@@ -329,74 +300,99 @@ def warranty(request):
         'dev': all_devices,
         'dev_type': d_type,
         'user_admin': user_admin,
-        'employee_data': employee_data,
     })
 
 @login_required
 def sup_update(request, supp_id):
-    # Базова інформація - для кожної сторінки:
     context = {
-        'page_title': 'Оновлення даних',
+        'page_title': 'Додати постачальника',
         'app_name': 'Постачальники',
-        'page_name': 'Оновлення даних постачальників'
+        'page_name': 'Додати постачальника'
     }
 
-    # Перевіряємо Admin/Users:
-    user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
-    if Employees.objects.filter(user_id=request.user.id).exists():
-        employee_data = Employees.objects.get(user_id=request.user.id)
-    else:
-        employee_data = ''
+
     context['user_admin'] = user_admin
-    context['employee_data'] = employee_data
-    # ---
 
-    # 1. Збираємо потрібну інформацію:
-    suppliers_info = Suppliers.objects.get(id=supp_id)
-    suppliers_email = suppliers_info.email
-    suppliers_eid = suppliers_info.phone
-
-    # 2. Готуємо базову форму:
-    form = SuppliersForm(instance=suppliers_info)
-
-    # 3. POST or GET:
     if request.method == 'POST':
-        print('INPUT DATA:', request.POST)
+        form = SuppliersForm(request.POST)
+        if form.is_valid():
+            supp_data = Suppliers()
+            supp_data.title = form.cleaned_data['title']
+            supp_data.url = form.cleaned_data['url']
+            supp_data.email = form.cleaned_data['email']
+            supp_data.phone = form.cleaned_data['phone']
+            supp_data.comments = form.cleaned_data['comments']
+            supp_data.save()
+            return redirect('/assets/suppliers')
+    else:
+        form = SuppliersForm()
 
-    context['sup_email'] = suppliers_email
-    context['sup_eid'] = suppliers_eid
-    context['employee_id'] = supp_id
     context['form'] = form
     return render(request, 'assets/update_suppliers.html', context=context)
 
 
 @login_required
-def cc(request):
-    if not request.user.groups.filter(name='Admins').exists():
+def sup_delete(request, supp_id):
+    sup = get_object_or_404(Suppliers, id=supp_id)
 
-        return redirect("/")
+    if request.method == 'POST':
+        sup.delete()
+        return redirect('/assets/suppliers')
 
+    context = {
+        'page_title': 'Видалення постачальника',
+        'app_name': 'Постачальники',
+        'page_name': 'Видалення постачальники',
+        'supl': sup,
+    }
+
+    return render(request, 'assets/suppliers_delete.html', context=context)
+
+@login_required
+def c_create(request, d_id):
+    context = {
+        'page_title': 'Додати категорію(тип) обладнення',
+        'app_name': 'Категорії',
+        'page_name': 'Додати категорію'
+    }
+
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+
+    context['user_admin'] = user_admin
+
+    if request.method == 'POST':
+        form = DeviceTypeForm(request.POST)
+        if form.is_valid():
+            supp_data = DeviceType()
+            supp_data.dev_type = form.cleaned_data['dev_type']
+            supp_data.dev_type_logo = form.cleaned_data['dev_type_logo']
+            supp_data.save()
+            return redirect('/assets/category')
     else:
-        # Обов'язкові відомості про акаунт
-        class getdata(object):
-            def get_employee_data(self):
-                if request.user.groups.filter(name='Admins').exists() and request.user.is_employee:
-                    employee_data = Devices.objects.get(user_id=request.user.id)
-                    return employee_data
+        form = DeviceTypeForm()
 
-        user_data = {}
-        user_data['u_id'] = request.user.id
-        user_data['u_email'] = request.user.email
-        if request.user.groups.filter(name='Admins').exists():
-            user_data['u_group'] = 'Admins'
-        # -----------------
+    context['form'] = form
+    return render(request, 'assets/category_create.html', context=context)
 
-        return render(request, 'assets/c_c.html', {
-            'page_title': 'Обладняння',
-            'app_name': 'Головна',
-            'page_name': 'Створення',
-            'employee_data': getdata().get_employee_data(),
-            'user_data': user_data,
-        })
+@login_required
+def c_delete(request, d_id):
+    d = get_object_or_404(DeviceType, id=d_id)
+    c = Devices.objects.all()
+    dlen = len(c)
+
+    if request.method == 'POST':
+        d.delete()
+        return redirect('/assets/category')
+
+    context = {
+        'page_title': 'Видалення категорію(тип) обладнення',
+        'app_name': 'Категорії',
+        'page_name': 'Видалення категорії',
+        'd': d,
+        'd_len': dlen
+    }
+
+    return render(request, 'assets/category_delete.html', context=context)

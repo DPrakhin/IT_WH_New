@@ -11,10 +11,12 @@ urlpatterns = [
     path('vend_create', vend_create, name='vend_create'),
     path('vendor_delete/<int:vendor_id>/', vendor_delete, name='vendor_delete'),
     path('list', device_list, name='device-list'),
-    path('category', category, name='category-list'),
+    path('category', category, name='category'),
     path('vendors', vendors, name='vendors-list'),
     path('suppliers', suppliers, name='suppliers-list'),
     path('warranty', warranty, name='warranty-list'),
-
-    re_path(r'^update_suppliers/(?P<supp_id>[0-9]+)$', sup_update, name='suppliers-update'),
+    path('update_suppliers/<int:supp_id>', sup_update, name='suppliers-update'),
+    path('suppliers_delete/<int:supp_id>/', sup_delete, name='suppliers_delete'),
+    path('category_create/<int:d_id>', c_create, name='category_create'),
+    path('category_delete/<int:d_id>/', c_delete, name='category_delete'),
 ]
