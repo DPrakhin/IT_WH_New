@@ -3,7 +3,7 @@
 
 <!-- IT WH: РЕДАГУВАТИ ОБЛАДНАННЯ -->
 {% block content %}
-<div style="background: #faf9ff; padding-bottom: 50px;">
+<div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
             <h4 class="card-title">Редагувати інформацію про обладнання:</h4>
@@ -12,7 +12,7 @@
             {% if user_admin == 1 %}
             <div class="card">
                 <div class="card-body">
-                    <form action="/assets/update/{{ device_id }}/" method="post">
+                    <form action="/assets/update/{{ device_id }}/" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         {% for field in form %}
@@ -32,21 +32,21 @@
 
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
-                                data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Зберегти
+                                    data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Зберегти
                             </button>
                         </div>
                     </form>
                 </div>
-            {% else %}
-            <div class="container">
-                <h3 style="color: darkred; text-align: center;">
-                    Нажаль, лише користувачі з правами Адміністратора можуть редагувати цю інформацію!
-                </h3>
-                <h4 style="color: darkblue; text-align: center;">
-                    Будь ласка, увійдіть до системи з відповідними правами.
-                </h4>
-            </div>
-            {% endif %}
+                {% else %}
+                <div class="container">
+                    <h3 style="color: darkred; text-align: center;">
+                        Нажаль, лише користувачі з правами Адміністратора можуть редагувати цю інформацію!
+                    </h3>
+                    <h4 style="color: darkblue; text-align: center;">
+                        Будь ласка, увійдіть до системи з відповідними правами.
+                    </h4>
+                </div>
+                {% endif %}
             </div>
             <div class="container">
                 <a href="/main/main_page" class="btn btn-primary my-btn">Повернутись</a>
@@ -55,6 +55,10 @@
     </div>
 </div>
 <style>
+    .nice-select .list {
+        max-height: 300px;
+        overflow: scroll;
+    }
     .sender_top > label {
         font-size: 14px;
     }

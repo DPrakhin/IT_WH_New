@@ -26,7 +26,7 @@
                 <div style="padding: 10px;">
                     <form action="/admin_page/devices/delete/{{ deviceinner_device.id }}" method="POST" class="col-sm-12 d-flex justify-content-end">
                         {% csrf_token %}
-                        <input type="submit" value="Видалити компанію" class="btn btn-outline-danger my-btn">
+                        <input type="submit" value="Видалити компанію" onclick="return confirm('Ви впевнені, що хочете видалити це обладнання?')" class="btn btn-outline-danger my-btn">
                     </form>
                 </div>
             </div>

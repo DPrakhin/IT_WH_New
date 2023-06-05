@@ -9,7 +9,7 @@ class RequestDevice(models.Model):
     item = models.CharField(max_length=250, null=False, verbose_name='Тип обладнання')
     status = models.CharField(max_length=120, default='У очікуванні завершення', null=False, verbose_name='Статус')
     datetime = models.DateTimeField(auto_now_add=True)
-    notes = models.TextField(max_length=500, verbose_name='Додаток')
+    notes = models.TextField(max_length=500, verbose_name='Додаток', blank=True)
 
     def __str__(self) -> str:
         return str(self.code)

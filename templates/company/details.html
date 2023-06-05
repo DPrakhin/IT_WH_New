@@ -112,7 +112,7 @@
                     </div>
                     {% else %}
                     <div class="card">
-                        <div class="card-content" style="height: 650px;">
+                        <div class="card-content" style="height: 650px; padding: 20px;">
                             <h3 style="color: darkred; text-align: center;">
                             Нажаль, в базі відстутні відомості про компанію!
                             </h3>
@@ -120,7 +120,9 @@
                             Будь ласка, додайте інформацію про компанію в базу даних.
                             </h4>
                             {% if user_admin == 1 %}
-                                <a href="/company/create" class="btn btn-warning me-1 mb-1">Додати Компанію</a>
+                            <div class="col border-end  d-flex justify-content-center align-items-center" style="margin-top: 50px;">
+                                <a style="height: 50px; width: 200px; padding: 10px; font-size: 17px;" href="/company/create" class="btn btn-outline-warning btn-sm">Додати Компанію</a>
+                            </div>
                             {% endif %}
                         </div>
                     </div>

@@ -26,6 +26,10 @@ def emp_about(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Отримуємо відомості про співробітника з відподвідної бази:
     try:
@@ -42,6 +46,7 @@ def emp_about(request):
     context['employee_data'] = employee_info
     context['devices_count'] = devices_count
     context['user_admin'] = user_admin
+    context['employee_data'] = employee_data
     return render(request, 'employees/about.html', context=context)
 
 
@@ -58,6 +63,10 @@ def emp_list(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
     context['user_admin'] = user_admin
     # ---
 
@@ -81,12 +90,13 @@ def emp_list(request):
                 get_id = {'id': data.id}
                 for output in list_checker:
                     if str(squery) == output:
-                        incomplete_page.append(Employees.objects.get(id = get_id.get('id')))
+                        incomplete_page.append(Employees.objects.get(id=get_id.get('id')))
 
             page_object = []
             [page_object.append(x) for x in incomplete_page if x not in page_object]
 
     context['employee_list'] = page_object
+    context['employee_data'] = employee_data
     return render(request, 'employees/list.html', context=context)
 
 
@@ -103,6 +113,10 @@ def emp_create(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     context['user_admin'] = user_admin
     # ---
@@ -186,7 +200,7 @@ def emp_create(request):
             employee_data.last_name = employee_lname
             employee_data.email = employee_email
             employee_data.eid = employee_eid
-            employee_data.department  = form.cleaned_data['department']
+            employee_data.department = form.cleaned_data['department']
             employee_data.title = form.cleaned_data['title']
             employee_data.user_id = NewUser.objects.get(id=employee_user_id)
 
@@ -213,6 +227,7 @@ def emp_create(request):
                 return redirect('/employees/list')
 
     context['form'] = form
+    context['employee_data'] = employee_data
     return render(request, 'employees/emp_create.html', context=context)
 
 
@@ -229,6 +244,10 @@ def emp_details(request, emp_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
     context['user_admin'] = user_admin
     # ---
 
@@ -254,6 +273,7 @@ def emp_details(request, emp_id):
     context['employee_info'] = employee_info
     context['devices_count'] = devices_count
     context['is_product_owner'] = is_product_owner
+    context['employee_data'] = employee_data
     return render(request, 'employees/emp_details.html', context=context)
 
 
@@ -270,6 +290,10 @@ def emp_update(request, emp_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
     context['user_admin'] = user_admin
     # ---
 
@@ -310,10 +334,10 @@ def emp_update(request, emp_id):
             employee_info.save()
             return redirect('/main/main_page')
 
-    context['employee_email'] = employee_email
     context['employee_eid'] = employee_eid
     context['employee_id'] = emp_id
     context['form'] = form
+    context['employee_data'] = employee_data
     return render(request, 'employees/emp_update.html', context=context)
 
 
@@ -330,6 +354,10 @@ def emp_delete(request, emp_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
     context['user_admin'] = user_admin
     # ---
 
@@ -403,13 +431,14 @@ def emp_delete(request, emp_id):
 
         return redirect('/employees/list')
 
-    #context['product_owner'] = product_owner
+    # context['product_owner'] = product_owner
     context['employee_id'] = emp_id
     context['employee_info'] = employee_info
     context['devices_count'] = devices_count
     context['product_owner'] = product_owner
     context['product_owner_email'] = product_owner_email
     context['can_delete'] = can_delete
+    context['employee_data'] = employee_data
     return render(request, 'employees/emp_delete.html', context=context)
 
 
@@ -426,6 +455,10 @@ def dep_list(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     deps_list = None
     if len(Departments.objects.all()) > 0:
@@ -446,6 +479,7 @@ def dep_list(request):
 
     context['user_admin'] = user_admin
     context['deps_list'] = deps_list
+    context['employee_data'] = employee_data
     return render(request, 'employees/dep_list.html', context=context)
 
 
@@ -462,6 +496,10 @@ def ustatus_list(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     user_status_list = None
     if len(UserStatus.objects.all()) > 0:
@@ -482,6 +520,7 @@ def ustatus_list(request):
 
     context['user_admin'] = user_admin
     context['ustatus_list'] = user_status_list
+    context['employee_data'] = employee_data
     return render(request, 'employees/ustatus_list.html', context=context)
 
 
@@ -498,6 +537,10 @@ def cities_list(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     our_city_list = None
     if len(Cities.objects.all()) > 0:
@@ -546,7 +589,7 @@ def cities_list(request):
                 for output in list_checker:
                     if str(squery) == output:
                         if len(Cities.objects.all()) > 0:
-                            our_city = Cities.objects.get(id = get_id.get('id'))
+                            our_city = Cities.objects.get(id=get_id.get('id'))
 
                             try:
                                 Employees.objects.filter(location=our_city.id)
@@ -565,6 +608,7 @@ def cities_list(request):
 
     context['user_admin'] = user_admin
     context['cities_list'] = our_city_list
+    context['employee_data'] = employee_data
     return render(request, 'employees/cities_list.html', context=context)
 
 
@@ -581,6 +625,10 @@ def dep_create(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Перевірка GET/POST:
     form = DepartmentsForm()
@@ -597,6 +645,7 @@ def dep_create(request):
 
     context['form'] = form
     context['user_admin'] = user_admin
+    context['employee_data'] = employee_data
     return render(request, 'employees/dep_create.html', context=context)
 
 
@@ -613,6 +662,10 @@ def ustatus_create(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Перевіряємо GET/POST:
     form = UserStatusForm()
@@ -629,6 +682,7 @@ def ustatus_create(request):
 
     context['user_admin'] = user_admin
     context['form'] = form
+    context['employee_data'] = employee_data
     return render(request, 'employees/ustatus_create.html', context=context)
 
 
@@ -645,6 +699,10 @@ def city_create(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     context['user_admin'] = user_admin
 
@@ -662,6 +720,7 @@ def city_create(request):
             return redirect('/employees/cities')
 
     context['form'] = form
+    context['employee_data'] = employee_data
     return render(request, 'employees/city_create.html', context=context)
 
 
@@ -678,6 +737,10 @@ def dep_delete(request, dep_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     context['user_admin'] = user_admin
 
@@ -690,7 +753,6 @@ def dep_delete(request, dep_id):
     else:
         emp_count = len(Employees.objects.filter(department=dep_id))
 
-
     # Інформацію про сам департмент:
     dep_info = Departments.objects.get(id=dep_id)
 
@@ -702,6 +764,7 @@ def dep_delete(request, dep_id):
 
     context['emp_count'] = emp_count
     context['dep_info'] = dep_info
+    context['employee_data'] = employee_data
     return render(request, 'employees/deps_delete.html', context=context)
 
 
@@ -718,6 +781,10 @@ def city_delete(request, city_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     context['user_admin'] = user_admin
 
@@ -750,6 +817,7 @@ def city_delete(request, city_id):
     context['emp_count'] = emp_count
     context['company_count'] = company_count
     context['city_info'] = city_info
+    context['employee_data'] = employee_data
     return render(request, 'employees/city_delete.html', context=context)
 
 
@@ -766,6 +834,10 @@ def ustatus_delete(request, ustatus_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     context['user_admin'] = user_admin
 
@@ -778,7 +850,6 @@ def ustatus_delete(request, ustatus_id):
     else:
         emp_count = len(Employees.objects.filter(status=ustatus_id))
 
-
     # Інформацію про сам департмент:
     ustatus_info = UserStatus.objects.get(id=ustatus_id)
 
@@ -790,4 +861,5 @@ def ustatus_delete(request, ustatus_id):
 
     context['emp_count'] = emp_count
     context['ustatus_info'] = ustatus_info
+    context['employee_data'] = employee_data
     return render(request, 'employees/ustatus_delete.html', context=context)
