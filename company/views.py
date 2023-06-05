@@ -53,6 +53,7 @@ def create(request):
         powner_id = request.POST.get('product_owner')
 
         form = CompanyForm(request.POST, request.FILES)
+        # print('THE LOGO IS', request.FILES) => Works well
         if form.is_valid():
             company_data = Company()
 
@@ -112,6 +113,7 @@ def update(request, company_id):
         powner_id = request.POST.get('product_owner')
 
         form = CompanyUpdateForm(request.POST, request.FILES)
+        # print('FILE IS', request.FILES)
         if form.is_valid():
             company_info.company_title = form.cleaned_data['company_title']
             company_info.company_logo = form.cleaned_data['company_logo']

@@ -15,7 +15,6 @@
                     <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
                      <form action="/company/update/{{ company_info.id }}" method="post">
                         {% csrf_token %}
-
                          {% for field in form %}
                             <div class="form-group row align-items-center" >
                                 <div class="col-lg-4 col-3 sender_top" >
@@ -30,7 +29,6 @@
                                 </div>
                             </div>
                          {% endfor %}
-
                          <div class="col-sm-12 d-flex justify-content-end">
                              <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
                                      data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Редагувати
