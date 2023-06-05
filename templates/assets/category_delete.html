@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div style="background: #faf9ff; padding-bottom: 400px;">
+<div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
             <h4 class="card-title">Ви збираєтесь видалити наступну категорію:</h4>
@@ -11,12 +11,12 @@
             <div class="card">
                 <div class="card-content" style="margin: 0 auto;">
                     <div class="card-body">
-                        <h5 class="card-title">Назва категорії: {{ d.dev_type }}</h5>
-                        <h4 class="card-title">Кількість пов'язаних пристроїв:  {{ d_len }}</h4>
+                        <h5 class="card-title">Назва категорії: {{ dtype }}</h5>
+                        <h4 class="card-title">Кількість пов'язаних пристроїв:  {{ count }}</h4>
                     </div>
                 </div>
                 <div style="padding: 10px; text-align: center;">
-                    <form action="{% url 'category_delete' d.id %}" method="POST">
+                    <form action="/assets/category_delete/{{ d_id }}/" method="POST">
                         {% csrf_token %}
                         <input  type="submit" value="Видалити категорію" class="btn btn-danger my-btn">
                     </form>
