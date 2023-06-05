@@ -19,4 +19,5 @@ urlpatterns = [
     path('suppliers_delete/<int:supp_id>/', sup_delete, name='suppliers_delete'),
     path('category_create/<int:d_id>', c_create, name='category_create'),
     path('category_delete/<int:d_id>/', c_delete, name='category_delete'),
+
 ]
