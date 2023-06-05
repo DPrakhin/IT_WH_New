@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <!-- ТАК ТАБЛИЦЯ ВИГЛЯДАЄ ТРІШКІ ЛІПШЕ -->
-                     <form action="/employees/update/{{ employee_id }}" method="post">
+                     <form action="/employees/update/{{ employee_id }}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                          {% for field in form %}
                             <div class="form-group row align-items-center" >

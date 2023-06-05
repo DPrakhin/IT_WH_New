@@ -292,8 +292,8 @@ def emp_update(request, emp_id):
             employee_info.department = form.cleaned_data['department']
             employee_info.title = form.cleaned_data['title']
 
-            if request.POST.get('photo') == '':
-                employee_info.photo = 'photos/default_user.jpg'
+            if request.POST.get('photo') != '':
+                employee_info.photo = form.cleaned_data['photo']
 
             city_id = request.POST.get('location')
             if city_id != '':
