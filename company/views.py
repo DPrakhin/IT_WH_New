@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 
 from employees.models import Cities, Employees
-from .models import Company
-from .forms import CompanyForm, CompanyUpdateForm
+from .models import Company, NewsPost
+from .forms import CompanyForm, CompanyUpdateForm, CompanyNews, UpdateNews
 
+import os
 
 # Create your views here.
 @login_required
@@ -20,6 +21,10 @@ def details(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Перевіряємо наявність записів про компанію:
     company_info = None
@@ -28,6 +33,7 @@ def details(request):
 
     context['user_admin'] = user_admin
     context['company_info'] = company_info
+    context['employee_data'] = employee_data
     return render(request, 'company/details.html', context=context)
 
 
@@ -44,6 +50,10 @@ def create(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # GET/POST:
     if request.method == 'POST':
@@ -84,6 +94,7 @@ def create(request):
 
     context['user_admin'] = user_admin
     context['form'] = form
+    context['employee_data'] = employee_data
     return render(request, 'company/create.html', context=context)
 
 
@@ -100,6 +111,10 @@ def update(request, company_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Отримуємо інформацію про компанію:
     company_info = Company.objects.get(id=company_id)
@@ -112,13 +127,10 @@ def update(request, company_id):
         powner_id = request.POST.get('product_owner')
 
         form = CompanyUpdateForm(request.POST, request.FILES)
-        #print('FILE IS', request.FILES['company_logo'])    => Works well
         if form.is_valid():
+            if request.POST.get('post_image') != '':
+                company_info.post_image = form.cleaned_data['company_logo']
             company_info.company_title = form.cleaned_data['company_title']
-
-            if request.POST.get('company_logo') != '':
-                company_info.company_logo = form.cleaned_data['company_logo']
-
             company_info.address = form.cleaned_data['address']
             company_info.email = form.cleaned_data['email']
             company_info.phone = form.cleaned_data['phone']
@@ -149,6 +161,7 @@ def update(request, company_id):
     context['form'] = form
     context['company_info'] = company_info
     context['user_admin'] = user_admin
+    context['employee_data'] = employee_data
     return render(request, 'company/update.html', context=context)
 
 
@@ -165,6 +178,10 @@ def delete(request, company_id):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
 
     # Отримуємо дані про компанію:
     company_info = Company.objects.get(id=company_id)
@@ -178,6 +195,7 @@ def delete(request, company_id):
     context['user_admin'] = user_admin
     context['company_id'] = company_id
     context['company_info'] = company_info
+    context['employee_data'] = employee_data
     return render(request, 'company/delete.html', context=context)
 
 
@@ -195,6 +213,104 @@ def news(request):
     user_admin = 0
     if request.user.groups.filter(name='Admins').exists():
         user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
+
+    news_list = NewsPost.objects.all()
+    context['user_admin'] = user_admin
+    context['employee_data'] = employee_data
+    context['news_list'] = news_list
+    return render(request, 'news/details.html', context=context)
+@login_required
+def create_news_post(request):
+    # Базова інформація - для кожної сторінки:
+    context = {
+        'page_title': 'Додати новину',
+        'app_name': 'Новини',
+        'page_name': 'Додати новину'
+    }
+
+    # Перевіряємо Admin/Users:
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
+
+    if request.method == 'POST':
+        form = CompanyNews(request.POST, request.FILES)
+        if form.is_valid():
+            post_data = NewsPost()
+            post_data.post_heading = form.cleaned_data['post_heading']
+            post_data.description = form.cleaned_data['description']
+            post_data.post_image = form.cleaned_data['post_image']
+            post_data.post_date = form.cleaned_data['post_date']
+            post_data.tag = form.cleaned_data['tag']
+            post_data.author = form.cleaned_data['author']
+            post_data.save()
+            return redirect('/company/news')
+    else:
+        form = CompanyNews()
 
     context['user_admin'] = user_admin
-    return render(request, 'news/details.html', context=context)
+    context['form'] = form
+    context['employee_data'] = employee_data
+    return render(request, 'news/news_create.html', context=context)
+@login_required
+def update_news_post(request, post_id):
+    context = {
+        'page_title': 'Оновити новину',
+        'app_name': 'Новини',
+        'page_name': 'Оновити новину'
+    }
+
+    user_admin = 0
+    if request.user.groups.filter(name='Admins').exists():
+        user_admin = 1
+    if Employees.objects.filter(user_id=request.user.id).exists():
+        employee_data = Employees.objects.get(user_id=request.user.id)
+    else:
+        employee_data = ''
+
+    news_list = NewsPost.objects.get(id=post_id)
+
+    if request.method == 'POST':
+        form = UpdateNews(request.POST, request.FILES)
+        if form.is_valid():
+
+            if request.POST.get('post_image') != '':
+                news_list.post_image = form.cleaned_data['post_image']
+            news_list.post_heading = form.cleaned_data['post_heading']
+            news_list.description = form.cleaned_data['description']
+            news_list.tag = form.cleaned_data['tag']
+            news_list.author = form.cleaned_data['author']
+            news_list.save()
+            return redirect('/company/news')
+        else:
+            context = {
+                'form': form,
+                'news_list': news_list,
+                'user_admin': user_admin,
+                'employee_data': employee_data,
+            }
+            return render(request, 'news/news_update.html', context)
+    elif request.method == 'GET':
+        form = UpdateNews(instance=news_list)
+
+    context['form'] = form
+    context['news_list'] = news_list
+    context['user_admin'] = user_admin
+    context['employee_data'] = employee_data
+    return render(request, 'news/news_update.html', context=context)
+
+@login_required
+def delete_news_post(request, post_id):
+    if request.method == 'GET':
+        news_list = NewsPost.objects.get(id=post_id)
+        news_list.delete()
+
+    return redirect('/company/news')

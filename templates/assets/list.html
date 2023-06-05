@@ -3,7 +3,7 @@
 
 <!-- IT WH: ДЕВАЙСИ -- СПИСОК ДЕВАЙСІВ -->
 {% block content %}
-<div style="background: #faf9ff; padding-bottom: 100px;">
+<div id="main" style="margin-left: 0; min-height: 800px;">
     <div class="main-content container-fluid">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
@@ -72,13 +72,18 @@
 
                                 <div class="dataTable-top">
                                     <div style="display: block; gap: 10px; margin: 5px 0;">
+                                        <form style="padding-bottom: 10px;" class="dataTable-search" action="{% url 'device-list' %}" method="get" data-dashlane-rid="f99ae6705c7dc65e" data-form-type="">
+                                            {% csrf_token %}
+                                            <input style="width: 300px" class="dataTable-input" name="query" placeholder="Пошук..." type="text" data-dashlane-rid="b7f577d40e4c8869" data-form-type="">
+                                            <button class="btn btn-dark" type="submit">Пошук / Повернутись</button>
+                                        </form>
                                         <a href="/assets/dev_create" class="btn btn-warning my-btn">Додати обладнання</a>
                                         <a href="/main/main_page" class="btn btn-primary my-btn">На головну</a>
                                     </div>
                                 </div>
 
                                 <div class="dataTable-container capitalizer" >
-                                    {% if dev %}
+                                    {% if dev_list %}
                                     <table class="table table-striped table-light dataTable-table" id="table1"       >
                                         <thead>
                                         <tr>
@@ -115,7 +120,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for devices_info in dev %}
+                                        {% for devices_info in dev_list %}
                                         <tr>
                                             <td class="colorizer" style="font-weight: 300;">{{ devices_info.device_type }}</td>
                                             <td class="colorizer" style="font-weight: 300;">{{ devices_info.device_vendor }}</td>
@@ -147,34 +152,34 @@
                                 </div>
 
                                 <div class="dataTable-bottom" >
-                                    <div class="dataTable-info" style="font-weight: 700">Показано {{ device_list.number }} з {{ device_list.paginator.num_pages }} сторінок</div>
-                                    {% if dev.has_other_pages %}
+                                    <div class="dataTable-info" style="font-weight: 700">Показано {{ dev_list.number }} з {{ dev_list.paginator.num_pages }} сторінок</div>
+                                    {% if dev_list.has_other_pages %}
                                     <ul class="pagination pagination-primary float-start dataTable-pagination pagination-sm">
-                                        {% if dev.has_previous %}
+                                        {% if dev_list.has_previous %}
                                         <li class="page-item pager"><a href="?page=1" class="page-link" data-page="1">‹‹</a></li>
-                                        <li class="page-item "><a href="?page={{ dev.previous_page_number }}" class="page-link" data-page="">‹</a></li>
+                                        <li class="page-item "><a href="?page={{ dev_list.previous_page_number }}" class="page-link" data-page="">‹</a></li>
                                         {% endif %}
 
-                                        {% if dev.number|add:'-2' > 1 %}
-                                        <li class="page-item"><a href="?page={{ dev.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                                        {% if dev_list.number|add:'-2' > 1 %}
+                                        <li class="page-item"><a href="?page={{ dev_list.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
                                         {% endif %}
 
-                                        {% for i in dev.paginator.page_range %}
-                                        {% if dev.number == i %}
+                                        {% for i in dev_list.paginator.page_range %}
+                                        {% if dev_list.number == i %}
                                         <li class="page-item active"><span class="page-link" data-page="">{{ i }}</span><span></span></li>
-                                        {% elif i > dev.number|add:'-2' and i < dev.number|add:'2' %}
+                                        {% elif i > dev_list.number|add:'-2' and i < dev_list.number|add:'2' %}
                                         <li class="page-item"><a href="?page={{ i }}" class="page-link" data-page="">{{ i }}</a></li>
                                         {% endif %}
                                         {% endfor %}
 
-                                        {% if dev.paginator.num_pages > dev.number|add:'2' %}
-                                        <li><a href="?page={{ dev.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
-                                        <li><a href="?page={{ dev.paginator.num_pages }}" class="page-link" data-page="">{{ dev.paginator.num_pages }}</a></li>
+                                        {% if dev_list.paginator.num_pages > dev_list.number|add:'2' %}
+                                        <li><a href="?page={{ dev_list.number|add:'-2' }}" class="page-link" data-page="">&hellip;</a></li>
+                                        <li><a href="?page={{ dev_list.paginator.num_pages }}" class="page-link" data-page="">{{ dev_list.paginator.num_pages }}</a></li>
                                         {% endif %}
 
-                                        {% if dev.has_next %}
-                                        <li class="page-item"><a href="?page={{ dev.next_page_number }}" class="page-link" data-page="">›</a></li>
-                                        <li class="page-item pager"><a href="?page={{ dev.paginator.num_pages }}" class="page-link" data-page="">››</a></li>
+                                        {% if dev_list.has_next %}
+                                        <li class="page-item"><a href="?page={{ dev_list.next_page_number }}" class="page-link" data-page="">›</a></li>
+                                        <li class="page-item pager"><a href="?page={{ dev_list.paginator.num_pages }}" class="page-link" data-page="">››</a></li>
                                         {% endif %}
                                     </ul>
                                     {% endif %}
@@ -185,9 +190,13 @@
                 </div>
             </div>
         </section>
-        </div>
     </div>
+</div>
 <style>
+.nice-select .list {
+        max-height: 300px;
+        overflow: scroll;
+    }
 .capitalizer{
     font-size: 15px
 }

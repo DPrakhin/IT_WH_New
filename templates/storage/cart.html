@@ -6,110 +6,165 @@
 
 {% if user_data.u_group == 'Admins' %}
 <div id="main" style="margin-left: 0; min-height: 800px;">
-    <div class="container" style="max-width: 1400px;">
+    <div class="main-content container-fluid">
         <div class="page-title">
             <nav class="navbar navbar-header navbar-expand navbar-light headli-1">
                 <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
                 <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
             </nav>
-            <h3 class="title_confirmation">Запити</h3>
+            <h3 class="headli-1">Запити</h3>
         </div>
-        <div class="cart_inner card">
-            <div class="table-responsive table-light">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Про запит ( Необхідно заповнити <code>*</code> )</th>
-                        <th scope="col">Адмін</th>
-                        <th scope="col">Співробітник</th>
-                        <th scope="col">Річ</th>
-                        <th scope="col">Статус</th>
-                        <th scope="col"></th>
-                        <th scope="col">Час</th>
-                        <th scope="col"></th>
-                        <th scope="col">Опис</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for requests in item_requests %}
-                    <tr>
-                        <td class="id_empl_cell">
-                            <input type="hidden" value="{{ requests.id }}">
-                            <div class="media" style="width: 400px;">
-                                <div class="d-flex">
-                                    <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
-                                </div>
-                                <div class="media-body">
-                                    <span style="color: black">Поле не заповнено <code>*</code></span>
-                                    <p style="color: black" class="field_required">{{ requests.notes }}</p>
-                                </div>
+
+        <section class="section">
+
+            <div class="row mb-4">
+                <div class="col-md-7">
+                    <div class="cart_inner card">
+                        <div class="table-responsive table-light">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Про запит ( Необхідно заповнити <code>*</code> )</th>
+                                    <th scope="col">Адмін</th>
+                                    <th scope="col">Співробітник</th>
+                                    <th scope="col">Річ</th>
+                                    <th scope="col">Статус</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Час</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Опис</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for requests in item_requests %}
+                                <tr>
+                                    <td class="id_empl_cell">
+                                        <input type="hidden" value="{{ requests.id }}">
+                                        <div class="media" style="width: 400px;">
+                                            <div class="d-flex">
+                                                <img style="height: 80px; width: 80px; border-radius: 50px; object-fit: cover;" src="/media/{{ requests.employee.photo }}" alt="">
+                                            </div>
+                                            <div class="media-body">
+                                                <span style="color: black">Поле не заповнено <code>*</code></span>
+                                                <p style="color: black" class="field_required">{{ requests.notes }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{ requests.user }}</h5>
+                                    </td>
+                                    <td>
+                                        <h5>{{ requests.employee }}</h5>
+                                    </td>
+                                    <td class="item_cell">
+                                        {{ requests.item }}
+                                    </td>
+                                    <td>
+                                        {{ requests.status }}
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="check form-check-input save-cb-state" value="yes">
+                                    </td>
+                                    <td style="min-width: 100px">
+                                        {{ requests.datetime }}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical">
+                                            <button class="btn btn-outline-danger del-btn">Видалити</button>
+                                            <input type="hidden" value="{{ requests.id }}">
+                                            <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Додати</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p>{{ requests.code }}</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="out_button_area">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <div class="checkout_btn_inner d-flex align-items-center ">
+                                            <a class="gray_btn" href="{% url 'storage' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;склад</a>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_check/1,2,3">&Longrightarrow;&nbsp;&nbsp;&nbsp;Запит до відділу</a>
+                                            <span class="checker_count"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="counter_items" style="font-weight: 700; font-size: 20px;"></div>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Кількість запитів які знаходятся на обробці у відділа закупівель</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <p class="card-text"><strong>Представлення</strong> кожного запиту </p>
                             </div>
-                        </td>
-                        <td>
-                            <h5>{{ requests.user }}</h5>
-                        </td>
-                        <td>
-                            <h5>{{ requests.employee }}</h5>
-                        </td>
-                        <td class="item_cell">
-                            {{ requests.item }}
-                        </td>
-                        <td>
-                            {{ requests.status }}
-                        </td>
-                        <td>
-                            <input type="checkbox" class="check form-check-input save-cb-state" value="yes">
-                        </td>
-                        <td style="min-width: 100px">
-                            {{ requests.datetime }}
-                        </td>
-                        <td>
-                            <div class="btn-group-vertical">
-                                <button class="btn btn-outline-danger del-btn">Видалити</button>
-                                <input type="hidden" value="{{ requests.id }}">
-                                <a class="btn btn-outline-primary" href="/storage/cart/view/update/{{ requests.id }}">Додати</a>
+
+                            <!-- Table with no outer spacing -->
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Фото</th>
+                                        <th>Про запит</th>
+                                        <th>Адмін</th>
+                                        <th>Співробітник</th>
+                                        <th>Річ</th>
+                                        <th>Статус</th>
+                                        <th>Час</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in item_wait %}
+                                    <tr>
+                                        <td><span class="avatar avatar-lg"><img style="object-fit: cover;" class="ph-img" src="/media/{{ item.employee.photo }}" alt=""></span></td>
+                                        <td>{{ item.notes }}</td>
+                                        <td>{{ item.user }}</td>
+                                        <td>{{ item.employee }}</td>
+                                        <td>{{ item.item }}</td>
+                                        <td>{{ item.status }}</td>
+                                        <td>{{ item.datetime }}</td>
+                                        <td><a class="btn btn-outline-danger" onclick="return confirm('Ви впевнені, що хочете видалити цей запит?')" href="/storage/cart/view/delete/{{ item.id }}">Видалити</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                        </td>
-                        <td>
-                            <p>{{ requests.code }}</p>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    <tr class="out_button_area">
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <div class="checkout_btn_inner d-flex align-items-center ">
-                                <a class="gray_btn" href="{% url 'storage' %}">&Longrightarrow;&nbsp;&nbsp;&nbsp;склад</a>
-                                &nbsp;
-                                &nbsp;
-                                &nbsp;
-                                <a style="background: orange; color: white;" class="gray_btn primary-btn" id="moveto" href="/storage/request_check/1,2,3">&Longrightarrow;&nbsp;&nbsp;&nbsp;Запит до відділу</a>
-                                <span class="checker_count"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="counter_items" style="font-weight: 700; font-size: 20px;"></div>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+        </section>
+
     </div>
     <style>
         .form-check-input {

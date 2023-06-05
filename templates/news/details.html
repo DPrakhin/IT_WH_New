@@ -26,91 +26,51 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body" style="background-color: white; border-radius: 5px; box-shadow: 0px 0px 10px rgba(230, 230, 230, 0.8);">
+                        <a class="btn btn-outline-warning sel" href="{% url 'post_create' %}">Додати Пост</a>
                         <section class="blog_area">
                             <div class="row" style="padding: 5px;">
                                 <div class="col-lg-8">
                                     <div class="blog_left_sidebar">
-                                        <article class="row blog_item">
+                                        {% for post in news_list %}
+                                            <article class="row blog_item">
                                             <div class="col-md-3">
                                                 <div class="blog_info text-right">
                                                     <div class="post_tag">
-                                                        <a href="#">Food,</a>
-                                                        <a class="active" href="#">Technology,</a>
-                                                        <a href="#">Politics,</a>
-                                                        <a href="#">Lifestyle</a>
+                                                        <div style="color: orange">Тег: {{ post.tag }}</div>
                                                     </div>
                                                     <ul class="blog_meta list">
-                                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
+                                                        <li><a href="#">{{ post.author.first_name }} {{ post.author.last_name }}<i class="lnr lnr-user"></i></a></li>
+                                                        <li><a href="#">{{ post.post_date }}<i class="lnr lnr-calendar-full"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="blog_post">
-                                                    <img style="width: 600px; box-shadow: 20px 0px 0px rgba(255, 149, 0, 1);" src="{% static 'static_f_2/images/samples/programmer-working-on-code-X596MJF.jpg' %}" alt="">
+                                                    <img style="width: 600px; box-shadow: 20px 0px 0px rgba(255, 149, 0, 1);" src="/media/{{ post.post_image }}" alt="">
                                                     <div class="blog_details">
-                                                        <a href="single-blog.html">
-                                                            <h2>Astronomy Binoculars A Great Alternative</h2>
-                                                        </a>
-                                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                                            understand why you should have to spend money on boot camp when you can get
-                                                            the MCSE study materials yourself at a fraction.</p>
-                                                        <a href="single-blog.html" class="white_bg_btn">View More</a>
+                                                        <h3 style="font-weight: 700; color: black;">{{ post.post_heading }}</h3>
+                                                        <p style="color: black; font-size: 17px;">{{ post.description }}</p>
+                                                        <a href="/company/post/update/{{ post.id }}" class="white_bg_btn">Оновити</a>
+                                                        <a href="/company/post/delete/{{ post.id }}" onclick="return confirm('Ви впевнені, що хочете видалити цей пост?')" class="white_bg_btn">Видалити</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </article>
-                                        <article class="row blog_item">
-                                            <div class="col-md-3">
-                                                <div class="blog_info text-right">
-                                                    <div class="post_tag">
-                                                        <a href="#">Food,</a>
-                                                        <a class="active" href="#">Technology,</a>
-                                                        <a href="#">Politics,</a>
-                                                        <a href="#">Lifestyle</a>
-                                                    </div>
-                                                    <ul class="blog_meta list">
-                                                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                                                        <li><a href="#">12 Dec, 2018<i class="lnr lnr-calendar-full"></i></a></li>
-                                                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                                                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="blog_post">
-                                                    <img style="width: 600px; box-shadow: 20px 0px 0px rgba(255, 149, 0, 1);" src="{% static 'static_f_2/images/samples/programmer-working-on-code-X596MJF.jpg' %}" alt="">
-                                                    <div class="blog_details">
-                                                        <a href="single-blog.html">
-                                                            <h2>Astronomy Binoculars A Great Alternative</h2>
-                                                        </a>
-                                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                                            understand why you should have to spend money on boot camp when you can get
-                                                            the MCSE study materials yourself at a fraction.</p>
-                                                        <a href="single-blog.html" class="white_bg_btn">View More</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </article>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-lg-4" style="padding: 10px;">
                                     <div style="background-color: white;" class="blog_right_sidebar">
                                         <aside class="single_sidebar_widget author_widget">
                                             <img class="author_img rounded-circle" src="{% static 'static_f_1/img/blog/author.png' %}" alt="">
-                                            <h4>Charlie Barber</h4>
-                                            <p>Senior blog writer</p>
+                                            <h4>Команда - IT WareHouse</h4>
+                                            <p>Посилання на сторінки</p>
                                             <div class="social_icon">
                                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                                 <a href="#"><i class="fa fa-twitter"></i></a>
-                                                <a href="#"><i class="fa fa-github"></i></a>
-                                                <a href="#"><i class="fa fa-behance"></i></a>
+                                                <a target="_blank" href="https://github.com/DPrakhin/IT_WH_New"><i class="fa fa-github"></i></a>
                                             </div>
-                                            <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
-                                                should have to spend money on boot camp when you can get. Boot camps have itssuppor
-                                                ters andits detractors.</p>
+                                            <p></p>
                                             <div class="br"></div>
                                         </aside>
                                     </div>
