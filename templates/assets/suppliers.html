@@ -4,68 +4,68 @@
 {% block content %}
 {% if user_admin > 0  %}
 <div>
-    <div class="Sup_title">
-        <h3>Список Постачальників</h3>
-        <h5>Тут відображаются всі наявні постачальники, яких наразі {{ len_sup }}</h5>
-    </div>
+        <div class="Sup_title">
+            <h3>Список Постачальників</h3>
+            <h5>Тут відображаются всі наявні постачальники, яких наразі {{ len_sup }}</h5>
+        </div>
 
-    <div  class="container" style="max-width: 1300px; background: #faf9ff; padding-bottom: 50px;">
-        <div class="cart_inner">
-            <div class="class=table table-bordered table-striped table-light dataTable-table">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Ім`я</th>
-                        <th scope="col">Посилання</th>
-                        <th scope="col">E-mail</th>
-                        <th scope="col">Номер телефону</th>
-                        <th scope="col">Коментар</th>
-                        <th scope="col">Статус</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+        <div  class="container" style="max-width: 1300px; background: #faf9ff; padding-bottom: 50px;">
+            <div class="cart_inner">
+                <div class="class=table table-bordered table-striped table-light dataTable-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ім`я</th>
+                                <th scope="col">Посилання</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Номер телефону</th>
+                                <th scope="col">Коментар</th>
+                                <th scope="col">Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    {% for supp in sup %}
-                    <tr>
-                        <td>
-                            <div>
-                                <h5>{{ supp.title }}</h5>
-                            </div>
-                        </td>
-                        <td>
-                            <h5>{{ supp.url }}</h5>
-                        </td>
-                        <td>
-                            <h5>{{ supp.email }}</h5>
-                        </td>
-                        <td>
-                            {{ supp.phone }}
-                        </td>
-                        <td>
-                            <p>{{ supp.comments }}</p>
-                        </td>
-                        <td style="margin-left: 0;">
-                            <input type="checkbox" class="check" value="yes" checked>
-                        </td>
-                        <td>
-                            {{ requests.datetime }}
-                        </td>
-                        <td>
-                            <div class="btn-group-vertical">
-                                <button class="btn btn-outline-danger del-btn">Видалити</button>
-                                <input type="hidden" value="{{ supp.id }}">
-                                <a class="btn btn-outline-primary" href="/assets/update_suppliers/{{ supp.id }}">Редагрувати</a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                            {% for supp in sup %}
+                            <tr>
+                                <td>
+                                    <div>
+                                        <h5>{{ supp.title }}</h5>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>{{ supp.url }}</h5>
+                                </td>
+                                <td>
+                                    <h5>{{ supp.email }}</h5>
+                                </td>
+                                <td>
+                                    {{ supp.phone }}
+                                </td>
+                                <td>
+                                    <p>{{ supp.comments }}</p>
+                                </td>
+                                <td style="margin-left: 0;">
+                                    <input type="checkbox" class="check" value="yes" checked>
+                                </td>
+                                <td>
+                                    {{ requests.datetime }}
+                                </td>
+                                <td>
+                                    <div class="btn-group-vertical">
+                                        <input type="hidden" value="{{ supp.id }}">
+                                        <a class="btn btn-outline-danger" href="/assets/suppliers_delete/{{ supp.id }}">Видалити</a>
+                                        <a class="btn btn-outline-primary" href="/assets/update_suppliers/{{ supp.id }}">Додати</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 </div>
-<style>
+        <style>
             .Sup_title{
                 text-align: center;
                 margin-top: 20px;

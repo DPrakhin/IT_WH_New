@@ -1,18 +1,18 @@
 {% extends '_layouts/base.html' %}
 {% load static %}
 
-<!-- IT WH: РЕДАГУВАТИ ОБЛАДНАННЯ -->
+<!-- IT WH: СТВОРИТИ ОБЛАДНАННЯ -->
 {% block content %}
 <div style="background: #faf9ff; padding-bottom: 50px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
-            <h4 class="card-title">Редагувати інформацію про обладнання:</h4>
+            <h4 class="card-title">Додати інформацію про категорію:</h4>
         </div>
         <div class="card-content" style="margin: 10px 0">
             {% if user_admin == 1 %}
             <div class="card">
                 <div class="card-body">
-                    <form action="/assets/update/{{ device_id }}/" method="post">
+                    <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         {% for field in form %}
@@ -32,7 +32,7 @@
 
                         <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-warning me-1 mb-1" data-dashlane-label="true"
-                                data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Зберегти
+                                data-dashlane-rid="ecac04d8c74d3593" data-form-type="action">Створити
                             </button>
                         </div>
                     </form>
@@ -40,7 +40,7 @@
             {% else %}
             <div class="container">
                 <h3 style="color: darkred; text-align: center;">
-                    Нажаль, лише користувачі з правами Адміністратора можуть редагувати цю інформацію!
+                    Нажаль, лише користувачі з правами Адміністратора можуть додавати цю інформацію!
                 </h3>
                 <h4 style="color: darkblue; text-align: center;">
                     Будь ласка, увійдіть до системи з відповідними правами.

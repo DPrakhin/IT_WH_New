@@ -5,20 +5,20 @@
 <div style="background: #faf9ff; padding-bottom: 400px;">
     <div class="container" style="max-width: 1400px;">
         <div class="card-header">
-            <h4 class="card-title">Ви збираєтесь видалити наступного виробника:</h4>
+            <h4 class="card-title">Ви збираєтесь видалити наступного постачальника:</h4>
         </div>
         <div class="card-content" style="margin: 10px 0;">
             <div class="card">
                 <div class="card-content" style="margin: 0 auto;">
                     <div class="card-body">
-                        <h5 class="card-title">Назва виробника: {{ vendor.vendor }}</h5>
-                        <h4 class="card-title">Кількість пов'язаних пристроїв:  {{ count }}</h4>
+                        <h5 class="card-title">Назва постачальника: {{ supl.title }}</h5>
+
                     </div>
                 </div>
-                <div style="padding: 10px;">
-                    <form action="{% url 'vendor_delete' vendor.id %}" method="POST">
+                <div style="padding: 10px; text-align: center;">
+                    <form action="{% url 'suppliers_delete' supl.id %}" method="POST">
                         {% csrf_token %}
-                        <input type="submit" value="Видалити виробника" class="btn btn-danger my-btn">
+                        <input  type="submit" value="Видалити виробника" class="btn btn-danger my-btn">
                     </form>
                 </div>
             </div>
